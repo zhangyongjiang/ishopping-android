@@ -1,4 +1,4 @@
-package com.nextshopper.wolf;
+package com.nextshopper.activity;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

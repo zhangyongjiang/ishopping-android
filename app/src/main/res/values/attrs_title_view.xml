@@ -1,0 +1,7 @@
+<resources>
+    <declare-styleable name="TitleView">
+        <attr name="imageLeft" format="reference"/>
+        <attr name="textMiddle" format="string"/>
+        <attr name="textRight" format="string"/>
+    </declare-styleable>
+</resources>

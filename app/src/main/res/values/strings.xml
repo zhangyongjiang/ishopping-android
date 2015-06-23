@@ -1,14 +1,24 @@
 <resources>
-    <string name="app_name">Wolf</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_example">Example action</string>
-
+    <string name="app_name">Next Shopper</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="sign_up_with_email">Sign In With Email</string>
+    <string name="skip_for_now">Skip for now</string>
+    <string name="title_sign_up">Sign Up</string>
+    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_signup">SignupActivity</string>
+    <string name="signup">Sign Up</string>
+    <string name="join">Join</string>
+    <string name="signup_firstname">First Name</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="passwordhint">Password. Min 6 characters</string>
+    <string name="gender">Gender</string>
+    <string name="female">Female</string>
+    <string name="tap_upload_photo">Tap to upload your photo</string>
+    <string name="signup_agreement">By joining NextShopper, \n you agree to the</string>
+    <string name="signup_term">Terms of Service and Privacy Policy</string>
+    <string name="title_activity_temp">TempActivity</string>
 </resources>
