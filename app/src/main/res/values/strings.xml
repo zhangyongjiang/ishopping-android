@@ -21,4 +21,8 @@
     <string name="signup_agreement">By joining NextShopper, \n you agree to the</string>
     <string name="signup_term">Terms of Service and Privacy Policy</string>
     <string name="title_activity_temp">TempActivity</string>
+    <string name="camera">Camera</string>
+    <string name="image_gallery">Image Gallery</string>
+    <string name="cancel">Cancel</string>
+    <string name="male">Male</string>
 </resources>

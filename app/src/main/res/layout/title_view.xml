@@ -12,14 +12,14 @@
         android:id="@+id/tile_text_middle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Title.Middle"
+        style="@style/TextFont.Title.Middle"
         android:text="test"
         />
     <TextView
         android:id="@+id/tile_text_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Title.Right"
+        style="@style/TextFont.Title.Right"
         android:text="right"
         android:onClick="rightOnClick"/>
 

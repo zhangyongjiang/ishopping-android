@@ -29,101 +29,128 @@
             android:id="@+id/signup_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText
                 android:id="@+id/signup_firstname"
+                style="@style/TextFont.Input"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="@string/first_name"
                 android:layout_gravity="center"
-                style="@style/Input"/>
+                android:layout_weight="1"
+                android:hint="@string/first_name" />
+
             <EditText
                 android:id="@+id/signup_lastname"
+                style="@style/TextFont.Input"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="@string/last_name"
-                style="@style/Input"/>
+                android:hint="@string/last_name" />
         </LinearLayout>
+
         <ImageView
             android:id="@+id/signup_name_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_name"
-            android:src="@drawable/line"/>
+            android:src="@drawable/line" />
+
         <EditText
             android:id="@+id/signup_email"
-            android:layout_width="wrap_content"
+            style="@style/TextFont.Input"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_name_line"
-            android:hint="@string/email"
-            style="@style/Input" />
+            android:hint="@string/email" />
+
         <ImageView
             android:id="@+id/signup_email_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_email"
-            android:src="@drawable/line"/>
+            android:src="@drawable/line" />
+
         <EditText
             android:id="@+id/signup_password"
-            android:layout_width="wrap_content"
+            style="@style/TextFont.Input"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_email_line"
             android:hint="@string/passwordhint"
-            android:inputType="textPassword"
-            style="@style/Input" />
+            android:inputType="textPassword" />
+
         <ImageView
             android:id="@+id/signup_pw_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_password"
-            android:src="@drawable/line"/>
-        <EditText
+            android:src="@drawable/line" />
+
+        <Spinner
             android:id="@+id/signup_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_below="@id/signup_pw_line"
-            android:hint="@string/gender"
-            android:text="@string/female"
-            style="@style/Input" />
+            android:entries="@array/gender"/>
+
         <ImageView
             android:id="@+id/signup_gender_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_gender"
-            android:src="@drawable/line"/>
-        <ImageView
-            android:id="@+id/signup_pics"
+            android:src="@drawable/line" />
+
+        <RelativeLayout
+            android:id="@+id/signup_photo_upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_gender_line"
-            android:layout_margin="12dp"
-            android:src="@drawable/avatar"/>
-        <TextView
-            android:id="@+id/signup_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/signup_pics"
-            android:layout_below="@id/signup_gender_line"
-            android:layout_marginTop="40dp"
-            android:text="@string/tap_upload_photo"/>
+            android:onClick="photoUploadOnClick">
+
+            <ImageView
+                android:id="@+id/signup_pics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:src="@drawable/avatar" />
+
+            <TextView
+                android:id="@+id/signup_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_toRightOf="@id/signup_pics"
+                android:text="@string/tap_upload_photo" />
+        </RelativeLayout>
     </RelativeLayout>
+
     <TextView
         android:id="@+id/signup_agreement"
+        style="@style/TextFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/signup_agreement"
         android:layout_below="@id/signup_input"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:textColor="@color/white"/>
+        android:text="@string/signup_agreement"
+        android:textColor="@color/white" />
+
     <TextView
+        android:id="@+id/signup_terms"
+        style="@style/TextFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/signup_term"
         android:layout_below="@id/signup_agreement"
         android:layout_centerHorizontal="true"
+        android:text="@string/signup_term"
         android:textColor="@color/white"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
+
+    <ViewStub
+        android:id="@+id/signup_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout="@layout/photo_upload_view" />
 </RelativeLayout>

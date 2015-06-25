@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/signup"
-            style="@style/WelcomeText"
+            style="@style/TextFont.WelcomeText"
             android:text="@string/create_new_account"
             android:onClick="signupClick"/>
         <ImageView
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/signup"
             android:drawableLeft="@drawable/signin"
-            style="@style/WelcomeText"
+            style="@style/TextFont.WelcomeText"
             android:text="@string/sign_up_with_email" />
         <TextView
             android:id="@+id/skip_for_now"
