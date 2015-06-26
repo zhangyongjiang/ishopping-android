@@ -1,6 +1,8 @@
 package com.nextshopper.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -51,6 +53,7 @@ public class SignupActivity extends Activity implements AdapterView.OnItemSelect
     private ViewStub genderViewStub;
     private String genderChosen;
     private ImageView singup_pics;
+    private AlertDialog dialog;
     private static final String INVITATION_CODE = "DRAGON";
     private static final int CAPTURE_ACTIVITY_REQUEST_CODE = 100;
     private static final int PICK_IMAGE_REQUEST = 200;
@@ -103,6 +106,20 @@ public class SignupActivity extends Activity implements AdapterView.OnItemSelect
 
     public void rightOnClick(View view) {
         RegisterRequest request = new RegisterRequest();
+        if(firstName.getText().toString().isEmpty()||lastName.getText().toString().isEmpty()||email.getText().toString().isEmpty()||password.getText().toString().isEmpty()) {
+            if(dialog!=null) {
+                dialog.show();
+                return;
+            }
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.dialog_message).setTitle(R.string.dialog_title);
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+            dialog = builder.create();
+            dialog.show();
+        }
         request.setFirstName(firstName.getText().toString());
         request.setLastName(lastName.getText().toString());
         request.setEmail(email.getText().toString());
@@ -138,9 +155,6 @@ public class SignupActivity extends Activity implements AdapterView.OnItemSelect
         photoViewStub = (ViewStub) findViewById(R.id.signup_upload);
         if (photoViewStub != null) {
             View infatedView = photoViewStub.inflate();
-            TextView cameraChooseView = (TextView) infatedView.findViewById(R.id.photo_upload_camera);
-            TextView galleryView = (TextView) infatedView.findViewById(R.id.photo_upload_gallery);
-            TextView cancelView = (TextView) infatedView.findViewById(R.id.photo_upload_cancel);
         }
     }
 
