@@ -7,7 +7,8 @@ import retrofit.RestAdapter;
  * Created by siyiliu on 6/20/15.
  */
 public class ApiService {
-    private static String endpoint = "https://api.nextshopper.com";
+    // private static String endpoint = "https://api.nextshopper.com";
+    private static String endpoint = "http://api.onsalelocal.com";
     private static RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(endpoint).setRequestInterceptor(new RequestInterceptor() {
         @Override
         public void intercept(RequestFacade request) {
