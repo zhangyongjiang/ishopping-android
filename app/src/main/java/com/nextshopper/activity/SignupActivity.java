@@ -53,6 +53,7 @@ public class SignupActivity extends Activity implements AdapterView.OnItemSelect
     private ImageView singup_pics;
     private static final String INVITATION_CODE = "DRAGON";
     private static final int CAPTURE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int PICK_IMAGE_REQUEST = 200;
 
 
     @Override
@@ -64,7 +65,7 @@ public class SignupActivity extends Activity implements AdapterView.OnItemSelect
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAPTURE_ACTIVITY_REQUEST_CODE) {
+        if (requestCode == CAPTURE_ACTIVITY_REQUEST_CODE||requestCode==PICK_IMAGE_REQUEST) {
             if (resultCode == RESULT_OK) {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
@@ -82,7 +83,6 @@ public class SignupActivity extends Activity implements AdapterView.OnItemSelect
                 // Image capture failed, advise user
             }
         }
-
     }
 
     void findView() {
@@ -149,6 +149,18 @@ public class SignupActivity extends Activity implements AdapterView.OnItemSelect
         Uri fileUri = getOutputMediaFileUri();
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         startActivityForResult(intent, CAPTURE_ACTIVITY_REQUEST_CODE);
+    }
+    public void galleryOnClick(View view){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    public void cancelOnClick(View view){
+        if(photoViewStub !=null) {
+            photoViewStub.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
