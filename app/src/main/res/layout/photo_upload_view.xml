@@ -12,9 +12,7 @@
         <TextView
             android:id="@+id/photo_upload_camera"
             style="@style/TextFont.ImageUpload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_width="match_parent"
             android:text="@string/camera"
             android:onClick="cameraOnClick"/>
 
@@ -28,10 +26,8 @@
         <TextView
             android:id="@+id/photo_upload_gallery"
             style="@style/TextFont.ImageUpload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
             android:layout_below="@+id/photo_upload_line"
-            android:layout_margin="8dp"
             android:text="@string/image_gallery" />
     </RelativeLayout>
 
@@ -39,11 +35,8 @@
         android:id="@+id/photo_upload_cancel"
         style="@style/TextFont.ImageUpload"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/camera_choose"
         android:layout_marginTop="8dp"
         android:background="@drawable/rectangle_input"
-        android:gravity="center_horizontal"
-        android:padding="8dp"
         android:text="@string/cancel" />
 </RelativeLayout>
