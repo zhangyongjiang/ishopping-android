@@ -2,10 +2,8 @@ package com.nextshopper.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -26,7 +24,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.nextshopper.api.ApiService;
+import com.nextshopper.rest.ApiService;
 import com.nextshopper.com.nextshopper.util.RealPathUtil;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.RegisterRequest;

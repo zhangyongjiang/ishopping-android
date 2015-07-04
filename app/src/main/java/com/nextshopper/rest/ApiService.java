@@ -1,4 +1,4 @@
-package com.nextshopper.api;
+package com.nextshopper.rest;
 
 import com.nextshopper.rest.*;
 
