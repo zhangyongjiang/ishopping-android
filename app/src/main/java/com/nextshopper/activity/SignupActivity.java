@@ -27,9 +27,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.nextshopper.api.ApiService;
-import com.nextshopper.api.NextShopperService;
-import com.nextshopper.bean.RegisterRequest;
-import com.nextshopper.bean.User;
+import com.nextshopper.rest.NextShopperService;
+import com.nextshopper.rest.beans.RegisterRequest;
+import com.nextshopper.rest.beans.User;
+import com.nextshopper.rest.beans.Gender;
 import com.nextshopper.view.TitleView;
 
 import java.io.File;
@@ -134,23 +135,23 @@ public class SignupActivity extends Activity implements AdapterView.OnItemSelect
             dialog.show();
             return;
         }
-        request.setFirstName(firstName.getText().toString());
-        request.setLastName(lastName.getText().toString());
-        request.setEmail(email.getText().toString());
-        request.setPassword(password.getText().toString());
-        request.setGender(valueOf(genderChosen));
-        request.setInvitationCode(INVITATION_CODE);
+        request.firstName = firstName.getText().toString();
+        request.lastName = lastName.getText().toString();
+        request.email = email.getText().toString();
+        request.password = password.getText().toString();
+        request.gender = Gender.valueOf(genderChosen);
+        request.invitationCode = INVITATION_CODE;
         NextShopperService service = ApiService.getService();
-        service.register(request, new Callback<User>() {
+        service.UserAPI_Register(request, new Callback<User>() {
             @Override
             public void success(User user, Response response) {
                 String cookie = getCookieString(response);
                 ApiService.buildService(cookie);
                 TypedFile typedFile = new TypedFile("image/jpeg", new File(imagePath));
-                ApiService.getService().uploadImage(typedFile, new Callback<User>() {
+                ApiService.getService().UserAPI_Upload(typedFile, new Callback<User>() {
                     @Override
                     public void success(User user, Response response) {
-                        Log.d(ACTIVITY_NAME, user.getId());
+                        Log.d(ACTIVITY_NAME, user.id);
                     }
 
                     @Override
@@ -160,7 +161,7 @@ public class SignupActivity extends Activity implements AdapterView.OnItemSelect
                 });
 
                 Intent intent = new Intent(SignupActivity.this, TempActivity.class);
-                intent.putExtra("userId", user.getId());
+                intent.putExtra("userId", user.id);
                 SignupActivity.this.startActivity(intent);
             }
 

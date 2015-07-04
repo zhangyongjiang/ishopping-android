@@ -1,5 +1,7 @@
 package com.nextshopper.api;
 
+import com.nextshopper.rest.*;
+
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 
@@ -11,9 +13,9 @@ public class ApiService {
     private static String endpoint = "http://api.onsalelocal.com";
     private static RestAdapter.Builder builder = new RestAdapter.Builder().setEndpoint(endpoint);
 
-    private static NextShopperService service;
+    private static com.nextshopper.rest.NextShopperService service;
 
-    public static NextShopperService getService() {
+    public static com.nextshopper.rest.NextShopperService getService() {
         if (service == null) {
             buildService(null);
         }
@@ -29,7 +31,7 @@ public class ApiService {
                         request.addHeader("Accept", "application/json");
                         request.addHeader("Cookie", cookieValue);
                     }
-                }).build().create(NextShopperService.class);
+                }).build().create(com.nextshopper.rest.NextShopperService.class);
     }
 }
 
