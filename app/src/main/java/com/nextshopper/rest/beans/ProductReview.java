@@ -10,7 +10,6 @@ public class ProductReview {
 	public java.util.List imgPath;
 	public SellerCommentOnProductReview sellerComment;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

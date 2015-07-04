@@ -6,7 +6,6 @@ public class Account {
 	public AccountType type;
 	public String info;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

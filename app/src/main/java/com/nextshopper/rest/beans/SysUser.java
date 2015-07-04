@@ -14,7 +14,6 @@ public class SysUser {
 	public float credit;
 	public String ip;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

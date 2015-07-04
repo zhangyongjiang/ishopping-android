@@ -12,7 +12,6 @@ public class OrderItem {
 	public String productName;
 	public String productImage;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

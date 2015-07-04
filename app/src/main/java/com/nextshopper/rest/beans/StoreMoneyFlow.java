@@ -11,7 +11,6 @@ public class StoreMoneyFlow {
 	public long fundAvailableTime;
 	public String operatorId;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

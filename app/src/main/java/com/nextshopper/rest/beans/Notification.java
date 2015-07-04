@@ -8,7 +8,6 @@ public class Notification {
 	public String data;
 	public int viewed;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

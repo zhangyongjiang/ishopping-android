@@ -7,7 +7,6 @@ public class PromotionUsage {
 	public String promotionCode;
 	public String channel;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

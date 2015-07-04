@@ -15,7 +15,6 @@ public class Promotion {
 	public float discountPercentage;
 	public java.util.Map<java.lang.String, java.lang.String> settings;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

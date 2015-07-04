@@ -13,7 +13,6 @@ public class Resource {
 	public String targetId;
 	public ResourceType type;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

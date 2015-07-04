@@ -11,7 +11,6 @@ public class Store {
 	public String ownerIdentityImage;
 	public String companyIdentityImage;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

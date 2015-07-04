@@ -5,7 +5,6 @@ public class UserSettings {
 	public int notificationEnabled;
 	public String language;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

@@ -22,7 +22,6 @@ public class Product {
 	public String options;
 	public int ranking;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

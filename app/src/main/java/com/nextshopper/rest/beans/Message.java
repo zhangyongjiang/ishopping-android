@@ -13,7 +13,6 @@ public class Message {
 	public java.util.List attachments;
 	public java.util.List tags;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;

@@ -19,7 +19,6 @@ public class UserOrder {
 	public java.util.List promotionList;
 	public float promoValue;
 	public String id;
-	public String json;
 	public int version;
 	public long created;
 	public long updated;
