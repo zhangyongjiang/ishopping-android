@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class TempActivity extends Activity {
+public class TempActivity extends BaseActivity {
     private TextView textView;
 
     @Override

@@ -43,7 +43,7 @@ import retrofit.client.Response;
 import retrofit.mime.TypedByteArray;
 import retrofit.mime.TypedFile;
 
-public class SignupActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class SignupActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
     private TitleView titleView;
     private TextView textRightJoin;
     private ImageView imageLeft;
