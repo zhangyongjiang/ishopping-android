@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.nextshopper.api.ApiService;
+import com.nextshopper.com.nextshopper.util.RealPathUtil;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.RegisterRequest;
 import com.nextshopper.rest.beans.User;
@@ -43,8 +44,6 @@ import retrofit.client.Header;
 import retrofit.client.Response;
 import retrofit.mime.TypedByteArray;
 import retrofit.mime.TypedFile;
-
-import static com.nextshopper.bean.Gender.valueOf;
 
 public class SignupActivity extends Activity implements AdapterView.OnItemSelectedListener {
     private TitleView titleView;
@@ -88,7 +87,8 @@ public class SignupActivity extends Activity implements AdapterView.OnItemSelect
                     // ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     //scaled.compress(Bitmap.CompressFormat.JPEG, 100, bos);
                     //TypedByteArray typedByteArray = new TypedByteArray("image/jpeg",bos.toByteArray());
-                    imagePath = getRealPathFromURI(this, data.getData());
+                    //imagePath = getRealPathFromURI(this, data.getData());
+                    imagePath = RealPathUtil.getRealPathFromURI(this, data.getData());
 
                 } catch (Exception e) {
                     Log.e(ACTIVITY_NAME, e.getMessage(), e);
@@ -249,21 +249,6 @@ public class SignupActivity extends Activity implements AdapterView.OnItemSelect
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
         return output;
-    }
-
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
     }
 
     private String getCookieString(Response response) {
