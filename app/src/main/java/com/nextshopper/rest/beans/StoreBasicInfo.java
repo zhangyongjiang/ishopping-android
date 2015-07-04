@@ -8,7 +8,7 @@ public class StoreBasicInfo {
 	public String email;
 	public Address address;
 	public Address returnAddress;
-	public List images;
+	public java.util.List images;
 	public String logo;
 	public String validationCode;
 } 

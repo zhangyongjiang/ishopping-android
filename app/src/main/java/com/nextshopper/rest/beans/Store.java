@@ -3,7 +3,7 @@ package com.nextshopper.rest.beans;
 public class Store { 
 	public String ownerId;
 	public StoreBasicInfo info;
-	public List operators;
+	public java.util.List operators;
 	public BankInfo bankInfo;
 	public StoreStatus status;
 	public String validationCodeMd5;

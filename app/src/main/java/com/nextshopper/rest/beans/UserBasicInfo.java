@@ -9,5 +9,5 @@ public class UserBasicInfo {
 	public Long birthday;
 	public String imgPath;
 	public String about;
-	public List phoneList;
+	public java.util.List phoneList;
 } 

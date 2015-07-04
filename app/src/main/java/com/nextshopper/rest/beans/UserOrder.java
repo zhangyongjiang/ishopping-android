@@ -14,9 +14,9 @@ public class UserOrder {
 	public Tracking tracking;
 	public String transactionId;
 	public String option;
-	public List sellerNotes;
+	public java.util.List sellerNotes;
 	public float commissionPercent;
-	public List promotionList;
+	public java.util.List promotionList;
 	public float promoValue;
 	public String id;
 	public String json;

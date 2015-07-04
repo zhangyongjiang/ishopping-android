@@ -4,12 +4,12 @@ public class SearchableStuff {
 	public String id;
 	public String userId;
 	public String userName;
-	public List tags;
+	public java.util.List tags;
 	public String title;
 	public StuffStatus status;
 	public StuffType type;
 	public String description;
-	public List images;
+	public java.util.List images;
 	public float price;
 	public String country;
 	public String state;

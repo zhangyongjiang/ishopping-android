@@ -7,8 +7,8 @@ public class Support {
 	public String orderNumber;
 	public String storeId;
 	public CaseStatus status;
-	public List memos;
-	public List msgIds;
+	public java.util.List memos;
+	public java.util.List msgIds;
 	public String id;
 	public String json;
 	public int version;

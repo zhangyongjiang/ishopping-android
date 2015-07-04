@@ -3,12 +3,12 @@ package com.nextshopper.rest.beans;
 public class SearchableProduct { 
 	public String id;
 	public String storeId;
-	public List tags;
+	public java.util.List tags;
 	public String name;
 	public String status;
 	public String description;
 	public String manufacture;
-	public List imgUrl;
+	public java.util.List imgUrl;
 	public String model;
 	public int likes;
 	public int reviews;
@@ -20,6 +20,6 @@ public class SearchableProduct {
 	public Boolean liked;
 	public float score;
 	public int ranking;
-	public List recommendation;
-	public List crossind;
+	public java.util.List recommendation;
+	public java.util.List crossind;
 } 

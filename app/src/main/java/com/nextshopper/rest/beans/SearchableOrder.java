@@ -4,7 +4,7 @@ public class SearchableOrder {
 	public String id;
 	public String orderNumber;
 	public String storeId;
-	public List productId;
+	public java.util.List productId;
 	public String userId;
 	public OrderStatus status;
 	public long created;

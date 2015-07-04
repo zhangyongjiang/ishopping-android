@@ -1,13 +1,13 @@
 package com.nextshopper.rest.beans;
 
 public class Product { 
-	public List imgs;
+	public java.util.List imgs;
 	public String name;
 	public String description;
-	public List specs;
+	public java.util.List specs;
 	public String manufacture;
-	public List tags;
-	public List targetCustomers;
+	public java.util.List tags;
+	public java.util.List targetCustomers;
 	public int likes;
 	public int reviews;
 	public int repliedReviews;
@@ -18,7 +18,7 @@ public class Product {
 	public float salePrice;
 	public ProductStatus status;
 	public int flagged;
-	public List attachments;
+	public java.util.List attachments;
 	public String options;
 	public int ranking;
 	public String id;

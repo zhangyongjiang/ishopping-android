@@ -10,8 +10,8 @@ public class Message {
 	public MsgType type;
 	public int viewed;
 	public String orderId;
-	public List attachments;
-	public List tags;
+	public java.util.List attachments;
+	public java.util.List tags;
 	public String id;
 	public String json;
 	public int version;

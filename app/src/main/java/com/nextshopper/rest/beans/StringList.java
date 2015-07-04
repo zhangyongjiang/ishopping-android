@@ -1,5 +1,5 @@
 package com.nextshopper.rest.beans;
 
 public class StringList { 
-	public List items;
+	public java.util.List items;
 } 

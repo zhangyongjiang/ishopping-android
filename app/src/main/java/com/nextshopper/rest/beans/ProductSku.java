@@ -4,5 +4,5 @@ public class ProductSku {
 	public String sku;
 	public Float price;
 	public Integer quantity;
-	public List options;
+	public java.util.List options;
 } 

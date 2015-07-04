@@ -2,8 +2,8 @@ package com.nextshopper.rest.beans;
 
 public class User { 
 	public UserBasicInfo info;
-	public List shippingInfo;
-	public List billingInfo;
+	public java.util.List shippingInfo;
+	public java.util.List billingInfo;
 	public UserType type;
 	public UserStatus status;
 	public String invitationCode;

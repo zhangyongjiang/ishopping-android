@@ -13,7 +13,7 @@ public class Promotion {
 	public int used;
 	public float fixedValue;
 	public float discountPercentage;
-	public Map settings;
+	public java.util.Map<java.lang.String, java.lang.String> settings;
 	public String id;
 	public String json;
 	public int version;

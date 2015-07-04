@@ -3,7 +3,7 @@ package com.nextshopper.rest.beans;
 public class SearchableStore { 
 	public String id;
 	public String ownerId;
-	public List images;
+	public java.util.List images;
 	public String logo;
 	public StoreStatus status;
 	public String summary;

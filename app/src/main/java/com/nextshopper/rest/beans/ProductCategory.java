@@ -2,7 +2,7 @@ package com.nextshopper.rest.beans;
 
 public class ProductCategory { 
 	public String name;
-	public List targetCustomerTags;
-	public List options;
-	public List subcategories;
+	public java.util.List targetCustomerTags;
+	public java.util.List options;
+	public java.util.List subcategories;
 } 

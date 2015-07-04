@@ -7,7 +7,7 @@ public class ProductReview {
 	public int rating;
 	public String comment;
 	public Integer serviceRating;
-	public List imgPath;
+	public java.util.List imgPath;
 	public SellerCommentOnProductReview sellerComment;
 	public String id;
 	public String json;

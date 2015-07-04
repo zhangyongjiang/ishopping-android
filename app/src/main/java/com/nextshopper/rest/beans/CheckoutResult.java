@@ -1,6 +1,6 @@
 package com.nextshopper.rest.beans;
 
 public class CheckoutResult { 
-	public List products;
+	public java.util.List products;
 	public SplitOrder order;
 } 

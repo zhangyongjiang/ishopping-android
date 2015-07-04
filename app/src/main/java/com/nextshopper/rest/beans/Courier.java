@@ -6,5 +6,5 @@ public class Courier {
 	public String phone;
 	public String other_name;
 	public String web_url;
-	public List requireFields;
+	public java.util.List requireFields;
 } 

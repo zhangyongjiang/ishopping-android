@@ -44,7 +44,7 @@ public interface NextShopperService {
 	void AdminAPI_FlagStore(@Path("against") String against, Callback<GenericResponse> callback);
 
 	@GET("ws/admin/flag/list")
-	void AdminAPI_ListFlags(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<Flag>> callback);
+	void AdminAPI_ListFlags(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@POST("ws/admin/touch-beans/{className}")
 	void AdminAPI_TouchBeans(@Path("className") String className, Callback<GenericResponse> callback);
@@ -82,14 +82,14 @@ public interface NextShopperService {
 	@POST("ws/admin/remove-object/{objId}")
 	void AdminAPI_RemoveObject(@Path("objId") String objId, Callback<GenericResponse> callback);
 
+	@POST("ws/favorite/add")
+	void FavoriteAPI_AddFavorite(@Body LikeRequest item, Callback<Favorite> callback);
+
 	@POST("ws/favorite/remove/{favId}")
 	void FavoriteAPI_RemoveFavorite(@Path("favId") String favId, Callback<GenericResponse> callback);
 
 	@GET("ws/favorite/list")
-	void FavoriteAPI_FavoriteList(Callback<ListWrapper<FavoriteDetails>> callback);
-
-	@POST("ws/favorite/add")
-	void FavoriteAPI_AddFavorite(@Body LikeRequest item, Callback<Favorite> callback);
+	void FavoriteAPI_FavoriteList(Callback<ListWrapper> callback);
 
 	@GET("ws/message/user/msg-list")
 	void MessageAPI_GetUserMessages(@Query("offset") int offset, @Query("size") int size, Callback<MessageDetailsList> callback);
@@ -203,7 +203,7 @@ public interface NextShopperService {
 	void MessageAPI_ReindexAll(Callback<GenericResponse> callback);
 
 	@GET("ws/misc/tags")
-	void MiscAPI_ListCategories(Callback<ListWrapper<Tag>> callback);
+	void MiscAPI_ListCategories(Callback<ListWrapper> callback);
 
 	@GET("ws/misc/categories")
 	void MiscAPI_ListAllCategories(Callback<ProductCategory> callback);
@@ -216,6 +216,12 @@ public interface NextShopperService {
 
 	@GET("ws/order/search")
 	void OrderAPI_Search(@Query("keywords") String keywords, @Query("storeId") String storeId, @Query("status") OrderStatus status, @Query("offset") int offset, @Query("size") int size, Callback<UserOrderDetailsList> callback);
+
+	@POST("ws/order/reindex-all")
+	void OrderAPI_ReindexAll(Callback<GenericResponse> callback);
+
+	@POST("ws/order/{orderId}/set-tracking")
+	void OrderAPI_SetTracking(@Path("orderId") String orderId, @Body Tracking tracking, Callback<UserOrder> callback);
 
 	@GET("ws/order/by-id")
 	void OrderAPI_GetOrderById(@Query("orderId") String orderId, Callback<UserOrderDetails> callback);
@@ -245,7 +251,7 @@ public interface NextShopperService {
 	void OrderAPI_UserOrderList(@Query("offset") int offset, @Query("size") int size, Callback<UserOrderDetailsList> callback);
 
 	@GET("ws/order/user-order-item-list")
-	void OrderAPI_UserOrderItemList(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<OrderItemDetails>> callback);
+	void OrderAPI_UserOrderItemList(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@GET("ws/order/store-order-list")
 	void OrderAPI_StoreOrderList(@Query("offset") int offset, @Query("size") int size, @Query("status") OrderStatus status, Callback<UserOrderDetailsList> callback);
@@ -254,7 +260,7 @@ public interface NextShopperService {
 	void OrderAPI_GetShippingStatus(@Path("orderId") String orderId, Callback<ASTracking> callback);
 
 	@GET("ws/order/tracking/carriers")
-	void OrderAPI_ListCourier(Callback<ListWrapper<Courier>> callback);
+	void OrderAPI_ListCourier(Callback<ListWrapper> callback);
 
 	@POST("ws/order/set-order-item-note/{orderItemId}")
 	void OrderAPI_SetDeliverQuality(@Path("orderItemId") String orderItemId, @Body OrderItemNote note, Callback<GenericResponse> callback);
@@ -262,17 +268,11 @@ public interface NextShopperService {
 	@GET("ws/order/messages/{orderId}")
 	void OrderAPI_ListOrderMessages(@Path("orderId") String orderId, Callback<MessageDetailsList> callback);
 
-	@POST("ws/order/{orderId}/set-tracking")
-	void OrderAPI_SetTracking(@Path("orderId") String orderId, @Body Tracking tracking, Callback<UserOrder> callback);
-
-	@POST("ws/order/reindex-all")
-	void OrderAPI_ReindexAll(Callback<GenericResponse> callback);
-
 	@GET("ws/payment/store-payment-history")
-	void PaymentAPI_History(@Query("storeId") String storeId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<StoreMoneyFlow>> callback);
+	void PaymentAPI_History(@Query("storeId") String storeId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@GET("ws/payment/store-cash-flow")
-	void PaymentAPI_StoreCashFlowBalance(@Query("storeId") String storeId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<StoreMoneyFlowDetails>> callback);
+	void PaymentAPI_StoreCashFlowBalance(@Query("storeId") String storeId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@GET("ws/payment/store-statement")
 	void PaymentAPI_StoreStatement(@Query("storeId") String storeId, @Query("year") int year, @Query("month") int month, Callback<StoreStatementDetails> callback);
@@ -366,6 +366,9 @@ public interface NextShopperService {
 	@GET("ws/product/recommendation-for-product")
 	void ProductAPI_RecommendationsForProduct(@Query("offset") int offset, @Query("size") int size, @Query("productId") String productId, Callback<SearchableProductList> callback);
 
+	@POST("ws/product/active/{productId}")
+	void ProductAPI_Active(@Path("productId") String productId, Callback<GenericResponse> callback);
+
 	@GET("ws/product/recommendation-for-category")
 	void ProductAPI_RecommendationsForCategory(@Query("offset") int offset, @Query("size") int size, @Query("category") String category, Callback<SearchableProductList> callback);
 
@@ -384,9 +387,6 @@ public interface NextShopperService {
 	@Multipart
 	@POST("ws/product/create-from-zip")
 	void ProductAPI_CreateFromExcelZip(@Part("email") String email, @Part("password") String password, @Part("file") TypedFile inputStream, Callback<String> callback);
-
-	@POST("ws/product/active/{productId}")
-	void ProductAPI_Active(@Path("productId") String productId, Callback<GenericResponse> callback);
 
 	@POST("ws/promotion/remove/{id}")
 	void PromotionAPI_Remove(@Path("id") String id, Callback<GenericResponse> callback);
@@ -431,18 +431,18 @@ public interface NextShopperService {
 	void PushNotificationAPI_MarkAsRead(@Path("notificationId") String notificationId, Callback<GenericResponse> callback);
 
 	@Multipart
-	@POST("ws/resource/upload-for-user")
-	void ResourceAPI_UploadForUser(@Part("file") TypedFile inputStream, @Part("isPrivate") String isPrivate, @Part("isImage") String isImage, Callback<Resource> callback);
-
-	@Multipart
 	@POST("ws/resource/upload-for-store")
 	void ResourceAPI_UploadForStore(@Part("file") TypedFile inputStream, @Part("isPrivate") String isPrivate, @Part("isImage") String isImage, Callback<Resource> callback);
 
+	@Multipart
+	@POST("ws/resource/upload-for-user")
+	void ResourceAPI_UploadForUser(@Part("file") TypedFile inputStream, @Part("isPrivate") String isPrivate, @Part("isImage") String isImage, Callback<Resource> callback);
+
 	@GET("ws/resource/list-user-resources")
-	void ResourceAPI_ListUserResources(Callback<ListWrapper<Resource>> callback);
+	void ResourceAPI_ListUserResources(Callback<ListWrapper> callback);
 
 	@GET("ws/resource/list-store-resources")
-	void ResourceAPI_ListStoreResources(Callback<ListWrapper<Resource>> callback);
+	void ResourceAPI_ListStoreResources(Callback<ListWrapper> callback);
 
 	@POST("ws/resource/delete/{resourceId}")
 	void ResourceAPI_DeleteRedource(@Path("resourceId") String resourceId, Callback<GenericResponse> callback);
@@ -466,10 +466,13 @@ public interface NextShopperService {
 	void ShoppingAPI_GetPaymentToken(@Query("clientId") String clientId, Callback<PaymentToken> callback);
 
 	@GET("ws/social/user-store-reviews")
-	void SocialAPI_ListUserStoreReviews(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<StoreReviewDetails>> callback);
+	void SocialAPI_ListUserStoreReviews(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@POST("ws/social/follow-user/{followingUserId}")
 	void SocialAPI_FollowUser(@Path("followingUserId") String followingUserId, Callback<GenericResponse> callback);
+
+	@GET("ws/social/user-product-reviews")
+	void SocialAPI_ListUserProductReviews(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@POST("ws/social/unfollow-user/{followingUserId}")
 	void SocialAPI_UnfollowUser(@Path("followingUserId") String followingUserId, Callback<GenericResponse> callback);
@@ -493,22 +496,22 @@ public interface NextShopperService {
 	void SocialAPI_UnlikeProduct(@Path("productId") String productId, Callback<GenericResponse> callback);
 
 	@GET("ws/social/following-stores/{userId}")
-	void SocialAPI_FollowingStores(@Path("userId") String userId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<StoreFollowDetails>> callback);
+	void SocialAPI_FollowingStores(@Path("userId") String userId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@GET("ws/social/following-stores")
-	void SocialAPI_MyFollowingStores(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<StoreFollowDetails>> callback);
+	void SocialAPI_MyFollowingStores(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@GET("ws/social/store-followers/{storeId}")
-	void SocialAPI_ListStoreFollowers(@Path("storeId") String storeId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<StoreFollowDetails>> callback);
+	void SocialAPI_ListStoreFollowers(@Path("storeId") String storeId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@GET("ws/social/liked-products/{userId}")
-	void SocialAPI_LikedProducts(@Path("userId") String userId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<ProductFollowDetails>> callback);
+	void SocialAPI_LikedProducts(@Path("userId") String userId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@GET("ws/social/liked-products")
-	void SocialAPI_ListMyFavProducts(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<ProductFollowDetails>> callback);
+	void SocialAPI_ListMyFavProducts(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@GET("ws/social/product-likers/{productId}")
-	void SocialAPI_ListProductLikers(@Path("productId") String productId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<ProductFollowDetails>> callback);
+	void SocialAPI_ListProductLikers(@Path("productId") String productId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@POST("ws/social/create-product-review")
 	void SocialAPI_ReviewProduct(@Body ProductReview review, Callback<ProductReview> callback);
@@ -532,9 +535,6 @@ public interface NextShopperService {
 	@GET("ws/social/product-reviews/{productId}")
 	void SocialAPI_GetProductReviews(@Path("productId") String productId, @Query("offset") int offset, @Query("size") int size, Callback<ProductReviewDetailsList> callback);
 
-	@GET("ws/social/user-product-reviews")
-	void SocialAPI_ListUserProductReviews(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<ProductReviewDetails>> callback);
-
 	@GET("ws/social/store-reviewed-products")
 	void SocialAPI_GetStoreReviewedProducts(@Query("storeId") String storeId, @Query("offset") int offset, @Query("size") int size, Callback<ProductList> callback);
 
@@ -542,7 +542,7 @@ public interface NextShopperService {
 	void SocialAPI_GetStoreProductReviews(@Query("storeId") String storeId, @Query("offset") int offset, @Query("size") int size, Callback<ProductReviewDetailsList> callback);
 
 	@GET("ws/social/store-reviews/{storeId}")
-	void SocialAPI_GetStoreReviews(@Path("storeId") String storeId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper<StoreReviewDetails>> callback);
+	void SocialAPI_GetStoreReviews(@Path("storeId") String storeId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@POST("ws/social/facebook-login")
 	void SocialAPI_FacebookLogin(@Body FacebookToken token, Callback<User> callback);
@@ -559,6 +559,9 @@ public interface NextShopperService {
 	@POST("ws/store/update")
 	void StoreAPI_Update(@Body StoreBasicInfo info, Callback<Store> callback);
 
+	@POST("ws/store/reindex-all")
+	void StoreAPI_ReindexAll(Callback<GenericResponse> callback);
+
 	@GET("ws/store/details")
 	void StoreAPI_GetStoreDetails(@Query("storeId") String storeId, Callback<StoreDetails> callback);
 
@@ -568,9 +571,6 @@ public interface NextShopperService {
 
 	@POST("ws/store/remove-store-image/{resourceIndex}")
 	void StoreAPI_RemoveResource(@Path("resourceIndex") int resourceIndex, Callback<Store> callback);
-
-	@POST("ws/store/reindex-all")
-	void StoreAPI_ReindexAll(Callback<GenericResponse> callback);
 
 	@POST("ws/store/update-store-profile")
 	void StoreAPI_UpdateStoreProfile(@Body StoreBasicInfo info, Callback<Store> callback);
@@ -617,12 +617,12 @@ public interface NextShopperService {
 	@POST("ws/user/update-profile")
 	void UserAPI_Update(@Body UserBasicInfo info, Callback<User> callback);
 
+	@POST("ws/user/reindex-all")
+	void UserAPI_ReindexAll(Callback<GenericResponse> callback);
+
 	@Multipart
 	@POST("ws/user/upload-image")
 	void UserAPI_Upload(@Part("file") TypedFile inputStream, Callback<User> callback);
-
-	@POST("ws/user/logout")
-	void UserAPI_Logout(Callback<GenericResponse> callback);
 
 	@GET("ws/user/login")
 	void UserAPI_Login(@Query("email") String email, @Query("password") String password, Callback<User> callback);
@@ -630,14 +630,8 @@ public interface NextShopperService {
 	@POST("ws/user/login")
 	void UserAPI_Login(@Body LoginRequest req, Callback<User> callback);
 
-	@GET("ws/user/user-interest")
-	void UserAPI_GetUserInterest(Callback<UserInterest> callback);
-
-	@GET("ws/user/me")
-	void UserAPI_Me(Callback<UserDetails> callback);
-
-	@POST("ws/user/reindex-all")
-	void UserAPI_ReindexAll(Callback<GenericResponse> callback);
+	@POST("ws/user/logout")
+	void UserAPI_Logout(Callback<GenericResponse> callback);
 
 	@POST("ws/user/change-password")
 	void UserAPI_ChangePassword(@Body ChangePasswordRequest req, Callback<GenericResponse> callback);
@@ -664,7 +658,7 @@ public interface NextShopperService {
 	void UserAPI_GetUserDetails(@Path("userId") String userId, Callback<UserInfo> callback);
 
 	@GET("ws/user/accounts")
-	void UserAPI_MyAccounts(Callback<ListWrapper<Account>> callback);
+	void UserAPI_MyAccounts(Callback<ListWrapper> callback);
 
 	@POST("ws/user/set-as-agent/{agentId}")
 	void UserAPI_SetAsAgent(@Path("agentId") String agentId, Callback<GenericResponse> callback);
@@ -680,5 +674,11 @@ public interface NextShopperService {
 
 	@GET("ws/user/user-activities")
 	void UserAPI_GetUserActivities(@Query("offset") int offset, @Query("size") int size, Callback<UserActivityList> callback);
+
+	@GET("ws/user/user-interest")
+	void UserAPI_GetUserInterest(Callback<UserInterest> callback);
+
+	@GET("ws/user/me")
+	void UserAPI_Me(Callback<UserDetails> callback);
 
 }

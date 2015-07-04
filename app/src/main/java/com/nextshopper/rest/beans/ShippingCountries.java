@@ -1,5 +1,5 @@
 package com.nextshopper.rest.beans;
 
 public class ShippingCountries { 
-	public List countries;
+	public java.util.List countries;
 } 

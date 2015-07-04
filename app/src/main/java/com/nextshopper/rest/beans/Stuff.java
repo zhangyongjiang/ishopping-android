@@ -5,7 +5,7 @@ public class Stuff {
 	public String userName;
 	public String title;
 	public String description;
-	public List tags;
+	public java.util.List tags;
 	public float latitude;
 	public float longitude;
 	public String country;
@@ -18,7 +18,7 @@ public class Stuff {
 	public StuffType type;
 	public StuffStatus status;
 	public int flagged;
-	public List images;
+	public java.util.List images;
 	public String id;
 	public String json;
 	public int version;
