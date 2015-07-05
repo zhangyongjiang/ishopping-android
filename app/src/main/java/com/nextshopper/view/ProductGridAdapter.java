@@ -1,6 +1,7 @@
 package com.nextshopper.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -10,6 +11,10 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.nextshopper.activity.HomeActivity;
+import com.nextshopper.activity.ProductDetailsActivity;
+import com.nextshopper.activity.R;
+import com.nextshopper.rest.beans.ProductDetails;
 import com.nextshopper.rest.beans.SearchableProductList;
 
 import java.io.InputStream;
@@ -48,11 +53,21 @@ public class ProductGridAdapter extends BaseAdapter {
         if(convertView == null) {
             imageView = new ImageView(ctx);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setLayoutParams(new GridView.LayoutParams(70, 70));
+            imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
+            View.OnClickListener listener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ctx, ProductDetailsActivity.class);
+                    intent.putExtra("productId", (String)v.getTag(R.id.ProductId));
+                    ctx.startActivity(intent);
+                }
+            };
+            imageView.setOnClickListener(listener);
         }
         else {
             imageView = (ImageView)convertView;
         }
+        imageView.setTag(R.id.ProductId, searchableProductList.items.get(position).id);
         new DownloadImageTask(imageView).execute(searchableProductList.items.get(position).imgUrl.get(0));
         return imageView;
     }
