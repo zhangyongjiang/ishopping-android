@@ -1,13 +1,23 @@
 package com.nextshopper.rest.beans;
 
-public class UserBasicInfo { 
+import java.util.List;
+
+public class UserBasicInfo {
+	/**
+	 * Required for register request
+	 */
 	public String firstName;
+	
+	/**
+	 * Required for register request
+	 */
 	public String lastName;
-	public String country;
+	
+	public String country = "United States";
 	public String zipcode;
 	public Gender gender;
-	public Long birthday;
+	public Long	birthday;
 	public String imgPath;
 	public String about;
-	public java.util.List phoneList;
-} 
+	public List<String> phoneList;
+}

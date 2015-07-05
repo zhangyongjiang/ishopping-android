@@ -1,7 +1,11 @@
 package com.nextshopper.rest.beans;
 
-public class CartItemDetailsList { 
+import java.util.List;
+
+
+
+public class CartItemDetailsList {
 	public int shipping;
-	public java.util.List items;
-	public java.util.List promotionList;
-} 
+	public List<CartItemDetails> items;
+	public List<Promotion> promotionList;
+}

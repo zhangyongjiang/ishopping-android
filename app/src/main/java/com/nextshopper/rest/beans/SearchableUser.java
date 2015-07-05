@@ -1,6 +1,8 @@
 package com.nextshopper.rest.beans;
 
-public class SearchableUser { 
+
+
+public class SearchableUser {
 	public String id;
 	public String firstName;
 	public String lastName;
@@ -14,4 +16,5 @@ public class SearchableUser {
 	public String gender;
 	public long created;
 	public long updated;
-} 
+	
+}

@@ -1,8 +1,8 @@
 package com.nextshopper.rest.beans;
 
-public enum StuffStatus { 
+public enum StuffStatus {
 	Created,
 	Completed,
-	Pending,
+	Pending, 
 	Prohibited,
-} 
+}

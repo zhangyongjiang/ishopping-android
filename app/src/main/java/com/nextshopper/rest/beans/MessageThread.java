@@ -1,6 +1,16 @@
 package com.nextshopper.rest.beans;
 
-public class MessageThread { 
+import java.util.List;
+
+public class MessageThread {
 	public String msgId;
-	public java.util.List items;
-} 
+	public List<MessageDetails> items;
+	
+	public MessageThread() {
+	}
+	
+	public MessageThread(String msgId, List<MessageDetails> items) {
+		this.msgId = msgId;
+		this.items = items;
+	}
+}

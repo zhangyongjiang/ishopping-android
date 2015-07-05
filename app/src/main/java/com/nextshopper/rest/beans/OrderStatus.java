@@ -1,10 +1,10 @@
 package com.nextshopper.rest.beans;
 
-public enum OrderStatus { 
+public enum OrderStatus {
 	Submitted,
 	Cancelled,
 	Shipped,
 	ShipConfirmed,
 	Delivered,
 	Completed,
-} 
+}

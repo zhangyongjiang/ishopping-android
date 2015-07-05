@@ -1,7 +1,10 @@
 package com.nextshopper.rest.beans;
 
-public class UserFollowDetailsList { 
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserFollowDetailsList {
 	public UserInfo userAInfo;
 	public UserInfo userBInfo;
-	public java.util.List items;
-} 
+	public List<UserFollowDetails> items = new ArrayList<UserFollowDetails>();
+}

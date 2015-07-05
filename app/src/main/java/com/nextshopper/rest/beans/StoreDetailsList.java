@@ -1,6 +1,8 @@
 package com.nextshopper.rest.beans;
 
-public class StoreDetailsList { 
+import java.util.List;
+
+public class StoreDetailsList {
 	public int total;
-	public java.util.List items;
-} 
+	public List<StoreDetails> items;
+}

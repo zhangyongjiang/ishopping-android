@@ -1,5 +1,5 @@
 package com.nextshopper.rest.beans;
 
-public class TimedPricePromotion { 
-	public PromotionType type;
-} 
+public class TimedPricePromotion {
+	public PromotionType type = PromotionType.FixedValue;
+}

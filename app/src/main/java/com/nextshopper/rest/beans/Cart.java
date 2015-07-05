@@ -1,6 +1,10 @@
 package com.nextshopper.rest.beans;
 
-public class Cart { 
+import java.util.List;
+
+
+
+public class Cart  {
 	public float total;
-	public java.util.List items;
-} 
+	public List<CartItem> items;
+}

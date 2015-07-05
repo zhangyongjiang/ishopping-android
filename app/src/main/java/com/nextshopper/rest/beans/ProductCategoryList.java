@@ -1,5 +1,7 @@
 package com.nextshopper.rest.beans;
 
-public class ProductCategoryList { 
-	public java.util.List items;
-} 
+import java.util.List;
+
+public class ProductCategoryList {
+	public List<ProductCategory> items;
+}

@@ -1,6 +1,10 @@
 package com.nextshopper.rest.beans;
 
-public class UserList { 
+import java.util.List;
+
+
+
+public class UserList {
 	public int total;
-	public java.util.List items;
-} 
+	public List<User> items;
+}

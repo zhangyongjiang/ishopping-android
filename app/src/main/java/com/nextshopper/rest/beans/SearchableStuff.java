@@ -1,15 +1,19 @@
 package com.nextshopper.rest.beans;
 
-public class SearchableStuff { 
+import java.util.List;
+
+
+
+public class SearchableStuff {
 	public String id;
 	public String userId;
 	public String userName;
-	public java.util.List tags;
+	public List<String> tags;
 	public String title;
 	public StuffStatus status;
 	public StuffType type;
 	public String description;
-	public java.util.List images;
+	public List<String> images;
 	public float price;
 	public String country;
 	public String state;
@@ -21,4 +25,5 @@ public class SearchableStuff {
 	public long updated;
 	public double location_0_coordinate;
 	public double location_1_coordinate;
-} 
+	
+}

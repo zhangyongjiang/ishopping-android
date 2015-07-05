@@ -1,6 +1,8 @@
 package com.nextshopper.rest.beans;
 
-public class SearchableList { 
+import java.util.List;
+
+public class SearchableList<T> {
 	public int total;
-	public java.util.List items;
-} 
+	public List<T> items;
+}

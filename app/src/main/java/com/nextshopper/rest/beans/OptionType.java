@@ -1,8 +1,8 @@
 package com.nextshopper.rest.beans;
 
-public enum OptionType { 
+public enum OptionType {
 	Int,
 	Float,
 	Currency,
 	Str,
-} 
+}

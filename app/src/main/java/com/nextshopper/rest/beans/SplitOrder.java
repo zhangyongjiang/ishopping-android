@@ -1,8 +1,14 @@
 package com.nextshopper.rest.beans;
 
-public class SplitOrder { 
+import java.util.List;
+
+
+
+
+
+public class SplitOrder {
 	public UserOrder order;
-	public java.util.List items;
-	public java.util.List products;
+	public List<OrderItem> items;
+	public List<Product> products;
 	public UserBasicInfo user;
-} 
+}

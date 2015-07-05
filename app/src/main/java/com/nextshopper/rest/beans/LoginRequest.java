@@ -1,6 +1,6 @@
 package com.nextshopper.rest.beans;
 
-public class LoginRequest { 
+public class LoginRequest {
 	public String email;
 	public String password;
-} 
+}

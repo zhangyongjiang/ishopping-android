@@ -1,6 +1,8 @@
 package com.nextshopper.rest.beans;
 
-public class ProdOption { 
+import java.util.List;
+
+public class ProdOption {
 	public String name;
-	public java.util.List values;
-} 
+	public List<String> values;
+}

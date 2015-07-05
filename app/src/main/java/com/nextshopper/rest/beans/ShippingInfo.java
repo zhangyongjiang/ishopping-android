@@ -1,6 +1,6 @@
 package com.nextshopper.rest.beans;
 
-public class ShippingInfo { 
+public class ShippingInfo  {
 	public String id;
 	public String firstName;
 	public String lastName;
@@ -10,4 +10,4 @@ public class ShippingInfo {
 	public String state;
 	public String zipcode;
 	public String country;
-} 
+}

@@ -1,6 +1,6 @@
 package com.nextshopper.rest.beans;
 
-public enum StuffType { 
+public enum StuffType {
 	Offer,
 	Want,
-} 
+}

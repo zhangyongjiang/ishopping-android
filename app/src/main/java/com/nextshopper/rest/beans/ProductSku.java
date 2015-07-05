@@ -1,8 +1,10 @@
 package com.nextshopper.rest.beans;
 
-public class ProductSku { 
+import java.util.List;
+
+public class ProductSku {
 	public String sku;
 	public Float price;
 	public Integer quantity;
-	public java.util.List options;
-} 
+	public List<NameValue> options;
+}

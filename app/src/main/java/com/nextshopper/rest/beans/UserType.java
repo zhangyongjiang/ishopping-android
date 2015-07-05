@@ -1,8 +1,9 @@
 package com.nextshopper.rest.beans;
 
-public enum UserType { 
+public enum UserType {
 	Guest,
 	User,
 	Super,
 	Agent,
-} 
+	;
+}

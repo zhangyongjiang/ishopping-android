@@ -1,8 +1,8 @@
 package com.nextshopper.rest.beans;
 
-public enum ResourceType { 
+public enum ResourceType {
 	Image,
 	Video,
 	Text,
 	File,
-} 
+}

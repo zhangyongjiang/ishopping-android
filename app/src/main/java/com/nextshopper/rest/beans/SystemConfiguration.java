@@ -1,6 +1,6 @@
 package com.nextshopper.rest.beans;
 
-public class SystemConfiguration { 
+public class SystemConfiguration {
 	public String moneyHoldDaysAfterShipping;
 	public String moneyHoldDaysAfterShipConfirmed;
 	public String moneyCutOffDay;
@@ -8,4 +8,4 @@ public class SystemConfiguration {
 	public String minPay;
 	public String withdrawFee;
 	public String commissionPercent;
-} 
+}

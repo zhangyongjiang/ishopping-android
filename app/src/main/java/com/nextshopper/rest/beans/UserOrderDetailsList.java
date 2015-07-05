@@ -1,6 +1,9 @@
 package com.nextshopper.rest.beans;
 
-public class UserOrderDetailsList { 
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserOrderDetailsList {
 	public int totalOrders;
-	public java.util.List items;
-} 
+	public List<UserOrderDetails> items = new ArrayList<UserOrderDetails>();
+}

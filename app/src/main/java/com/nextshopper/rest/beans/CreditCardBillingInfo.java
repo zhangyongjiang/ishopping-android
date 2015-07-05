@@ -1,6 +1,6 @@
 package com.nextshopper.rest.beans;
 
-public class CreditCardBillingInfo { 
+public class CreditCardBillingInfo {
 	public String id;
 	public String firstName;
 	public String lastName;
@@ -11,4 +11,4 @@ public class CreditCardBillingInfo {
 	public String state;
 	public String zipcode;
 	public String country;
-} 
+}

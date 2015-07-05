@@ -1,9 +1,9 @@
 package com.nextshopper.rest.beans;
 
-public enum PaymentStatus { 
+public enum PaymentStatus {
 	Requested,
 	Pending,
 	Completed,
 	Rejected,
 	Failed,
-} 
+}

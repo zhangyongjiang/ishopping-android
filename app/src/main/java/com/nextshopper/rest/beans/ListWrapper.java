@@ -1,6 +1,13 @@
 package com.nextshopper.rest.beans;
 
-public class ListWrapper { 
-	public java.util.List items;
+import java.util.List;
+
+public class ListWrapper<T> {
+	public List<T> items;
 	public int total;
-} 
+	
+	public ListWrapper(List<T> items) {
+		this.items = items;
+	}
+	
+}

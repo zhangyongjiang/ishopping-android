@@ -1,8 +1,8 @@
 package com.nextshopper.rest.beans;
 
-public enum CaseStatus { 
+public enum CaseStatus {
 	PendingCustomer,
 	PendingSeller,
 	PendingAdmin,
 	Resolved,
-} 
+}
