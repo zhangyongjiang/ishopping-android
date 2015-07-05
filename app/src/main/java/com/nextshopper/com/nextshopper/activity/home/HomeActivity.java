@@ -5,6 +5,7 @@ import android.widget.GridView;
 
 import com.nextshopper.activity.BaseActivity;
 import com.nextshopper.activity.R;
+import com.nextshopper.view.ProductGridAdapter;
 
 /**
  * Created by Zhang_Kevin on 7/4/15.
@@ -16,5 +17,6 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.product_grid);
 
         GridView gridView = (GridView)findViewById(R.id.product_grid_view);
+        gridView.setAdapter(new ProductGridAdapter(this));
     }
 }
