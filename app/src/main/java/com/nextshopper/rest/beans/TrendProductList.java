@@ -1,7 +1,5 @@
 package com.nextshopper.rest.beans;
 
-public class TrendProductList { 
+public class TrendProductList extends SearchableProductList {
 	public Product dealOfTheDay;
-	public int total;
-	public java.util.List items;
-} 
+}

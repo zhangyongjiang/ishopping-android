@@ -27,6 +27,8 @@ public class ProductGridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        if(searchableProductList == null)
+            return 0;
         return searchableProductList.items.size();
     }
 

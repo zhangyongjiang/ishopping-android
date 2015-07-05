@@ -1,9 +1,10 @@
-package com.nextshopper.com.nextshopper.activity.home;
+package com.nextshopper.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -40,12 +41,12 @@ public class HomeActivity extends BaseActivity {
         service.ProductAPI_PopularProducts(null, 0, 20, new Callback<TrendProductList>() {
             @Override
             public void success(TrendProductList trendProductList, Response response) {
-
+                adapter.setSearchableProductList(trendProductList);
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                Log.i("HomeActivity", error.getMessage());
             }
         });
     }

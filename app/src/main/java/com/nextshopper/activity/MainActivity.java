@@ -20,6 +20,11 @@ public class MainActivity extends ActionBarActivity {
         this.startActivity(intent);
     }
 
+    public void skipClick(View view){
+        Intent intent = new Intent(this, HomeActivity.class);
+        this.startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
