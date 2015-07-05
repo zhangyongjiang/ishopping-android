@@ -44,9 +44,15 @@ public class ProductGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView = new ImageView(ctx);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setLayoutParams(new GridView.LayoutParams(70, 70));
+        ImageView imageView = null;
+        if(convertView == null) {
+            imageView = new ImageView(ctx);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setLayoutParams(new GridView.LayoutParams(70, 70));
+        }
+        else {
+            imageView = (ImageView)convertView;
+        }
         new DownloadImageTask(imageView).execute(searchableProductList.items.get(position).imgUrl.get(0));
         return imageView;
     }
