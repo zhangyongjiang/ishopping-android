@@ -1,13 +1,13 @@
-package com.nextshopper.activity;
+package com.nextshopper.com.nextshopper.activity.home;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+
+import com.nextshopper.activity.BaseActivity;
 
 /**
  * Created by Zhang_Kevin on 7/4/15.
  */
-public class BaseActivity extends FragmentActivity {
+public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
