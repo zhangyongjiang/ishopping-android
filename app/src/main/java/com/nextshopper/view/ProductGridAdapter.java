@@ -60,6 +60,8 @@ public class ProductGridAdapter extends BaseAdapter {
 
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
+            if(!urldisplay.startsWith("http"))
+                urldisplay = "http://api.onsalelocal.com/ws/resource/download?path=" + urldisplay;
             Bitmap mIcon11 = null;
             try {
                 InputStream in = new java.net.URL(urldisplay).openStream();
