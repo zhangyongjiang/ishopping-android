@@ -20,7 +20,10 @@ public class ProductDetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        refresh();
+    }
 
+    public void refresh() {
         String productId = getIntent().getStringExtra("productId");
         NextShopperService service = ApiService.getService();
         service.ProductAPI_Get(productId, new Callback<ProductDetails>() {
