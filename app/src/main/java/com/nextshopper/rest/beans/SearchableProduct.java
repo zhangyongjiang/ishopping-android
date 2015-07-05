@@ -8,7 +8,7 @@ public class SearchableProduct {
 	public String status;
 	public String description;
 	public String manufacture;
-	public java.util.List imgUrl;
+	public java.util.List<String> imgUrl;
 	public String model;
 	public int likes;
 	public int reviews;
