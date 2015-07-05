@@ -8,6 +8,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_signup">SignupActivity</string>
+    <string name="title_activity_home">Home</string>
     <string name="signup">Sign Up</string>
     <string name="join">Join</string>
     <string name="signup_firstname">First Name</string>

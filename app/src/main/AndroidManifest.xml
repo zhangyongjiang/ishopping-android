@@ -31,6 +31,10 @@
             android:name=".TempActivity"
             android:label="@string/title_activity_temp" >
         </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home" >
+        </activity>
     </application>
 
 </manifest>

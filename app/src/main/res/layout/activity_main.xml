@@ -32,7 +32,8 @@
             android:drawableLeft="@drawable/signup"
             style="@style/TextFont.WelcomeText"
             android:text="@string/create_new_account"
-            android:onClick="signupClick"/>
+            android:onClick="signupClick"
+            />
         <ImageView
             android:id="@+id/rectangle_white"
             style="@style/RoundRectangle"
@@ -54,6 +55,8 @@
             android:layout_below="@+id/signin"
             android:layout_marginBottom="40dp"
             android:text="@string/skip_for_now"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:onClick="skipClick"
+            />
     </RelativeLayout>
 </LinearLayout>
