@@ -58,7 +58,7 @@ public class ProductGridAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(ctx, ProductDetailsActivity.class);
-                    intent.putExtra("productId", (String)v.getTag(R.id.ProductId));
+                    intent.putExtra("productId", (String)v.getTag());
                     ctx.startActivity(intent);
                 }
             };
@@ -67,7 +67,7 @@ public class ProductGridAdapter extends BaseAdapter {
         else {
             imageView = (ImageView)convertView;
         }
-        imageView.setTag(R.id.ProductId, searchableProductList.items.get(position).id);
+        imageView.setTag(searchableProductList.items.get(position).id);
         new DownloadImageTask(imageView).execute(searchableProductList.items.get(position).imgUrl.get(0));
         return imageView;
     }

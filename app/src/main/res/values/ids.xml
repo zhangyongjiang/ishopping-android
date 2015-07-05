@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="signup_terms" type="id">Terms of Service and Privacy Policy</item>
-    <item name="ProductId" type="id">Product ID</item>
 </resources>
