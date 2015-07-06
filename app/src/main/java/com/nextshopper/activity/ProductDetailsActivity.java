@@ -16,14 +16,14 @@ import retrofit.client.Response;
 /**
  * Created by Zhang_Kevin on 7/5/15.
  */
-public class ProductDetailsActivity extends BaseActivity {
+public class ProductDetailsActivity extends SwipeRefreshActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         refresh();
     }
 
-    public void refresh() {
+    protected void refresh() {
         String productId = getIntent().getStringExtra("productId");
         NextShopperService service = ApiService.getService();
         service.ProductAPI_Get(productId, new Callback<ProductDetails>() {
