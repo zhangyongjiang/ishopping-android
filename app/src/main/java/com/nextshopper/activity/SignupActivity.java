@@ -1,7 +1,8 @@
 package com.nextshopper.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,14 +26,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.nextshopper.rest.ApiService;
-import com.nextshopper.com.nextshopper.util.RealPathUtil;
 import com.nextshopper.rest.NextShopperService;
+import com.nextshopper.rest.beans.Gender;
 import com.nextshopper.rest.beans.RegisterRequest;
 import com.nextshopper.rest.beans.User;
-import com.nextshopper.rest.beans.Gender;
 import com.nextshopper.view.TitleView;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -57,11 +58,12 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
     private String genderChosen;
     private ImageView singup_pics;
     private AlertDialog dialog;
-    private String imagePath;
     private static final String INVITATION_CODE = "DRAGON";
+    private static final String THUMNAIL="thumnail.jpg";
     private static final String ACTIVITY_NAME = SignupActivity.class.toString();
     private static final int CAPTURE_ACTIVITY_REQUEST_CODE = 100;
     private static final int PICK_IMAGE_REQUEST = 200;
+    private File dir;
 
 
     @Override
@@ -81,13 +83,17 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
                     scaled = toRoundCorner(scaled, 120);
                     singup_pics.setImageBitmap(scaled);
                     photoViewStub.setVisibility(View.INVISIBLE);
-                    //upload image
-                    // ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    //scaled.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-                    //TypedByteArray typedByteArray = new TypedByteArray("image/jpeg",bos.toByteArray());
-                    //imagePath = getRealPathFromURI(this, data.getData());
-                    imagePath = RealPathUtil.getRealPathFromURI(this, data.getData());
-
+                    // save image
+                    ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                    dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
+                    File thumnail = new File(dir, THUMNAIL);
+                    FileOutputStream fos = null;
+                    try{
+                        fos = new FileOutputStream(thumnail);
+                        scaled.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    }catch(Exception e){
+                        Log.e(ACTIVITY_NAME, e.getMessage(),e);
+                    }
                 } catch (Exception e) {
                     Log.e(ACTIVITY_NAME, e.getMessage(), e);
                 }
@@ -145,18 +151,20 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
             public void success(User user, Response response) {
                 String cookie = getCookieString(response);
                 ApiService.buildService(cookie);
-                TypedFile typedFile = new TypedFile("image/jpeg", new File(imagePath));
-                ApiService.getService().UserAPI_Upload(typedFile, new Callback<User>() {
-                    @Override
-                    public void success(User user, Response response) {
-                        Log.d(ACTIVITY_NAME, user.id);
-                    }
+                if(dir !=null) {
+                    TypedFile typedFile = new TypedFile("image/jpeg", new File(dir, THUMNAIL));
+                    ApiService.getService().UserAPI_Upload(typedFile, new Callback<User>() {
+                        @Override
+                        public void success(User user, Response response) {
+                            Log.d(ACTIVITY_NAME, user.info.imgPath);
+                        }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e(ACTIVITY_NAME, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
-                    }
-                });
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Log.e(ACTIVITY_NAME, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
+                        }
+                    });
+                }
 
                 Intent intent = new Intent(SignupActivity.this, TempActivity.class);
                 intent.putExtra("userId", user.id);
