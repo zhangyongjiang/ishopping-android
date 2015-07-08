@@ -3,7 +3,6 @@ package com.nextshopper.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.nextshopper.com.nextshopper.util.RealPathUtil;
 
 public class SigninActivity extends BaseActivity {
 
