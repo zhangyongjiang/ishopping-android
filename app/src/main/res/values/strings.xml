@@ -29,4 +29,13 @@
     <string name="ok">OK</string>
     <string name="dialog_title">Oops</string>
     <string name="dialog_message">First name, last name, email and password are required.</string>
+    <string name="title_section1">Shop</string>
+    <string name="title_section2">Search</string>
+    <string name="title_section3">About</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">close_drawer</string>
+    <string name="login_or_signup">Log In or Sign Up</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

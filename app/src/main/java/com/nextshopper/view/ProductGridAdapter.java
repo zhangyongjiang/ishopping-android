@@ -11,10 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.nextshopper.activity.HomeActivity;
 import com.nextshopper.activity.ProductDetailsActivity;
-import com.nextshopper.activity.R;
-import com.nextshopper.rest.beans.ProductDetails;
 import com.nextshopper.rest.beans.SearchableProductList;
 
 import java.io.InputStream;
