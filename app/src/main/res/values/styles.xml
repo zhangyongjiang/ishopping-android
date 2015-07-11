@@ -27,7 +27,7 @@
     <style name="TextFont.Title">
         <item name="android:textColor">@color/white</item>
     </style>
-    <style name="TextFont.Title.Middle">
+    <style name="TextFont.Middle">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">23sp</item>
         <item name="android:layout_centerInParent">true</item>
@@ -49,5 +49,10 @@
         <item name="android:textColor">@color/green</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_height">40dp</item>
+    </style>
+    <style name="TextFont.menu">
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:drawablePadding">25dp</item>
     </style>
 </resources>

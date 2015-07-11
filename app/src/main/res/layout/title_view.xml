@@ -12,7 +12,7 @@
         android:id="@+id/tile_text_middle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextFont.Title.Middle"
+        style="@style/TextFont.Middle"
         android:text="test"
         />
     <TextView
@@ -22,5 +22,10 @@
         style="@style/TextFont.Title.Right"
         android:text="right"
         android:onClick="rightOnClick"/>
+    <ImageView
+        android:id="@+id/titile_image_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

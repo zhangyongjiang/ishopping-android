@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -25,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.nextshopper.common.Constant;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.Gender;
@@ -54,12 +56,10 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
     private EditText password;
     private Spinner gender;
     private ViewStub photoViewStub;
-    private ViewStub genderViewStub;
     private String genderChosen;
     private ImageView singup_pics;
     private AlertDialog dialog;
     private static final String INVITATION_CODE = "DRAGON";
-    private static final String THUMNAIL="thumnail.jpg";
     private static final String ACTIVITY_NAME = SignupActivity.class.toString();
     private static final int CAPTURE_ACTIVITY_REQUEST_CODE = 100;
     private static final int PICK_IMAGE_REQUEST = 200;
@@ -86,13 +86,13 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
                     // save image
                     ContextWrapper cw = new ContextWrapper(getApplicationContext());
                     dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
-                    File thumnail = new File(dir, THUMNAIL);
+                    File thumnail = new File(dir, Constant.THUMNAIL);
                     FileOutputStream fos = null;
-                    try{
+                    try {
                         fos = new FileOutputStream(thumnail);
                         scaled.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                    }catch(Exception e){
-                        Log.e(ACTIVITY_NAME, e.getMessage(),e);
+                    } catch (Exception e) {
+                        Log.e(ACTIVITY_NAME, e.getMessage(), e);
                     }
                 } catch (Exception e) {
                     Log.e(ACTIVITY_NAME, e.getMessage(), e);
@@ -145,14 +145,15 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
         request.password = password.getText().toString();
         request.gender = Gender.valueOf(genderChosen);
         request.invitationCode = INVITATION_CODE;
+        saveUserData(request);
         NextShopperService service = ApiService.getService();
         service.UserAPI_Register(request, new Callback<User>() {
             @Override
             public void success(User user, Response response) {
                 String cookie = getCookieString(response);
                 ApiService.buildService(cookie);
-                if(dir !=null) {
-                    TypedFile typedFile = new TypedFile("image/jpeg", new File(dir, THUMNAIL));
+                if (dir != null) {
+                    TypedFile typedFile = new TypedFile("image/jpeg", new File(dir, Constant.THUMNAIL));
                     ApiService.getService().UserAPI_Upload(typedFile, new Callback<User>() {
                         @Override
                         public void success(User user, Response response) {
@@ -166,8 +167,8 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
                     });
                 }
 
-                Intent intent = new Intent(SignupActivity.this, TempActivity.class);
-                intent.putExtra("userId", user.id);
+                Intent intent = new Intent(SignupActivity.this, HomeActivity.class);
+                intent.putExtra(Constant.USER_ID, user.id);
                 SignupActivity.this.startActivity(intent);
             }
 
@@ -264,5 +265,15 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
             }
         }
         return null;
+    }
+
+    private void saveUserData(RegisterRequest request) {
+        SharedPreferences.Editor editor = this.getSharedPreferences(Constant.USER, MODE_PRIVATE).edit();
+        editor.putString(Constant.FIRST_NAME, request.firstName);
+        editor.putString(Constant.LAST_NAME, request.lastName);
+        editor.putString(Constant.EMAIL, request.email);
+        editor.putString(Constant.PASSWORD, request.password);
+        editor.putString(Constant.GENDER, request.gender.toString());
+        editor.commit();
     }
 }

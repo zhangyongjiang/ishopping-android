@@ -13,5 +13,6 @@
     <item name="darkred" type="color">#FFCC0000</item>
     <item name="white" type="color">#FFFFFF</item>
     <item name="black" type="color">#000000</item>
+    <item name="lightgreen" type="color">#F9FBE7</item>
     <color name="gray">#BDBDBD</color>
 </resources>

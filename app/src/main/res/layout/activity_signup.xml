@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         nextshopper:imageLeft="@drawable/back"
         nextshopper:textMiddle="@string/signup"
+        nextshopper:textMiddleColor="@color/white"
         nextshopper:textRight="@string/join" />
 
     <RelativeLayout
