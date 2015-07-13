@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:background="@color/white">
 
     <com.nextshopper.view.TitleView
         android:id="@+id/home_title"
@@ -16,13 +15,25 @@
         nextshopper:textMiddleColor="@color/black"
         nextshopper:imageRight="@drawable/menu_search_active"
         />
-     <RelativeLayout
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_below="@id/home_title"
-         android:background="@color/lightgreen"
-         ></RelativeLayout>
-
-
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/home_title"
+        android:background="@color/black"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/id_home_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightgreen"
+        android:layout_below="@id/home_title">
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/home_tab_strip"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/home_title"
+            android:layout_gravity="top"
+            android:textAppearance="@style/TextFont.PagerTabStripText"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
+    </android.support.v4.view.ViewPager>
 </RelativeLayout>

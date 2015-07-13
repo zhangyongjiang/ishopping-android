@@ -55,4 +55,8 @@
         <item name="android:padding">20dp</item>
         <item name="android:drawablePadding">25dp</item>
     </style>
+    <style name="TextFont.PagerTabStripText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>
