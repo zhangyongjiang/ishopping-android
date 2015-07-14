@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nextshopper.activity.ProductDetailsActivity;
+import com.nextshopper.activity.R;
+import com.nextshopper.rest.beans.SearchableProduct;
 import com.nextshopper.rest.beans.SearchableProductList;
 
 import java.io.InputStream;
@@ -46,27 +49,31 @@ public class ProductGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView = null;
+        SearchableProduct sp = searchableProductList.items.get(position);
         if(convertView == null) {
-            imageView = new ImageView(ctx);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
-            View.OnClickListener listener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(ctx, ProductDetailsActivity.class);
-                    intent.putExtra("productId", (String)v.getTag());
-                    ctx.startActivity(intent);
-                }
-            };
-            imageView.setOnClickListener(listener);
+            convertView= LayoutInflater.from(ctx).inflate(R.layout.list_item, parent, false);
         }
-        else {
-            imageView = (ImageView)convertView;
-        }
-        imageView.setTag(searchableProductList.items.get(position).id);
-        new DownloadImageTask(imageView).execute(searchableProductList.items.get(position).imgUrl.get(0));
-        return imageView;
+
+        TextView textViewDisPrice = (TextView) convertView.findViewById(R.id.item_disount_price);
+        textViewDisPrice.setText("$"+Math.round(sp.price*100)/100.0);
+        TextView textViewPrice =(TextView) convertView.findViewById(R.id.item_ori_price);
+        textViewPrice.setText("$"+Math.round(sp.listPrice*100)/100.0);
+        TextView textViewName = (TextView) convertView.findViewById(R.id.item_name);
+        textViewName.setText(sp.name);
+        ImageView imageView = (ImageView)convertView.findViewById(R.id.item_image);
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, ProductDetailsActivity.class);
+                intent.putExtra("productId", (String)v.getTag());
+                ctx.startActivity(intent);
+            }
+        };
+        imageView.setOnClickListener(listener);
+        imageView.setTag(sp.id);
+        new DownloadImageTask(imageView).execute(sp.imgUrl.get(0));
+        return convertView;
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

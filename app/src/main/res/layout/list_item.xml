@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rectangle_input">
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_default" />
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_below="@id/item_image"
+        android:maxLines="2"
+        android:text="test"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        android:textSize="20sp"
+        android:ellipsize="end"/>
+    <RelativeLayout
+        android:id="@+id/item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/item_name"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:id="@+id/item_disount_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="price"
+            android:textSize="20sp"
+            android:textColor="@color/red" />
+        <TextView
+            android:id="@+id/item_ori_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/item_disount_price"
+            android:background="@drawable/line_price"
+            android:textColor="@color/grey"
+            android:text="test"
+            android:textSize="20sp" />
+    </RelativeLayout>
+</RelativeLayout>

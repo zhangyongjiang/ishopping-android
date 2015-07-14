@@ -8,17 +8,15 @@ import android.view.ViewGroup;
 
 import com.nextshopper.activity.R;
 
-public class ChatFragment extends Fragment {
-	
+public class NewestFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
 		super.onCreateView(inflater, container, savedInstanceState);
-		View chatView = inflater.inflate(R.layout.activity_tab_chat, container,false);
-		return chatView;
+		View contactsView = inflater.inflate(R.layout.fragment_tab_newest, container,false);
+		return contactsView;
 		
 		
 	}
-	
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState){
