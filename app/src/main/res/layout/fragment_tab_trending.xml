@@ -4,9 +4,11 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:numColumns="2"
-	android:horizontalSpacing="10dp"
-	android:verticalSpacing="10dp"
+	android:horizontalSpacing="15dp"
+	android:verticalSpacing="15dp"
 	android:gravity="center"
-	android:stretchMode="columnWidth"
-	android:layout_margin="10dp">
+	android:padding="15dp"
+    android:scrollbarStyle="outsideOverlay"
+	android:clipToPadding="false"
+	android:stretchMode="columnWidth">
 </GridView>
