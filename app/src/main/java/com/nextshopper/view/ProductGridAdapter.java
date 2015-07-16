@@ -18,13 +18,13 @@ import android.widget.TextView;
 
 import com.nextshopper.activity.ProductDetailsActivity;
 import com.nextshopper.activity.R;
+import com.nextshopper.common.RoundImageUtil;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.SearchableProduct;
 import com.nextshopper.rest.beans.SearchableProductList;
 import com.nextshopper.rest.beans.TrendProductList;
 
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -129,15 +129,11 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            String urldisplay = params[0];
-            if(!urldisplay.startsWith("http"))
-                urldisplay = "http://api.onsalelocal.com/ws/resource/download?path=" + urldisplay;
+            imageUrl = params[0];
+            if(!imageUrl.startsWith("http"))
+                imageUrl = "http://api.onsalelocal.com/ws/resource/download?path=" + imageUrl;
             // 在后台开始下载图片
-            Bitmap bitmap = downloadBitmap(urldisplay);
-            if (bitmap != null) {
-                // 图片下载完成后缓存到LrcCache中
-                addBitmapToMemoryCache(params[0], bitmap);
-            }
+            Bitmap bitmap = downloadBitmap(imageUrl);
             return bitmap;
         }
 
@@ -147,7 +143,9 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
             // 根据Tag找到相应的ImageView控件，将下载好的图片显示出来。
             ImageView imageView = (ImageView) gridView.findViewWithTag(imageUrl);
             if (imageView != null && bitmap != null) {
+                bitmap = RoundImageUtil.getRoundedCornerBitmap(ctx, bitmap, 10, imageView.getWidth(), imageView.getHeight(), false, false, true, true);
                 imageView.setImageBitmap(bitmap);
+                addBitmapToMemoryCache(imageUrl, bitmap);
             }
         }
 
@@ -179,33 +177,6 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
     }
 
-
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            if(!urldisplay.startsWith("http"))
-                urldisplay = "http://api.onsalelocal.com/ws/resource/download?path=" + urldisplay;
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
 
     public void setSearchableProductList(SearchableProductList searchableProductList) {
         this.searchableProductList.items.addAll(searchableProductList.items);

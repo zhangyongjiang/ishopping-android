@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="20dp"
+    android:padding="1dp"
     android:background="@drawable/rectangle_input">
     <ImageView
         android:id="@+id/item_image"
