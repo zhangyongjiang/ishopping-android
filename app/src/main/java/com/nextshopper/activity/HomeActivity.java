@@ -36,7 +36,7 @@ public class HomeActivity extends FragmentActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         HomeFragment homeFragment = new HomeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, homeFragment).commit();
     }
 
     @Override

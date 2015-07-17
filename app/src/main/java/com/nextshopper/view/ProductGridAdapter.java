@@ -44,12 +44,14 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
     private int numOfItem = 20;
     private int mFirstVisibleItem;
     private int mVisibleItemCount;
+    private TrendingFragment trendingFragment;
 
-    public ProductGridAdapter(Context ctx, GridView gridView) {
+    public ProductGridAdapter(Context ctx, GridView gridView, TrendingFragment trendingFragment) {
         this.ctx = ctx;
         this.gridView = gridView;
+        this.trendingFragment = trendingFragment;
         int maxMemory =(int) Runtime.getRuntime().maxMemory();
-        int cacheSize = maxMemory/8;
+        int cacheSize = maxMemory/24;
         memoryCache = new LruCache<String, Bitmap>(cacheSize){
             @Override
             protected  int sizeOf(String key, Bitmap bitmap){
@@ -211,17 +213,44 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
         if ( lastVisibleItem == this.getCount()) {
             NextShopperService service = ApiService.getService();
-            service.ProductAPI_PopularProducts(null, start, numOfItem, new Callback<TrendProductList>() {
-                @Override
-                public void success(TrendProductList trendProductList, Response response) {
-                    setSearchableProductList(trendProductList);
-                }
+            if(trendingFragment.getArguments().getString("Tab").equals("Trending")) {
+                service.ProductAPI_PopularProducts(null, start, numOfItem, new Callback<TrendProductList>() {
+                    @Override
+                    public void success(TrendProductList trendProductList, Response response) {
+                        setSearchableProductList(trendProductList);
+                    }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.i("HomeActivity", error.getMessage());
-                }
-            });
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.i("HomeActivity", error.getMessage());
+                    }
+                });
+            } else if(trendingFragment.getArguments().getString("Tab").equals("Newest")){
+                service.ProductAPI_NewProducts(start, numOfItem, new Callback<SearchableProductList>() {
+                    @Override
+                    public void success(SearchableProductList searchableProductList, Response response) {
+                        setSearchableProductList(searchableProductList);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.i("HomeActivity", error.getMessage());
+                    }
+                });
+            } else if(trendingFragment.getArguments().getString("Tab").equals("Just For You")){
+                service.ProductAPI_RecommendationsForUser(start, numOfItem, null, null, new Callback<SearchableProductList>() {
+                    @Override
+                    public void success(SearchableProductList searchableProductList, Response response) {
+                        setSearchableProductList(searchableProductList);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.i("HomeActivity", error.getMessage());
+                    }
+                });
+
+            }
             start = start + numOfItem;
         }
     }

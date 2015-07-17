@@ -26,7 +26,7 @@ public class HomeActivity2 extends BaseActivity {
         setContentView(R.layout.product_grid);
 
         GridView gridView = (GridView)findViewById(R.id.product_grid_view);
-        adapter = new ProductGridAdapter(this, gridView);
+        adapter = new ProductGridAdapter(this, gridView, null);
         gridView.setAdapter(adapter);
 
         NextShopperService service = ApiService.getService();
