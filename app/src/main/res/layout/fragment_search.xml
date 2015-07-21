@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
+    tools:context="com.nextshopper.view.SearchFragment">
+
+    <com.nextshopper.view.TitleView
+        android:id="@+id/home_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        nextshopper:imageLeft="@drawable/menu_active"
+        nextshopper:textMiddle="@string/search"
+        nextshopper:textMiddleColor="@color/black"
+        />
+    <RelativeLayout
+        android:id="@+id/home_search_input"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/home_search"
+        android:background="@color/gray">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@drawable/rectangle_input"/>
+        <TextView
+            android:id="@+id/search_keyword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:hint="@string/search_keyworkd"
+            android:textSize="18sp" />
+        >
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/search_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightgreen"
+        android:layout_below="@id/home_search_input">
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/search_tab_strip"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/home_title"
+            android:layout_gravity="top"
+            android:textAppearance="@style/TextFont.PagerTabStripText"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
+    </android.support.v4.view.ViewPager>
+
+</RelativeLayout>

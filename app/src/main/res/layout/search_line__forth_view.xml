@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp">
+
+    <TextView
+        android:id="@+id/search_line_first"
+        style="@style/TextFont.search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:text="@string/all" />
+
+    <TextView
+        android:id="@+id/search_line_sec"
+        style="@style/TextFont.search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:text="@string/casual" />
+
+    <TextView
+        android:id="@+id/search_line_third"
+        style="@style/TextFont.search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:text="@string/casual" />
+
+    <TextView
+        android:id="@+id/search_line_forth"
+        style="@style/TextFont.search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="5dp"
+        android:text="@string/casual" />
+
+</LinearLayout>

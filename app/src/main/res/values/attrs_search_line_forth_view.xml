@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="SearchLineForthView">
+            <attr name="first" format="string"/>
+            <attr name="sec" format="string"/>
+            <attr name="third" format="string"/>
+            <attr name="forth" format="string"/>
+    </declare-styleable>
+</resources>

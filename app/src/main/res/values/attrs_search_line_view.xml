@@ -1,0 +1,7 @@
+<resources>
+    <declare-styleable name="SearchLineView">
+            <attr name="left" format="string"/>
+            <attr name="middle" format="string"/>
+            <attr name="right" format="string"/>
+    </declare-styleable>
+</resources>

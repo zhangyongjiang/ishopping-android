@@ -1,0 +1,80 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@color/lightgreen">
+
+        <TextView
+            android:id="@+id/menu_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/login_or_signup"
+            android:drawableTop="@drawable/avatar_default"
+            android:drawablePadding="5dp"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/menu_shop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top"
+        android:text="@string/home_shop"
+        style="@style/TextFont.menu"
+        android:drawableLeft="@drawable/menu_shop" />
+    <TextView
+        android:id="@+id/menu_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/menu_shop"
+        android:text="@string/home_search"
+        style="@style/TextFont.menu"
+        android:drawableLeft="@drawable/menu_search"/>
+    <TextView
+        android:id="@+id/menu_shoppingcart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/menu_search"
+        android:text="@string/home_shoppingcart"
+        style="@style/TextFont.menu"
+        android:drawableLeft="@drawable/menu_cart"/>
+    <TextView
+        android:id="@+id/menu_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/menu_shoppingcart"
+        android:text="@string/home_settings"
+        style="@style/TextFont.menu"
+        android:drawableLeft="@drawable/menu_setting"/>
+    <TextView
+        android:id="@+id/menu_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/menu_settings"
+        android:text="@string/home_message"
+        style="@style/TextFont.menu"
+        android:drawableLeft="@drawable/menu_message"/>
+    <TextView
+        android:id="@+id/menu_orderhistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/menu_message"
+        android:text="@string/home_orderhistory"
+        style="@style/TextFont.menu"
+        android:drawableLeft="@drawable/menu_order"/>
+    <TextView
+        android:id="@+id/menu_about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/menu_orderhistory"
+        android:text="@string/home_about"
+        style="@style/TextFont.menu"
+        android:drawableLeft="@drawable/store_about"/>
+</RelativeLayout>

@@ -1,0 +1,32 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:padding="25dp"
+        android:background="@color/lightgreen">
+
+        <TextView
+            android:id="@+id/menu_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/login_or_signup"
+            android:drawableTop="@drawable/avatar_default"
+            android:drawablePadding="5dp"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/menu_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/top"
+        android:divider="@null"
+        ></ListView>
+
+</RelativeLayout>

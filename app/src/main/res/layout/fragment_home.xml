@@ -9,13 +9,14 @@
         android:id="@+id/home_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         nextshopper:imageLeft="@drawable/menu_active"
         nextshopper:textMiddle="@string/home_shop"
         nextshopper:textMiddleColor="@color/black"
         nextshopper:imageRight="@drawable/menu_search_active"
         />
     <View
+        android:id="@+id/home_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/home_title"
@@ -25,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/lightgreen"
-        android:layout_below="@id/home_title">
+        android:layout_below="@id/home_line">
         <android.support.v4.view.PagerTabStrip
             android:id="@+id/home_tab_strip"
             android:layout_width="match_parent"

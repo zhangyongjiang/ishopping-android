@@ -19,6 +19,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,6 +28,8 @@ import com.nextshopper.activity.R;
 import com.nextshopper.common.Constant;
 
 import java.io.File;
+
+import static android.widget.AdapterView.*;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -56,6 +60,8 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private ListView menuListView;
+    private boolean login;
 
     public NavigationDrawerFragment() {
     }
@@ -88,9 +94,17 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RelativeLayout layout = (RelativeLayout) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+        RelativeLayout  layout= (RelativeLayout) inflater.inflate(R.layout.fragment_navigation_drawer_bakee, container, false);
+        ListView listview = (ListView)layout.findViewById(R.id.menu_listview);
+        listview.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectItem(position);
+            }
+        });
+        listview.setAdapter(new MenuAdapter(getString(R.string.guest_menu).split(","), getActivity()));
         if (getActivity().getIntent().getStringExtra(Constant.USER_ID) != null) {
+            listview.setAdapter(new MenuAdapter(getString(R.string.login_menu).split(","),getActivity()));
             TextView userTextView = (TextView) layout.findViewById(R.id.menu_user);
             SharedPreferences pref = getActivity().getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
             userTextView.setText(pref.getString(Constant.FIRST_NAME, "") + " " + pref.getString(Constant.LAST_NAME, ""));
@@ -102,6 +116,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
         return layout;
     }
+
 
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);

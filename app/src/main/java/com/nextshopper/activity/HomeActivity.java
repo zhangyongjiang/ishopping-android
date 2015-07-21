@@ -6,13 +6,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.nextshopper.view.HomeFragment;
 import com.nextshopper.view.NavigationDrawerFragment;
+import com.nextshopper.view.SearchFragment;
 
 
 public class HomeActivity extends FragmentActivity
@@ -35,8 +34,6 @@ public class HomeActivity extends FragmentActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-        HomeFragment homeFragment = new HomeFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.container, homeFragment).commit();
     }
 
     @Override
@@ -73,32 +70,13 @@ public class HomeActivity extends FragmentActivity
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
+        public static Fragment newInstance(int sectionNumber) {
+         switch (sectionNumber){
+             case 1: return new HomeFragment();
+             case 2: return new SearchFragment();
+             default:return new SearchFragment();
+         }
         }
 
     }
