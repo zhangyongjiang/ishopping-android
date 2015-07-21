@@ -51,9 +51,9 @@ public class MenuAdapter extends BaseAdapter {
             case "Settings": drawableId = R.drawable.menu_setting;break;
             case "Message":drawableId=R.drawable.menu_message;break;
             case "Order History": drawableId=R.drawable.menu_order;break;
-            case "About":drawableId=R.drawable.store_about;
+            default :drawableId=R.drawable.store_about;
         }
-        textView.setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(drawableId),null,null,null);
+        textView.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(drawableId, null),null,null,null);
         return textView;
         }
 }

@@ -102,7 +102,7 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        listview.setAdapter(new MenuAdapter(getString(R.string.guest_menu).split(","), getActivity()));
+
         if (getActivity().getIntent().getStringExtra(Constant.USER_ID) != null) {
             listview.setAdapter(new MenuAdapter(getString(R.string.login_menu).split(","),getActivity()));
             TextView userTextView = (TextView) layout.findViewById(R.id.menu_user);
@@ -113,6 +113,9 @@ public class NavigationDrawerFragment extends Fragment {
             Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
             Drawable drawable = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 240, 240, true));
             userTextView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+        }
+        else{
+            listview.setAdapter(new MenuAdapter(getString(R.string.guest_menu).split(","), getActivity()));
         }
         return layout;
     }

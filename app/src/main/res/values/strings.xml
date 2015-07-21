@@ -74,6 +74,6 @@
     <string name="wallets">Wallets</string>
     <string name="hats"><![CDATA[Hats, Gloves & Scarves]]></string>
     <string name="belts">Belts</string>
-    <string name="login_menu">Shop,Search,Shopping Cart,Setting,Message,Order History,About</string>
+    <string name="login_menu">Shop,Search,Shopping Cart,Settings,Message,Order History,About</string>
     <string name="guest_menu">Shop,Search,About</string>
 </resources>
