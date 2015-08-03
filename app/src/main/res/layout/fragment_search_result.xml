@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
+    tools:context="com.nextshopper.view.SearchResultFragment">
+    <com.nextshopper.view.TitleView
+        android:id="@+id/cat_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        nextshopper:imageLeft="@drawable/back"
+        nextshopper:textMiddle="@string/search"
+        nextshopper:textMiddleColor="@color/black"
+        />
+    <View
+        android:id="@+id/cat_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/cat_search"
+        android:background="@color/gray"/>
+    <fragment android:name="com.nextshopper.view.TrendingFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cat_line"
+        tools:layout="@layout/fragment_tab_trending" />
+</RelativeLayout>

@@ -34,6 +34,7 @@ public class TitleView extends FrameLayout {
         imageRight.setImageDrawable(ta.getDrawable(R.styleable.TitleView_imageRight));
     }
 
+
     public ImageView getImageLeft() {
         return imageLeft;
     }
@@ -46,8 +47,8 @@ public class TitleView extends FrameLayout {
         return textMiddle;
     }
 
-    public void setTextMiddle(TextView textMiddle) {
-        this.textMiddle = textMiddle;
+    public void setTextMiddle(String text) {
+        this.textMiddle.setText(text);
     }
 
     public TextView getTextRight() {

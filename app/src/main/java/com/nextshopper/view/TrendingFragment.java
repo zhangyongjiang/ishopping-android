@@ -12,12 +12,16 @@ import com.nextshopper.activity.R;
 public class TrendingFragment extends Fragment {
     private ProductGridAdapter adapter;
     private GridView gridView;
+    private String cat;
+    private String keywords;
 
 
-    public static TrendingFragment newInstance(String param1) {
+    public static TrendingFragment newInstance(String param1, String cat, String keywords) {
         TrendingFragment fragment = new TrendingFragment();
         Bundle args = new Bundle();
         args.putString("Tab", param1);
+        args.putString("Cat", cat);
+        args.putString("Keywords", keywords);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,6 +42,5 @@ public class TrendingFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
-
 
 }

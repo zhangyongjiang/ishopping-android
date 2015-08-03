@@ -28,5 +28,4 @@ public class SearchLineView extends LinearLayout{
         ta.recycle();
     }
 
-
 }

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private List<Fragment> fragmentList = new ArrayList<Fragment>();
+    private List<Fragment> fragmentList = new ArrayList<>();
     private ViewPager homeViewPager;
     private FragmentAdapter fragmentAdapter;
 
@@ -29,9 +29,9 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         homeViewPager = (ViewPager)view.findViewById(R.id.id_home_viewpager);
-        fragmentList.add(TrendingFragment.newInstance("Trending"));
-        fragmentList.add(TrendingFragment.newInstance("Newest"));
-        fragmentList.add(TrendingFragment.newInstance("Just For You"));
+        fragmentList.add(TrendingFragment.newInstance("Trending", null, null));
+        fragmentList.add(TrendingFragment.newInstance("Newest", null, null));
+        fragmentList.add(TrendingFragment.newInstance("Just For You", null, null));
         fragmentAdapter = new FragmentAdapter(getFragmentManager(), fragmentList);
         homeViewPager.setAdapter(fragmentAdapter);
         PagerTabStrip pagerTabStrip = (PagerTabStrip) view.findViewById(R.id.home_tab_strip);

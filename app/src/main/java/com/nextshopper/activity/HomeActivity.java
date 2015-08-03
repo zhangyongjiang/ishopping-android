@@ -1,5 +1,6 @@
 package com.nextshopper.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,18 +9,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import com.nextshopper.view.CartFragment;
 import com.nextshopper.view.HomeFragment;
 import com.nextshopper.view.NavigationDrawerFragment;
 import com.nextshopper.view.SearchFragment;
+import com.nextshopper.view.SettingsFragment;
 
 
 public class HomeActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
 
@@ -42,6 +42,7 @@ public class HomeActivity extends FragmentActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -75,10 +76,19 @@ public class HomeActivity extends FragmentActivity
          switch (sectionNumber){
              case 1: return new HomeFragment();
              case 2: return new SearchFragment();
-             default:return new SearchFragment();
+             case 3: return new CartFragment();
+             case 4: return new SettingsFragment();
+             default:return new CartFragment();
          }
         }
 
+    }
+
+    public void catOnClick(View view){
+        Intent intent = new Intent(this, SearchResultActivity.class);
+        TextView textView = (TextView) view;
+        intent.putExtra("cat",textView.getText().toString());
+        startActivity(intent);
     }
 
 }

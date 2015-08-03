@@ -1,114 +1,146 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightgreen"
     tools:context="com.nextshopper.view.WomanFragment">
 
-    <TextView
-        android:id="@+id/search_woman_clothing"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/women_clothing"
-        android:layout_margin="5dp"
-        android:textColor="@color/red"
-        android:textSize="20sp" />
+        android:layout_height="match_parent"
+        android:background="@color/lightgreen">
 
-    <com.nextshopper.view.SearchLineView
-        android:id="@+id/woman_first"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_woman_clothing"
-        nextshopper:left="@string/all"
-        nextshopper:middle="@string/coats_and_jackets"
-        nextshopper:right="@string/dresses">
-    </com.nextshopper.view.SearchLineView>
+        <TextView
+            android:id="@+id/search_woman_clothing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/women_clothing"
+            android:textColor="@color/red"
+            android:textSize="20sp" />
 
-    <com.nextshopper.view.SearchLineView
-        android:id="@+id/woman_sec"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/woman_first"
-        nextshopper:left="@string/tops"
-        nextshopper:middle="@string/bottoms"
-        nextshopper:right="@string/shorts_shirts">
-    </com.nextshopper.view.SearchLineView>
+        <com.nextshopper.view.SearchLineView
+            android:id="@+id/woman_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_woman_clothing"
+            nextshopper:left="@string/all"
+            nextshopper:middle="@string/coats_and_jackets"
+            nextshopper:right="@string/dresses"></com.nextshopper.view.SearchLineView>
 
-    <com.nextshopper.view.SearchLineView
-        android:id="@+id/woman_three"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/woman_sec"
-        nextshopper:left="@string/suits"
-        nextshopper:middle="@string/sweaters"
-        nextshopper:right="@string/swimwear">
-    </com.nextshopper.view.SearchLineView>
+        <com.nextshopper.view.SearchLineView
+            android:id="@+id/woman_sec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/woman_first"
+            nextshopper:left="@string/tops"
+            nextshopper:middle="@string/bottoms"
+            nextshopper:right="@string/shorts_shirts"></com.nextshopper.view.SearchLineView>
 
-    <com.nextshopper.view.SearchLineView
-        android:id="@+id/woman_forth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/woman_three"
-        nextshopper:left="@string/activewear"
-        nextshopper:middle="@string/maternity"
-        nextshopper:right="@string/bridalveil">
-    </com.nextshopper.view.SearchLineView>
+        <com.nextshopper.view.SearchLineView
+            android:id="@+id/woman_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/woman_sec"
+            nextshopper:left="@string/suits"
+            nextshopper:middle="@string/sweaters"
+            nextshopper:right="@string/swimwear"></com.nextshopper.view.SearchLineView>
 
-    <TextView
-        android:id="@+id/search_woman_shoes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/woman_forth"
-        android:text="@string/women_shoes"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp"
-        android:textColor="@color/red"
-        android:textSize="20sp" />
-    <com.nextshopper.view.SearchLineForthView
-        android:id="@+id/woman_shoes_first"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_woman_shoes"
-        nextshopper:first="@string/all"
-        nextshopper:sec="@string/boots"
-        nextshopper:third="@string/casual"
-        nextshopper:forth="@string/dress">
-    </com.nextshopper.view.SearchLineForthView>
-    <com.nextshopper.view.SearchLineForthView
-        android:id="@+id/woman_shoes_sec"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/woman_shoes_first"
-        nextshopper:first="@string/sandals"
-        nextshopper:sec="@string/sneakers">
-    </com.nextshopper.view.SearchLineForthView>
-    <TextView
-        android:id="@+id/search_woman_accessory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/woman_shoes_sec"
-        android:text="@string/women_accessory"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp"
-        android:textColor="@color/red"
-        android:textSize="20sp" />
-    <com.nextshopper.view.SearchLineForthView
-        android:id="@+id/woman_accessory_first"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_woman_accessory"
-        nextshopper:first="@string/all"
-        nextshopper:sec="@string/bags"
-        nextshopper:third="@string/watches"
-        nextshopper:forth="@string/bags">
-    </com.nextshopper.view.SearchLineForthView>
-    <com.nextshopper.view.SearchLineView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/woman_accessory_first"
-        nextshopper:left="@string/wallets"
-        nextshopper:middle="@string/hats"
-        nextshopper:right="@string/belts"
-        ></com.nextshopper.view.SearchLineView>
-</RelativeLayout>
+        <com.nextshopper.view.SearchLineView
+            android:id="@+id/woman_forth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/woman_three"
+            nextshopper:left="@string/activewear"
+            nextshopper:middle="@string/maternity"
+            nextshopper:right="@string/bridalveil"></com.nextshopper.view.SearchLineView>
+
+        <TextView
+            android:id="@+id/search_woman_shoes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/woman_forth"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/women_shoes"
+            android:textColor="@color/red"
+            android:textSize="20sp" />
+
+        <com.nextshopper.view.SearchLineForthView
+            android:id="@+id/woman_shoes_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_woman_shoes"
+            nextshopper:first="@string/all"
+            nextshopper:forth="@string/dress"
+            nextshopper:sec="@string/boots"
+            nextshopper:third="@string/casual"></com.nextshopper.view.SearchLineForthView>
+
+        <com.nextshopper.view.SearchLineForthView
+            android:id="@+id/woman_shoes_sec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/woman_shoes_first"
+            nextshopper:first="@string/sandals"
+            nextshopper:sec="@string/sneakers">
+        </com.nextshopper.view.SearchLineForthView>
+
+        <TextView
+            android:id="@+id/search_woman_accessory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/woman_shoes_sec"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/women_accessory"
+            android:textColor="@color/red"
+            android:textSize="20sp" />
+
+        <com.nextshopper.view.SearchLineForthView
+            android:id="@+id/woman_accessory_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_woman_accessory"
+            nextshopper:first="@string/all"
+            nextshopper:forth="@string/bags"
+            nextshopper:sec="@string/bags"
+            nextshopper:third="@string/watches"></com.nextshopper.view.SearchLineForthView>
+
+        <com.nextshopper.view.SearchLineView
+            android:id="@+id/woman_access_sec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/woman_accessory_first"
+            nextshopper:left="@string/wallets"
+            nextshopper:middle="@string/hats"
+            nextshopper:right="@string/belts"></com.nextshopper.view.SearchLineView>
+        <com.nextshopper.view.SearchLineForthView
+            android:id="@+id/woman_access_third"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/woman_access_sec"
+            nextshopper:first="@string/socks"
+            nextshopper:sec="@string/sunglasses">
+        </com.nextshopper.view.SearchLineForthView>
+        <TextView
+            android:id="@+id/girl_clothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/woman_access_third"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:text="@string/girl_clothing"
+            />
+        <com.nextshopper.view.SearchLineView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/girl_clothing"
+            nextshopper:left="@string/all"
+            nextshopper:middle="@string/activewear"
+            nextshopper:right="@string/dresses">
+        </com.nextshopper.view.SearchLineView>
+
+    </RelativeLayout>
+</ScrollView>

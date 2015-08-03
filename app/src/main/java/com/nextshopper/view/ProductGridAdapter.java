@@ -21,6 +21,8 @@ import com.nextshopper.activity.R;
 import com.nextshopper.common.RoundImageUtil;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
+import com.nextshopper.rest.beans.Product;
+import com.nextshopper.rest.beans.ProductList;
 import com.nextshopper.rest.beans.SearchableProduct;
 import com.nextshopper.rest.beans.SearchableProductList;
 import com.nextshopper.rest.beans.TrendProductList;
@@ -31,6 +33,7 @@ import java.net.URL;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedByteArray;
 
 /**
  * Created by Zhang_Kevin on 7/4/15.
@@ -181,6 +184,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
 
     public void setSearchableProductList(SearchableProductList searchableProductList) {
+        if(searchableProductList.items==null) return;
         this.searchableProductList.items.addAll(searchableProductList.items);
         notifyDataSetChanged();
     }
@@ -222,7 +226,8 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.i("HomeActivity", error.getMessage());
+                        Log.e("NextShopper", error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
+
                     }
                 });
             } else if(trendingFragment.getArguments().getString("Tab").equals("Newest")){
@@ -246,10 +251,24 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.i("HomeActivity", error.getMessage());
+                        Log.e("HomeActivity", error.getMessage());
                     }
                 });
 
+            }else if(trendingFragment.getArguments().get("Tab").equals("")){
+                service.ProductAPI_Search(trendingFragment.getArguments().getString("Keywords"), trendingFragment.getArguments().getString("Cat"), null,null, null, 0, numOfItem,null,new Callback<ProductList>(){
+                    @Override
+                    public void success(ProductList productList, Response response) {
+                        searchableProductList= convert(productList);
+                        setSearchableProductList(searchableProductList);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e("NextShopper", error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
+
+                    }
+                });
             }
             start = start + numOfItem;
         }
@@ -257,5 +276,18 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
 
+    }
+
+    SearchableProductList convert(ProductList productList){
+        SearchableProductList spList = new SearchableProductList();
+        for(Product p: productList.items){
+            SearchableProduct sp = new SearchableProduct();
+            sp.imgUrl = p.imgs;
+            sp.name = p.name;
+            sp.price = p.salePrice;
+            sp.listPrice=p.salePrice;
+            spList.items.add(sp);
+        }
+       return spList;
     }
 }

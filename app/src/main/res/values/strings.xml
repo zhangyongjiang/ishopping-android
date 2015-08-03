@@ -76,4 +76,12 @@
     <string name="belts">Belts</string>
     <string name="login_menu">Shop,Search,Shopping Cart,Settings,Message,Order History,About</string>
     <string name="guest_menu">Shop,Search,About</string>
+    <string name="cart_empty">Your cart is empty</string>
+    <string name="start_shopping">Start Shopping</string>
+    <string name="account">ACCOUNT</string>
+    <string name="updage_profile">Update Profile</string>
+    <string name="socks">Socks</string>
+    <string name="sunglasses">Sunglasses</string>
+    <string name="girl_clothing">Girl\'s Clothing</string>
+    <string name="title_activity_search_result">SearchResultActivity</string>
 </resources>
