@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     tools:context="com.nextshopper.view.SettingsFragment">
 
@@ -12,45 +12,106 @@
         android:layout_margin="10dp"
         nextshopper:imageLeft="@drawable/menu_active"
         nextshopper:textMiddle="@string/home_settings"
-        nextshopper:textMiddleColor="@color/black"
-        ></com.nextshopper.view.TitleView>
+        nextshopper:textMiddleColor="@color/black"></com.nextshopper.view.TitleView>
     <View
         android:id="@+id/setting_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/settings_title"
         android:background="@color/gray"></View>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/setting_line"
-        android:orientation="vertical"
         android:background="@color/lightgreen">
         <TextView
-            android:id="@+id/settings_account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/account"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="20dp" />
-        <View
-            android:id="@+id/setting_line_account_1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="8dp"
-            android:background="@color/gray"></View>
-        <TextView
-            android:id="@+id/settings_account_account"
+            android:id="@+id/account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="@string/updage_profile"/>
+            android:text="@string/account"
+            android:textSize="18sp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="12dp"/>
+        <com.nextshopper.view.SettingItem
+            android:id="@+id/profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/account"
+            nextshopper:item="@string/updage_profile"
+            ></com.nextshopper.view.SettingItem>
+        <com.nextshopper.view.SettingItem
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile"
+            nextshopper:item="@string/change_pwd"
+            ></com.nextshopper.view.SettingItem>
+        <com.nextshopper.view.SettingItem
+            android:id="@+id/shipping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/password"
+            nextshopper:item="@string/shipping"
+            ></com.nextshopper.view.SettingItem>
+        <View
+            android:id="@+id/setting_line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/shipping"
+            android:background="@color/gray"></View>
+        <RelativeLayout
+            android:id="@+id/setting_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/setting_line2"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/rectangle_setting">
+            <TextView
+                android:id="@+id/setting_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/push_notifications"
+                android:textSize="18sp"
+                android:layout_margin="12dp"/>
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+        <com.nextshopper.view.SettingItem
+            android:id="@+id/setting_favorite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/setting_notification"
+            android:layout_marginTop="40dp"
+            nextshopper:item="@string/favorites"
+            ></com.nextshopper.view.SettingItem>
+        <com.nextshopper.view.SettingItem
+            android:id="@+id/setting_stores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/setting_favorite"
+            nextshopper:item="@string/followed_stores">
+        </com.nextshopper.view.SettingItem>
+        <View
+            android:id="@+id/setting_line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/setting_stores"
+            android:background="@color/gray"/>
+        <com.nextshopper.view.SettingItem
+            android:id="@+id/setting_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/setting_line3"
+            nextshopper:item="@string/logout">
+        </com.nextshopper.view.SettingItem>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_margin="8dp"
-            android:background="@color/gray"></View>
-    </LinearLayout>
-
-
+            android:layout_below="@id/setting_logout"
+            android:background="@color/gray"/>
+    </RelativeLayout>
 </RelativeLayout>

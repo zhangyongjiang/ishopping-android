@@ -84,4 +84,10 @@
     <string name="sunglasses">Sunglasses</string>
     <string name="girl_clothing">Girl\'s Clothing</string>
     <string name="title_activity_search_result">SearchResultActivity</string>
+    <string name="change_pwd">Change_Password</string>
+    <string name="shipping">Shipping</string>
+    <string name="push_notifications">Push Notifications</string>
+    <string name="favorites">Favorites</string>
+    <string name="followed_stores">Followed Stores</string>
+    <string name="logout">Logout</string>
 </resources>
