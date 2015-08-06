@@ -84,10 +84,19 @@
     <string name="sunglasses">Sunglasses</string>
     <string name="girl_clothing">Girl\'s Clothing</string>
     <string name="title_activity_search_result">SearchResultActivity</string>
-    <string name="change_pwd">Change_Password</string>
+    <string name="change_pwd">Change Password</string>
     <string name="shipping">Shipping</string>
     <string name="push_notifications">Push Notifications</string>
     <string name="favorites">Favorites</string>
     <string name="followed_stores">Followed Stores</string>
     <string name="logout">Logout</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="profile">Profile</string>
+    <string name="save">Save</string>
+    <string name="title_activity_change_password">ChangePasswordActivity</string>
+    <string name="current">Current</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm">Confirm</string>
+    <string name="min_pwd">Min. 6 characters</string>
+    <string name="no_message">You don\'t have message.</string>
 </resources>

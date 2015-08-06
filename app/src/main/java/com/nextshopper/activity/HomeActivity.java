@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.nextshopper.view.CartFragment;
 import com.nextshopper.view.HomeFragment;
+import com.nextshopper.view.MessageFragment;
 import com.nextshopper.view.NavigationDrawerFragment;
 import com.nextshopper.view.SearchFragment;
 import com.nextshopper.view.SettingsFragment;
@@ -78,7 +79,8 @@ public class HomeActivity extends FragmentActivity
              case 2: return new SearchFragment();
              case 3: return new CartFragment();
              case 4: return new SettingsFragment();
-             default:return new CartFragment();
+             case 5: return new MessageFragment();
+             default:return new MessageFragment();
          }
         }
 

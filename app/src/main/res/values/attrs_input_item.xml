@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="InputItem">
+        <attr name="field" format="string"/>
+    </declare-styleable>
+</resources>

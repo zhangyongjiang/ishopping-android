@@ -12,13 +12,13 @@
         android:layout_margin="10dp"
         nextshopper:imageLeft="@drawable/menu_active"
         nextshopper:textMiddle="@string/home_settings"
-        nextshopper:textMiddleColor="@color/black"></com.nextshopper.view.TitleView>
+        nextshopper:textMiddleColor="@color/black"/>
     <View
         android:id="@+id/setting_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/settings_title"
-        android:background="@color/gray"></View>
+        android:background="@color/gray"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

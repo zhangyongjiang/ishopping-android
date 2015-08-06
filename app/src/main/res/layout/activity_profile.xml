@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nextshopper.activity.ProfileActivity">
+
+    <com.nextshopper.view.TitleView
+        android:id="@+id/profile_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        nextshopper:imageLeft="@drawable/back"
+        nextshopper:textMiddle="@string/profile"
+        nextshopper:textMiddleColor="@color/black"
+        nextshopper:textRight="@string/save"
+        nextshopper:textRightColor="@color/red"/>
+    <View
+        android:id="@+id/profile_title_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/profile_title"
+        android:background="@color/grey" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightgreen"
+        android:layout_below="@id/profile_title_line">
+
+        <ImageView
+            android:id="@+id/profile_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/avatar_default" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_img"
+            android:layout_margin="10dp"
+            android:background="@drawable/rectangle_input">
+
+            <com.nextshopper.view.InputItem
+                android:id="@+id/profile_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                nextshopper:field="@string/first_name"/>
+            <com.nextshopper.view.InputItem
+                android:id="@+id/profile_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_firstname"
+                nextshopper:field="@string/last_name"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/profile_lastname">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:gravity="end"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:text="@string/gender"/>
+                <Spinner
+                    android:id="@+id/profile_gender"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:layout_weight="1"
+                    android:entries="@array/gender"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

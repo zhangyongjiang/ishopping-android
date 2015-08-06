@@ -45,6 +45,14 @@
             android:name=".SearchResultActivity"
             android:label="@string/title_activity_search_result" >
         </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile" >
+        </activity>
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:label="@string/title_activity_change_password" >
+        </activity>
     </application>
 
 </manifest>
