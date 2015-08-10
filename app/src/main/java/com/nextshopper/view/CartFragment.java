@@ -97,7 +97,7 @@ public class CartFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
        FragmentManager fragmentManager =  getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container, HomeActivity.PlaceholderFragment.newInstance(1)).commit();
+        fragmentManager.beginTransaction().replace(R.id.container, HomeActivity.PlaceholderFragment.newInstance("Shop")).commit();
         fragmentManager.executePendingTransactions();
     }
 }

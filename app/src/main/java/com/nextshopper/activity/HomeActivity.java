@@ -11,10 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.nextshopper.view.AboutFragment;
 import com.nextshopper.view.CartFragment;
 import com.nextshopper.view.HomeFragment;
 import com.nextshopper.view.MessageFragment;
 import com.nextshopper.view.NavigationDrawerFragment;
+import com.nextshopper.view.OrderHistoryFragment;
 import com.nextshopper.view.SearchFragment;
 import com.nextshopper.view.SettingsFragment;
 
@@ -38,11 +40,11 @@ public class HomeActivity extends FragmentActivity
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
+    public void onNavigationDrawerItemSelected(int position, String menuText) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, PlaceholderFragment.newInstance(menuText))
                 .addToBackStack(null)
                 .commit();
     }
@@ -73,14 +75,16 @@ public class HomeActivity extends FragmentActivity
      */
     public static class PlaceholderFragment extends Fragment {
 
-        public static Fragment newInstance(int sectionNumber) {
-         switch (sectionNumber){
-             case 1: return new HomeFragment();
-             case 2: return new SearchFragment();
-             case 3: return new CartFragment();
-             case 4: return new SettingsFragment();
-             case 5: return new MessageFragment();
-             default:return new MessageFragment();
+        public static Fragment newInstance(String menuText) {
+         switch (menuText){
+             case "Shop": return new HomeFragment();
+             case "Search": return new SearchFragment();
+             case "Shopping Cart": return new CartFragment();
+             case "Settings": return new SettingsFragment();
+             case "Message": return new MessageFragment();
+             case "Order History": return new OrderHistoryFragment();
+             case "About": return new AboutFragment();
+             default:return new AboutFragment();
          }
         }
 

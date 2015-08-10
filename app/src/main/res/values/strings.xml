@@ -99,4 +99,15 @@
     <string name="confirm">Confirm</string>
     <string name="min_pwd">Min. 6 characters</string>
     <string name="no_message">You don\'t have message.</string>
+    <string name="order_history">Order History</string>
+    <string name="order_empty">You don\'t have any order yet</string>
+    <string name="nextshopper">NEXT SHOPPER</string>
+    <string name="aboutus">Abount Us</string>
+    <string name="fqa">FQA</string>
+    <string name="contact_support">Contact Support</string>
+    <string name="term_of_service">Term of Service</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="rate_this_app">Rate This App</string>
+    <string name="version">Version</string>
+    <string name="version_number">1.0 /1506152140</string>
 </resources>

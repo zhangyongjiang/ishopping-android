@@ -38,8 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/account"
-            nextshopper:item="@string/updage_profile"
-            ></com.nextshopper.view.SettingItem>
+            nextshopper:item="@string/updage_profile" />
         <com.nextshopper.view.SettingItem
             android:id="@+id/password"
             android:layout_width="match_parent"
