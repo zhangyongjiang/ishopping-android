@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -35,7 +36,10 @@ import com.nextshopper.rest.beans.User;
 import com.nextshopper.view.TitleView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -78,23 +82,25 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
         if (requestCode == CAPTURE_ACTIVITY_REQUEST_CODE || requestCode == PICK_IMAGE_REQUEST) {
             if (resultCode == RESULT_OK) {
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 240, 240, false);
-                    scaled = toRoundCorner(scaled, 120);
-                    singup_pics.setImageBitmap(scaled);
-                    photoViewStub.setVisibility(View.INVISIBLE);
-                    // save image
-                    ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                    dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
-                    File thumnail = new File(dir, Constant.THUMNAIL);
-                    FileOutputStream fos = null;
-                    try {
-                        fos = new FileOutputStream(thumnail);
-                        scaled.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                    } catch (Exception e) {
-                        Log.e(ACTIVITY_NAME, e.getMessage(), e);
+                        //Bitmap thumnailCamera = data.getParcelableExtra("data");
+                        Uri imageUri = data.getData();
+                        Bitmap thumnailBitmap = Bitmap.createScaledBitmap(getThumbnail(imageUri,240), 240, 240,false);
+                        Bitmap roundBitmap = toRoundCorner(thumnailBitmap, 120);
+                        singup_pics.setImageBitmap(roundBitmap);
+                        photoViewStub.setVisibility(View.INVISIBLE);
+                        // save image
+                        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                        dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
+                        File thumnail = new File(dir, Constant.THUMNAIL);
+                        FileOutputStream fos = null;
+                        try {
+                            fos = new FileOutputStream(thumnail);
+                            roundBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                        } catch (Exception e) {
+                            Log.e(ACTIVITY_NAME, e.getMessage(), e);
+                        }
                     }
-                } catch (Exception e) {
+                 catch (Exception e) {
                     Log.e(ACTIVITY_NAME, e.getMessage(), e);
                 }
 
@@ -197,8 +203,8 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
 
     public void cameraOnClick(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Uri fileUri = getOutputMediaFileUri();
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+       // Uri fileUri = getOutputMediaFileUri();
+        //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         startActivityForResult(intent, CAPTURE_ACTIVITY_REQUEST_CODE);
     }
 
@@ -256,6 +262,30 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
         return output;
+    }
+
+    public Bitmap getThumbnail(Uri uri, int THUMBNAIL_SIZE) throws FileNotFoundException, IOException {
+        InputStream input = this.getContentResolver().openInputStream(uri);
+
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+        int inSampleSize = calculateInSampleSize(onlyBoundsOptions, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = inSampleSize;
+        return BitmapFactory.decodeStream(this.getContentResolver().openInputStream(uri), null,o2);
+    }
+    public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            final int heightRatio = Math.round((float)height / (float)reqHeight);
+            final int widthRatio = Math.round((float)width / (float)reqWidth);
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        return inSampleSize;
     }
 
     private String getCookieString(Response response) {

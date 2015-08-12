@@ -13,9 +13,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by Zhang_Kevin on 7/5/15.
- */
 public class ProductDetailsActivity extends SwipeRefreshActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

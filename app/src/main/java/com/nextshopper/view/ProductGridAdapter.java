@@ -104,9 +104,9 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                 ctx.startActivity(intent);
             }
         };
-        imageView.setOnClickListener(listener);
-        imageView.setTag(sp.imgUrl.get(0));
+        imageView.setTag(sp.id);
         setImageView(imageView, sp.imgUrl.get(0));
+        convertView.setOnClickListener(listener);
         //new DownloadImageTask(imageView).execute(sp.imgUrl.get(0));
         return convertView;
     }
