@@ -1,5 +1,7 @@
 package com.nextshopper.activity;
 
+import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,8 +17,13 @@ public class SearchResultActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
+        Intent intent = getIntent();
         String cat  = getIntent().getStringExtra("cat");
         String keywords = getIntent().getStringExtra("keywords");
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            keywords = intent.getStringExtra(SearchManager.QUERY);
+
+        }
         TitleView titleView = (TitleView)findViewById(R.id.cat_search);
         titleView.setTextMiddle(cat);
         getSupportFragmentManager().beginTransaction().add(R.id.search_result_gridview, TrendingFragment.newInstance("", cat, keywords)).commit();

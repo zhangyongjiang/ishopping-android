@@ -27,6 +27,10 @@ import com.nextshopper.rest.beans.SearchableProduct;
 import com.nextshopper.rest.beans.SearchableProductList;
 import com.nextshopper.rest.beans.TrendProductList;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -38,7 +42,7 @@ import retrofit.mime.TypedByteArray;
 /**
  * Created by Zhang_Kevin on 7/4/15.
  */
-public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScrollListener{
+public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScrollListener {
     private Context ctx;
     private GridView gridView;
     private SearchableProductList searchableProductList = new SearchableProductList();
@@ -53,12 +57,12 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         this.ctx = ctx;
         this.gridView = gridView;
         this.trendingFragment = trendingFragment;
-        int maxMemory =(int) Runtime.getRuntime().maxMemory();
-        int cacheSize = maxMemory/24;
-        memoryCache = new LruCache<String, Bitmap>(cacheSize){
+        int maxMemory = (int) Runtime.getRuntime().maxMemory();
+        int cacheSize = maxMemory / 24;
+        memoryCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
-            protected  int sizeOf(String key, Bitmap bitmap){
-                 return bitmap.getByteCount();
+            protected int sizeOf(String key, Bitmap bitmap) {
+                return bitmap.getByteCount();
             }
         };
 
@@ -66,7 +70,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
     @Override
     public int getCount() {
-        if(searchableProductList == null)
+        if (searchableProductList == null)
             return 0;
         return searchableProductList.items.size();
     }
@@ -83,28 +87,31 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SearchableProduct sp = searchableProductList.items.get(position);
-        if(convertView == null) {
-            convertView= LayoutInflater.from(ctx).inflate(R.layout.list_item, parent, false);
+        final SearchableProduct sp = searchableProductList.items.get(position);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(ctx).inflate(R.layout.list_item, parent, false);
         }
 
         TextView textViewDisPrice = (TextView) convertView.findViewById(R.id.item_disount_price);
-        textViewDisPrice.setText("$"+Math.round(sp.price*100)/100.0);
-        TextView textViewPrice =(TextView) convertView.findViewById(R.id.item_ori_price);
-        textViewPrice.setText("$"+Math.round(sp.listPrice*100)/100.0);
+        textViewDisPrice.setText("$" + Math.round(sp.price * 100) / 100.0);
+        TextView textViewPrice = (TextView) convertView.findViewById(R.id.item_ori_price);
+        textViewPrice.setText("$" + Math.round(sp.listPrice * 100) / 100.0);
         TextView textViewName = (TextView) convertView.findViewById(R.id.item_name);
         textViewName.setText(sp.name);
-        ImageView imageView = (ImageView)convertView.findViewById(R.id.item_image);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.item_image);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ctx, ProductDetailsActivity.class);
-                intent.putExtra("productId", (String)v.getTag());
+                intent.putExtra("productId", sp.id);
+                Log.d("NextShopper", sp.imgUrl.get(0));
                 ctx.startActivity(intent);
             }
         };
-        imageView.setTag(sp.id);
+        imageView.setTag(sp.imgUrl.get(0));
+        imageView.setImageBitmap(null);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         setImageView(imageView, sp.imgUrl.get(0));
         convertView.setOnClickListener(listener);
         //new DownloadImageTask(imageView).execute(sp.imgUrl.get(0));
@@ -135,7 +142,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         @Override
         protected Bitmap doInBackground(String... params) {
             imageUrl = params[0];
-            if(!imageUrl.startsWith("http"))
+            if (!imageUrl.startsWith("http"))
                 imageUrl = "http://api.onsalelocal.com/ws/resource/download?path=" + imageUrl;
             // 在后台开始下载图片
             Bitmap bitmap = downloadBitmap(imageUrl);
@@ -148,7 +155,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
             // 根据Tag找到相应的ImageView控件，将下载好的图片显示出来。
             ImageView imageView = (ImageView) gridView.findViewWithTag(imageUrl);
             if (imageView != null && bitmap != null) {
-                bitmap = RoundImageUtil.getRoundedCornerBitmap(ctx, bitmap, 10, imageView.getWidth(), imageView.getHeight(), false, false, true, true);
+                bitmap = RoundImageUtil.getRoundedCornerBitmap(ctx, bitmap, 12, bitmap.getWidth(), bitmap.getHeight(), false, false, true, true);
                 imageView.setImageBitmap(bitmap);
                 addBitmapToMemoryCache(imageUrl, bitmap);
             }
@@ -157,24 +164,52 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         /**
          * 建立HTTP请求，并获取Bitmap对象。
          *
-         * @param imageUrl
-         *            图片的URL地址
+         * @param imageUrl 图片的URL地址
          * @return 解析后的Bitmap对象
          */
         private Bitmap downloadBitmap(String imageUrl) {
             Bitmap bitmap = null;
             HttpURLConnection con = null;
+            InputStream inputStream = null;
+            InputStream copyiInputStream1 = null;
+            InputStream copyiInputStream2 = null;
             try {
                 URL url = new URL(imageUrl);
                 con = (HttpURLConnection) url.openConnection();
                 con.setConnectTimeout(5 * 1000);
                 con.setReadTimeout(10 * 1000);
-                bitmap = BitmapFactory.decodeStream(con.getInputStream());
+                inputStream = con.getInputStream();
+                byte[] data = InputStreamTOByte(inputStream);
+                try {
+                    copyiInputStream1 = byteTOInputStream(data);
+                    copyiInputStream2 = byteTOInputStream(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeStream(copyiInputStream1, null, options);
+                int height = (int)(160*ctx.getResources().getDisplayMetrics().density);
+                options.inSampleSize = RoundImageUtil.calculateInSampleSize(options, height, height);
+                options.inJustDecodeBounds = false;
+
+               return BitmapFactory.decodeStream(copyiInputStream2, null, options);
+                //return BitmapFactory.decodeStream(inputStream);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 if (con != null) {
                     con.disconnect();
+                    try {
+                        if (inputStream != null)
+                            inputStream.close();
+                        if (copyiInputStream1 != null)
+                            copyiInputStream1.close();
+                        if (copyiInputStream2 != null)
+                            copyiInputStream2.close();
+                    } catch (Exception e) {
+                    }
                 }
             }
             return bitmap;
@@ -182,9 +217,27 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
     }
 
+    public byte[] InputStreamTOByte(InputStream in) throws IOException {
+
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        byte[] data = new byte[1024 * 16];
+        int count = -1;
+        while ((count = in.read(data, 0, 1024 * 16)) != -1)
+            outStream.write(data, 0, count);
+
+        data = null;
+        return outStream.toByteArray();
+    }
+
+    public InputStream byteTOInputStream(byte[] in) throws Exception {
+
+        ByteArrayInputStream is = new ByteArrayInputStream(in);
+        return is;
+    }
+
 
     public void setSearchableProductList(SearchableProductList searchableProductList) {
-        if(searchableProductList.items==null) return;
+        if (searchableProductList.items == null) return;
         this.searchableProductList.items.addAll(searchableProductList.items);
         notifyDataSetChanged();
     }
@@ -195,16 +248,17 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
     private void loadBitmaps(String imageUrl) {
         try {
-                Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
-                if (bitmap == null) {
-                    BitmapWorkerTask task = new BitmapWorkerTask();
-                    task.execute(imageUrl);
-                } else {
-                    ImageView imageView = (ImageView)gridView.findViewWithTag(imageUrl);
-                    if (imageView != null && bitmap != null) {
-                        imageView.setImageBitmap(bitmap);
-                    }
+            Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
+            if (bitmap == null) {
+                BitmapWorkerTask task = new BitmapWorkerTask();
+                //task.execute(imageUrl);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imageUrl);
+            } else {
+                ImageView imageView = (ImageView) gridView.findViewWithTag(imageUrl);
+                if (imageView != null && bitmap != null) {
+                    imageView.setImageBitmap(bitmap);
                 }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -215,9 +269,9 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         mFirstVisibleItem = firstVisibleItem;
         mVisibleItemCount = visibleItemCount;
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
-        if ( lastVisibleItem == this.getCount()) {
+        if (lastVisibleItem == this.getCount()) {
             NextShopperService service = ApiService.getService();
-            if(trendingFragment.getArguments().getString("Tab").equals("Trending")) {
+            if (trendingFragment.getArguments().getString("Tab").equals("Trending")) {
                 service.ProductAPI_PopularProducts(null, start, numOfItem, new Callback<TrendProductList>() {
                     @Override
                     public void success(TrendProductList trendProductList, Response response) {
@@ -230,7 +284,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
                     }
                 });
-            } else if(trendingFragment.getArguments().getString("Tab").equals("Newest")){
+            } else if (trendingFragment.getArguments().getString("Tab").equals("Newest")) {
                 service.ProductAPI_NewProducts(start, numOfItem, new Callback<SearchableProductList>() {
                     @Override
                     public void success(SearchableProductList searchableProductList, Response response) {
@@ -242,7 +296,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                         Log.i("HomeActivity", error.getMessage());
                     }
                 });
-            } else if(trendingFragment.getArguments().getString("Tab").equals("Just For You")){
+            } else if (trendingFragment.getArguments().getString("Tab").equals("Just For You")) {
                 service.ProductAPI_RecommendationsForUser(start, numOfItem, null, null, new Callback<SearchableProductList>() {
                     @Override
                     public void success(SearchableProductList searchableProductList, Response response) {
@@ -255,12 +309,11 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                     }
                 });
 
-            }else if(trendingFragment.getArguments().get("Tab").equals("")){
-                service.ProductAPI_Search(trendingFragment.getArguments().getString("Keywords"), trendingFragment.getArguments().getString("Cat"), null,null, null, 0, numOfItem,null,new Callback<ProductList>(){
+            } else if (trendingFragment.getArguments().get("Tab").equals("")) {
+                service.ProductAPI_Search(trendingFragment.getArguments().getString("Keywords"), trendingFragment.getArguments().getString("Cat"), null, null, null, start, numOfItem, null, new Callback<ProductList>() {
                     @Override
                     public void success(ProductList productList, Response response) {
-                        searchableProductList= convert(productList);
-                        setSearchableProductList(searchableProductList);
+                        setSearchableProductList( convert(productList));
                     }
 
                     @Override
@@ -273,21 +326,22 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
             start = start + numOfItem;
         }
     }
+
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
 
     }
 
-    SearchableProductList convert(ProductList productList){
+    SearchableProductList convert(ProductList productList) {
         SearchableProductList spList = new SearchableProductList();
-        for(Product p: productList.items){
+        for (Product p : productList.items) {
             SearchableProduct sp = new SearchableProduct();
             sp.imgUrl = p.imgs;
             sp.name = p.name;
             sp.price = p.salePrice;
-            sp.listPrice=p.salePrice;
+            sp.listPrice = p.salePrice;
             spList.items.add(sp);
         }
-       return spList;
+        return spList;
     }
 }

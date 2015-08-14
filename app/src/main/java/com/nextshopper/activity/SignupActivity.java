@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.nextshopper.common.Constant;
+import com.nextshopper.common.RoundImageUtil;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.Gender;
@@ -266,26 +267,17 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
 
     public Bitmap getThumbnail(Uri uri, int THUMBNAIL_SIZE) throws FileNotFoundException, IOException {
         InputStream input = this.getContentResolver().openInputStream(uri);
-
         BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
         onlyBoundsOptions.inJustDecodeBounds = true;
         BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
         input.close();
-        int inSampleSize = calculateInSampleSize(onlyBoundsOptions, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+        int inSampleSize = RoundImageUtil.calculateInSampleSize(onlyBoundsOptions, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
         BitmapFactory.Options o2 = new BitmapFactory.Options();
         o2.inSampleSize = inSampleSize;
-        return BitmapFactory.decodeStream(this.getContentResolver().openInputStream(uri), null,o2);
-    }
-    public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-        if (height > reqHeight || width > reqWidth) {
-            final int heightRatio = Math.round((float)height / (float)reqHeight);
-            final int widthRatio = Math.round((float)width / (float)reqWidth);
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-        return inSampleSize;
+        input = this.getContentResolver().openInputStream(uri);
+        Bitmap bitmap =  BitmapFactory.decodeStream(input, null,o2);
+        input.close();
+        return bitmap;
     }
 
     private String getCookieString(Response response) {

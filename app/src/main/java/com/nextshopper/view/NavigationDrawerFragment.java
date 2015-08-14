@@ -14,9 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,7 +26,7 @@ import com.nextshopper.common.Constant;
 
 import java.io.File;
 
-import static android.widget.AdapterView.*;
+import static android.widget.AdapterView.OnItemClickListener;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -84,12 +81,6 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(mCurrentSelectedPosition, "Shop");
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
-        setHasOptionsMenu(true);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,10 +111,6 @@ public class NavigationDrawerFragment extends Fragment {
         return layout;
     }
 
-
-    public boolean isDrawerOpen() {
-        return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
-    }
 
     /**
      * Users of this fragment must call this method to set up the navigation drawer interactions.
@@ -178,20 +165,6 @@ public class NavigationDrawerFragment extends Fragment {
         outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // If the drawer is open, show the global app actions in the action bar. See also
-        // showGlobalContextActionBar, which controls the top-left area of the action bar.
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        return super.onOptionsItemSelected(item);
-    }
-
     /**
      * Per the navigation drawer design guidelines, updates the action bar to show the global app
      * 'context', rather than just what's in the current screen.
@@ -211,7 +184,4 @@ public class NavigationDrawerFragment extends Fragment {
         return mDrawerLayout;
     }
 
-    public void setmDrawerLayout(DrawerLayout mDrawerLayout) {
-        this.mDrawerLayout = mDrawerLayout;
-    }
 }
