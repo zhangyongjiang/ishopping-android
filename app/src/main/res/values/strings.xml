@@ -111,4 +111,7 @@
     <string name="version">Version</string>
     <string name="version_number">1.0 /1506152140</string>
     <string name="type_keyword_here">Type keyword here</string>
+    <string name="signin">Sign In</string>
+    <string name="go">Go</string>
+    <string name="forgot_your_pwd">Forgot your password</string>
 </resources>

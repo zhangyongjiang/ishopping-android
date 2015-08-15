@@ -1,6 +1,7 @@
 package com.nextshopper.common;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,10 +11,12 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.nextshopper.rest.beans.User;
+
 /**
  * Created by siyiliu on 7/16/15.
  */
-public class RoundImageUtil {
+public class Util {
     public static Bitmap getRoundedCornerBitmap(Context context, Bitmap input, int pixels , int w , int h , boolean squareTL, boolean squareTR, boolean squareBL, boolean squareBR  ) {
 
         Bitmap output = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -64,6 +67,16 @@ public class RoundImageUtil {
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
         return inSampleSize;
+    }
+
+    public static void saveUserData(Context ctx, User user) {
+        SharedPreferences.Editor editor = ctx.getSharedPreferences(Constant.USER, ctx.MODE_PRIVATE).edit();
+        editor.putString(Constant.FIRST_NAME, user.info.firstName);
+        editor.putString(Constant.LAST_NAME, user.info.lastName);
+       // editor.putString(Constant.EMAIL, user.);
+       // editor.putString(Constant.PASSWORD, user.info.pwd);
+        editor.putString(Constant.GENDER, user.info.gender.toString());
+        editor.commit();
     }
 
 }

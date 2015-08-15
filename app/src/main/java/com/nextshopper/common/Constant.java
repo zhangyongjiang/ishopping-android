@@ -4,6 +4,7 @@ package com.nextshopper.common;
  * Created by siyiliu on 7/11/15.
  */
 public class Constant {
+    public static final String NEXTSHOPPER="NEXT_SHOPPER";
     public static final String USER = "user";
     public static final String THUMNAIL = "thumnail.jpg";
     public static final String FIRST_NAME="userName";

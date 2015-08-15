@@ -20,4 +20,5 @@ public class UserBasicInfo {
 	public String imgPath;
 	public String about;
 	public List<String> phoneList;
+	public String pwd;
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -28,7 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.nextshopper.common.Constant;
-import com.nextshopper.common.RoundImageUtil;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.Gender;
@@ -152,7 +151,6 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
         request.password = password.getText().toString();
         request.gender = Gender.valueOf(genderChosen);
         request.invitationCode = INVITATION_CODE;
-        saveUserData(request);
         NextShopperService service = ApiService.getService();
         service.UserAPI_Register(request, new Callback<User>() {
             @Override
@@ -164,6 +162,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
                     ApiService.getService().UserAPI_Upload(typedFile, new Callback<User>() {
                         @Override
                         public void success(User user, Response response) {
+                            Util.saveUserData(SignupActivity.this, user);
                             Log.d(ACTIVITY_NAME, user.info.imgPath);
                         }
 
@@ -271,7 +270,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
         onlyBoundsOptions.inJustDecodeBounds = true;
         BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
         input.close();
-        int inSampleSize = RoundImageUtil.calculateInSampleSize(onlyBoundsOptions, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+        int inSampleSize = Util.calculateInSampleSize(onlyBoundsOptions, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
         BitmapFactory.Options o2 = new BitmapFactory.Options();
         o2.inSampleSize = inSampleSize;
         input = this.getContentResolver().openInputStream(uri);
@@ -287,15 +286,5 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
             }
         }
         return null;
-    }
-
-    private void saveUserData(RegisterRequest request) {
-        SharedPreferences.Editor editor = this.getSharedPreferences(Constant.USER, MODE_PRIVATE).edit();
-        editor.putString(Constant.FIRST_NAME, request.firstName);
-        editor.putString(Constant.LAST_NAME, request.lastName);
-        editor.putString(Constant.EMAIL, request.email);
-        editor.putString(Constant.PASSWORD, request.password);
-        editor.putString(Constant.GENDER, request.gender.toString());
-        editor.commit();
     }
 }

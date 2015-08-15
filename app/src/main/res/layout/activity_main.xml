@@ -46,6 +46,7 @@
             android:layout_below="@+id/signup"
             android:drawableLeft="@drawable/signin"
             style="@style/TextFont.WelcomeText"
+            android:onClick="signinClick"
             android:text="@string/sign_up_with_email" />
         <TextView
             android:id="@+id/skip_for_now"

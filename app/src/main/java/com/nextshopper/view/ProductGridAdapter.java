@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.nextshopper.activity.ProductDetailsActivity;
 import com.nextshopper.activity.R;
-import com.nextshopper.common.RoundImageUtil;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.Product;
@@ -155,7 +155,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
             // 根据Tag找到相应的ImageView控件，将下载好的图片显示出来。
             ImageView imageView = (ImageView) gridView.findViewWithTag(imageUrl);
             if (imageView != null && bitmap != null) {
-                bitmap = RoundImageUtil.getRoundedCornerBitmap(ctx, bitmap, 12, bitmap.getWidth(), bitmap.getHeight(), false, false, true, true);
+                bitmap = Util.getRoundedCornerBitmap(ctx, bitmap, 12, bitmap.getWidth(), bitmap.getHeight(), false, false, true, true);
                 imageView.setImageBitmap(bitmap);
                 addBitmapToMemoryCache(imageUrl, bitmap);
             }
@@ -191,7 +191,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeStream(copyiInputStream1, null, options);
                 int height = (int)(160*ctx.getResources().getDisplayMetrics().density);
-                options.inSampleSize = RoundImageUtil.calculateInSampleSize(options, height, height);
+                options.inSampleSize = Util.calculateInSampleSize(options, height, height);
                 options.inJustDecodeBounds = false;
 
                return BitmapFactory.decodeStream(copyiInputStream2, null, options);

@@ -1,5 +1,6 @@
 package com.nextshopper.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,18 +9,21 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.nextshopper.activity.R;
+import com.nextshopper.activity.SearchResultActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements View.OnClickListener{
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private ViewPager homeViewPager;
     private SearchFragmentAdapter searchFragmentAdapter;
-    private SearchView searchView;
+    private EditText keywords;
+    private Button submitButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,9 +35,9 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         homeViewPager = (ViewPager)view.findViewById(R.id.search_viewpager);
-        searchView = (SearchView) view.findViewById(R.id.home_search_input);
-        searchView.setSubmitButtonEnabled(true);
-
+        keywords =(EditText) view.findViewById(R.id.home_search_edittext);
+        submitButton = (Button)view.findViewById(R.id.search_button);
+        submitButton.setOnClickListener(this);
         fragmentList.add(WomanFragment.newInstance());
        // fragmentList.add(ManFragment.newInstance("Man"));
         searchFragmentAdapter = new SearchFragmentAdapter(getFragmentManager(), fragmentList);
@@ -44,4 +48,10 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+        intent.putExtra("keywords", keywords.getText().toString());
+        startActivity(intent);
+    }
 }
