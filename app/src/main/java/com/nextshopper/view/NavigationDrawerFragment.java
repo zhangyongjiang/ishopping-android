@@ -3,6 +3,7 @@ package com.nextshopper.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nextshopper.activity.MainActivity;
 import com.nextshopper.activity.R;
 import com.nextshopper.common.Constant;
 
@@ -33,7 +35,7 @@ import static android.widget.AdapterView.OnItemClickListener;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Remember the position of the selected item.
@@ -53,6 +55,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private DrawerLayout mDrawerLayout;
     private View mFragmentContainerView;
+    private View topView;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
@@ -87,6 +90,8 @@ public class NavigationDrawerFragment extends Fragment {
                              Bundle savedInstanceState) {
         RelativeLayout  layout= (RelativeLayout) inflater.inflate(R.layout.fragment_navigation_drawer_bakee, container, false);
         ListView listview = (ListView)layout.findViewById(R.id.menu_listview);
+        topView = layout.findViewById(R.id.top);
+        topView.setOnClickListener(this);
         listview.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -111,6 +116,19 @@ public class NavigationDrawerFragment extends Fragment {
         return layout;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(mFragmentContainerView);
+        }
+        if (getActivity().getIntent().getStringExtra(Constant.USER_ID) != null) {
+            mCallbacks.onNavigationDrawerItemSelected(0,"Settings");
+        }
+        else{
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        }
+    }
 
     /**
      * Users of this fragment must call this method to set up the navigation drawer interactions.
