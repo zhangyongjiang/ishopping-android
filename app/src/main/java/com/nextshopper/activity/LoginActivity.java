@@ -158,6 +158,10 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         }
     }
 
+    public void forgotOnClick(View view){
+       Intent intent = new Intent(this, RecoverPwdActivity.class);
+        startActivity(intent);
+    }
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");

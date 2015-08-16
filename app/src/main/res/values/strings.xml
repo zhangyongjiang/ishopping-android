@@ -28,6 +28,8 @@
     <string name="male">Male</string>
     <string name="ok">OK</string>
     <string name="dialog_title">Oops</string>
+    <string name="dialog_infomration">Information</string>
+    <string name="recover_pwd_sent">Please check your email for the temp password</string>
     <string name="dialog_message">First name, last name, email and password are required.</string>
     <string name="title_section1">Shop</string>
     <string name="title_section2">Search</string>
@@ -114,4 +116,8 @@
     <string name="signin">Sign In</string>
     <string name="go">Go</string>
     <string name="forgot_your_pwd">Forgot your password</string>
+    <string name="title_activity_recover_pwd">RecoverPwdActivity</string>
+    <string name="recover_pwd">Recover Password</string>
+    <string name="send">Send</string>
+    <string name="recover_pwd_text">Please enter your email address below.\n We will send a temp password to you.</string>
 </resources>
