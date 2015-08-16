@@ -120,4 +120,15 @@
     <string name="recover_pwd">Recover Password</string>
     <string name="send">Send</string>
     <string name="recover_pwd_text">Please enter your email address below.\n We will send a temp password to you.</string>
+    <string name="product_details">Product_Details</string>
+    <string name="test">test</string>
+    <string name="share">Share</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="hrs_support">24hrs_Support</string>
+    <string name="buyer_protection">Buyer_Protection</string>
+    <string name="free_return">Free Return</string>
+    <string name="product_deliver">Product will be delivered in 7 to 21 days</string>
+    <string name="product_followers">% Products % Follows</string>
+    <string name="ask_a_question">Ask a Question</string>
+    <string name="also_like">You may also like these</string>
 </resources>

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nextshopper.activity.ProductDetailsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.nextshopper.view.TitleView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            nextshopper:imageLeft="@drawable/back"
+            nextshopper:textMiddle="@string/product_details"
+            nextshopper:textMiddleColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/details_img"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+
+        <LinearLayout
+            android:id="@+id/like_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_img"
+            android:padding="10dp">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableLeft="@drawable/like_color"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/test"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableLeft="@drawable/share"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/share" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/like_share_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/like_share"
+            android:background="@color/gray" />
+
+        <TextView
+            android:id="@+id/details_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/like_share_line"
+            android:text="@string/test" />
+
+        <RelativeLayout
+            android:id="@+id/details_buy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_name"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/test" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/line"
+                android:text="@string/test" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/rectangle"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:text="@string/buy_now" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/details_support"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_buy"
+            android:background="@color/lightgreen">
+
+            <TextView
+                android:id="@+id/details_support_hrs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_alignParentLeft="true"
+                android:drawableTop="@drawable/hours_support"
+                android:text="@string/hrs_support" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_centerHorizontal="true"
+                android:drawableTop="@drawable/buyer_protection"
+                android:text="@string/buyer_protection" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_alignParentRight="true"
+                android:drawableTop="@drawable/free_return"
+                android:text="@string/free_return" />
+
+            <View
+                android:id="@+id/details_support_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/details_support_hrs"
+                android:background="@color/gray" />
+
+            <com.nextshopper.view.SettingItem
+                android:id="@+id/details_spec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_support_line"
+                nextshopper:item="@string/test" />
+            <com.nextshopper.view.SettingItem
+                android:id="@+id/details_deliver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_spec"
+                nextshopper:item="@string/product_deliver" />
+            <com.nextshopper.view.SettingItem
+                android:id="@+id/details_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_deliver"
+                nextshopper:item="test" />
+            <View
+                android:id="@+id/details_review_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                android:layout_below="@id/details_review"/>
+            <View
+                android:id="@+id/details_review_linetwo"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="55dp"
+                android:background="@color/gray"
+                android:layout_below="@id/details_review_line"/>
+           <RelativeLayout
+               android:id="@+id/details_social"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:padding="10dp"
+               android:background="@color/white"
+               android:layout_below="@id/details_review_linetwo">
+               <ImageView
+                   android:id="@+id/details_social_img"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginRight="10dp"
+                   android:src="@drawable/hours_support"/>
+               <TextView
+                   android:id="@+id/details_social_milk"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="10dp"
+                   android:layout_toRightOf="@id/details_social_img"
+                   android:text="test"
+                   android:textStyle="bold"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_toRightOf="@id/details_social_img"
+                   android:layout_below="@id/details_social_milk"
+                   android:gravity="center_vertical"
+                   android:text="@string/product_followers"
+                   android:textStyle="bold"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/side_arrow"/>
+           </RelativeLayout>
+            <com.nextshopper.view.SettingItem
+                android:id="@+id/details_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_social"
+                nextshopper:item="@string/ask_a_question"/>
+            <View
+                android:id="@+id/details_question_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                android:layout_below="@id/details_question"/>
+            <TextView
+                android:id="@+id/details_also_like_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/details_question_line"
+                android:text="@string/also_like"/>
+            <GridView
+                android:id="@+id/details_also_like_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_below="@id/details_also_like_title"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
