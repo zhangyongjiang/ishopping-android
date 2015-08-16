@@ -162,6 +162,10 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
        Intent intent = new Intent(this, RecoverPwdActivity.class);
         startActivity(intent);
     }
+
+    public void rightOnClick(View view){
+        finish();
+    }
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
