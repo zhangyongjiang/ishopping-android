@@ -120,7 +120,7 @@
     <string name="recover_pwd">Recover Password</string>
     <string name="send">Send</string>
     <string name="recover_pwd_text">Please enter your email address below.\n We will send a temp password to you.</string>
-    <string name="product_details">Product_Details</string>
+    <string name="product_details">Product Details</string>
     <string name="test">test</string>
     <string name="share">Share</string>
     <string name="buy_now">Buy Now</string>
@@ -128,7 +128,12 @@
     <string name="buyer_protection">Buyer_Protection</string>
     <string name="free_return">Free Return</string>
     <string name="product_deliver">Product will be delivered in 7 to 21 days</string>
-    <string name="product_followers">% Products % Follows</string>
+    <string name="product_followers">%1$d Products %2$d Follows</string>
     <string name="ask_a_question">Ask a Question</string>
     <string name="also_like">You may also like these</string>
+    <string name="salesprice">%1$.2f USD</string>
+    <string name="listprice">%1$.2f USD</string>
+    <string name="spec"><![CDATA[Spec & Description \n %1$s]]></string>
+    <string name="review">%1$d Review</string>
+    <string name="milk">milk</string>
 </resources>

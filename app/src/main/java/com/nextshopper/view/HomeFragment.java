@@ -29,9 +29,9 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         homeViewPager = (ViewPager)view.findViewById(R.id.id_home_viewpager);
-        fragmentList.add(TrendingFragment.newInstance("Trending", null, null));
-        fragmentList.add(TrendingFragment.newInstance("Newest", null, null));
-        fragmentList.add(TrendingFragment.newInstance("Just For You", null, null));
+        fragmentList.add(TrendingFragment.newInstance("Trending", null, null, null));
+        fragmentList.add(TrendingFragment.newInstance("Newest", null, null,null));
+        fragmentList.add(TrendingFragment.newInstance("Just For You", null, null,null));
         fragmentAdapter = new FragmentAdapter(getFragmentManager(), fragmentList);
         homeViewPager.setAdapter(fragmentAdapter);
         PagerTabStrip pagerTabStrip = (PagerTabStrip) view.findViewById(R.id.home_tab_strip);

@@ -13,13 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/setting_item_line"
         android:text="@string/updage_profile"
-        android:textSize="18sp"
         android:layout_margin="12dp"/>
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/setting_item_line"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_margin="12dp"
         android:src="@drawable/side_arrow"/>
 </RelativeLayout>

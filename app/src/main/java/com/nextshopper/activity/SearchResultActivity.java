@@ -26,7 +26,7 @@ public class SearchResultActivity extends BaseActivity {
         }
         TitleView titleView = (TitleView)findViewById(R.id.cat_search);
         titleView.setTextMiddle(cat);
-        getSupportFragmentManager().beginTransaction().add(R.id.search_result_gridview, TrendingFragment.newInstance("", cat, keywords)).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.search_result_gridview, TrendingFragment.newInstance("", cat, keywords, null)).commit();
 
     }
 

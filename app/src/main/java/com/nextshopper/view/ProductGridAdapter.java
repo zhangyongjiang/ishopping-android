@@ -3,7 +3,6 @@ package com.nextshopper.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.LruCache;
@@ -18,21 +17,15 @@ import android.widget.TextView;
 
 import com.nextshopper.activity.ProductDetailsActivity;
 import com.nextshopper.activity.R;
-import com.nextshopper.common.Util;
+import com.nextshopper.common.Constant;
 import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.BitmapWorkerTask;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.Product;
 import com.nextshopper.rest.beans.ProductList;
 import com.nextshopper.rest.beans.SearchableProduct;
 import com.nextshopper.rest.beans.SearchableProductList;
 import com.nextshopper.rest.beans.TrendProductList;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -111,7 +104,6 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         };
         imageView.setTag(sp.imgUrl.get(0));
         imageView.setImageBitmap(null);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         setImageView(imageView, sp.imgUrl.get(0));
         convertView.setOnClickListener(listener);
         //new DownloadImageTask(imageView).execute(sp.imgUrl.get(0));
@@ -123,7 +115,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         } else {
-            loadBitmaps(url);
+            loadBitmaps(url,imageView);
 
         }
     }
@@ -133,108 +125,6 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
             memoryCache.put(key, bitmap);
         }
     }
-
-
-    class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
-
-        private String imageUrl;
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            imageUrl = params[0];
-            if (!imageUrl.startsWith("http"))
-                imageUrl = "http://api.onsalelocal.com/ws/resource/download?path=" + imageUrl;
-            // 在后台开始下载图片
-            Bitmap bitmap = downloadBitmap(imageUrl);
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            // 根据Tag找到相应的ImageView控件，将下载好的图片显示出来。
-            ImageView imageView = (ImageView) gridView.findViewWithTag(imageUrl);
-            if (imageView != null && bitmap != null) {
-                bitmap = Util.getRoundedCornerBitmap(ctx, bitmap, 12, bitmap.getWidth(), bitmap.getHeight(), false, false, true, true);
-                imageView.setImageBitmap(bitmap);
-                addBitmapToMemoryCache(imageUrl, bitmap);
-            }
-        }
-
-        /**
-         * 建立HTTP请求，并获取Bitmap对象。
-         *
-         * @param imageUrl 图片的URL地址
-         * @return 解析后的Bitmap对象
-         */
-        private Bitmap downloadBitmap(String imageUrl) {
-            Bitmap bitmap = null;
-            HttpURLConnection con = null;
-            InputStream inputStream = null;
-            InputStream copyiInputStream1 = null;
-            InputStream copyiInputStream2 = null;
-            try {
-                URL url = new URL(imageUrl);
-                con = (HttpURLConnection) url.openConnection();
-                con.setConnectTimeout(5 * 1000);
-                con.setReadTimeout(10 * 1000);
-                inputStream = con.getInputStream();
-                byte[] data = InputStreamTOByte(inputStream);
-                try {
-                    copyiInputStream1 = byteTOInputStream(data);
-                    copyiInputStream2 = byteTOInputStream(data);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeStream(copyiInputStream1, null, options);
-                int height = (int)(160*ctx.getResources().getDisplayMetrics().density);
-                options.inSampleSize = Util.calculateInSampleSize(options, height, height);
-                options.inJustDecodeBounds = false;
-
-               return BitmapFactory.decodeStream(copyiInputStream2, null, options);
-                //return BitmapFactory.decodeStream(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (con != null) {
-                    con.disconnect();
-                    try {
-                        if (inputStream != null)
-                            inputStream.close();
-                        if (copyiInputStream1 != null)
-                            copyiInputStream1.close();
-                        if (copyiInputStream2 != null)
-                            copyiInputStream2.close();
-                    } catch (Exception e) {
-                    }
-                }
-            }
-            return bitmap;
-        }
-
-    }
-
-    public byte[] InputStreamTOByte(InputStream in) throws IOException {
-
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        byte[] data = new byte[1024 * 16];
-        int count = -1;
-        while ((count = in.read(data, 0, 1024 * 16)) != -1)
-            outStream.write(data, 0, count);
-
-        data = null;
-        return outStream.toByteArray();
-    }
-
-    public InputStream byteTOInputStream(byte[] in) throws Exception {
-
-        ByteArrayInputStream is = new ByteArrayInputStream(in);
-        return is;
-    }
-
 
     public void setSearchableProductList(SearchableProductList searchableProductList) {
         if (searchableProductList.items == null) return;
@@ -246,16 +136,15 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         return memoryCache.get(key);
     }
 
-    private void loadBitmaps(String imageUrl) {
+    private void loadBitmaps(String imageUrl, ImageView imageView) {
         try {
             Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
             if (bitmap == null) {
-                BitmapWorkerTask task = new BitmapWorkerTask();
+                BitmapWorkerTask task = new BitmapWorkerTask(imageView);
                 //task.execute(imageUrl);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imageUrl);
             } else {
-                ImageView imageView = (ImageView) gridView.findViewWithTag(imageUrl);
-                if (imageView != null && bitmap != null) {
+                if (imageView != null && bitmap != null && imageView.getTag().equals(imageUrl)) {
                     imageView.setImageBitmap(bitmap);
                 }
             }
@@ -318,11 +207,24 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.e("NextShopper", error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
+                        Log.e(Constant.NEXTSHOPPER, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
 
                     }
                 });
+            }else {
+                service.ProductAPI_RecommendationsForProduct(start, numOfItem, trendingFragment.getArguments().getString("ProductId"), new Callback<SearchableProductList>() {
+                    @Override
+                    public void success(SearchableProductList searchableProductList, Response response) {
+                        setSearchableProductList(searchableProductList);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(Constant.NEXTSHOPPER, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
+                    }
+                });
             }
+
             start = start + numOfItem;
         }
     }

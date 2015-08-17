@@ -16,12 +16,13 @@ public class TrendingFragment extends Fragment {
     private String keywords;
 
 
-    public static TrendingFragment newInstance(String param1, String cat, String keywords) {
+    public static TrendingFragment newInstance(String tab, String cat, String keywords, String prodcutId) {
         TrendingFragment fragment = new TrendingFragment();
         Bundle args = new Bundle();
-        args.putString("Tab", param1);
+        args.putString("Tab", tab);
         args.putString("Cat", cat);
         args.putString("Keywords", keywords);
+        args.putString("ProductId", prodcutId);
         fragment.setArguments(args);
         return fragment;
     }

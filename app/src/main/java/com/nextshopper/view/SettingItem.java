@@ -21,4 +21,11 @@ public class SettingItem extends FrameLayout {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SettingItem);
         item.setText(ta.getString(R.styleable.SettingItem_item));
     }
+
+    public void setItem(String text){
+
+        item.setText(text);
+        item.setMaxLines(3);
+    }
+
 }
