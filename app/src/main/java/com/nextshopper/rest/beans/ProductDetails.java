@@ -7,6 +7,6 @@ public class ProductDetails {
 	public Product product = new Product();
 	public StoreDetails storeDetails;
 	public List<ProductReviewDetails> reviews;
-	public Boolean reviewed;
-	public Boolean liked;
+	public boolean reviewed;
+	public boolean liked;
 }

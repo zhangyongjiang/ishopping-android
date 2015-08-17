@@ -136,4 +136,7 @@
     <string name="spec"><![CDATA[Spec & Description \n %1$s]]></string>
     <string name="review">%1$d Review</string>
     <string name="milk">milk</string>
+    <string name="quanity">Quantity</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="one">1</string>
 </resources>
