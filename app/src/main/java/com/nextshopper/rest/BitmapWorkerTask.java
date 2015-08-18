@@ -30,11 +30,13 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(String... params) {
         imageUrl = params[0];
+        Bitmap bitmap= null;
         if(imageView!=null && imageView.getTag().equals(imageUrl)) {
-            if (!imageUrl.startsWith("http"))
-                imageUrl = "http://api.onsalelocal.com/ws/resource/download?path=" + imageUrl;
-            // 在后台开始下载图片
-            Bitmap bitmap = downloadBitmap(imageUrl);
+            if (!imageUrl.startsWith("http")) {
+                bitmap =downloadBitmap ("http://api.onsalelocal.com/ws/resource/download?path=" + imageUrl);
+            }else {
+                bitmap = downloadBitmap(imageUrl);
+            }
             return bitmap;
         }
         return null;

@@ -139,4 +139,7 @@
     <string name="quanity">Quantity</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="one">1</string>
+    <string name="hrs_support_details">We are ready to help, contact us and we will get back to you within 24 hours.</string>
+    <string name="buer_protection_details">Nextshooper always stand behind your customers. Get your items or get your money back!</string>
+    <string name="free_return_details">Don\'t like it? No problem! You can return it for free with 15 days after you receive the item.</string>
 </resources>

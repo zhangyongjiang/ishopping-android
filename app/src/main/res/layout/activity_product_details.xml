@@ -220,9 +220,10 @@
 
             <ImageView
                 android:id="@+id/details_store_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginRight="10dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/hours_support" />
 
             <TextView

@@ -1,6 +1,7 @@
 package com.nextshopper.activity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -42,6 +43,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
     private TextView followerView;
     private TextView storeNameView;
     private ImageView storeLogoView;
+    private View supportView;
     private ProductDetails details = new ProductDetails();
     private ScreenSlidePagerAdapter adapter;
     private boolean like;
@@ -64,6 +66,8 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
         followerView = (TextView) findViewById(R.id.details_follower);
         storeNameView = (TextView) findViewById(R.id.details_store_name);
         storeLogoView = (ImageView) findViewById(R.id.details_store_logo);
+        supportView = findViewById(R.id.details_support);
+        supportView.setOnClickListener(this);
         View likeView = findViewById(R.id.details_like);
         likeView.setOnClickListener(this);
         refresh();
@@ -151,6 +155,13 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
             });
             builder.create();
             builder.show();
+        } else if(v.getId()==R.id.details_support){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            builder.setView(inflater.inflate(R.layout.support, null));
+            Dialog dialog = builder.create();
+            dialog.show();
+            dialog.setCanceledOnTouchOutside(true);
         }
     }
 }
