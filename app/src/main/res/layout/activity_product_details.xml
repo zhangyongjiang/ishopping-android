@@ -165,13 +165,34 @@
                 android:drawableTop="@drawable/free_return"
                 android:text="@string/free_return" />
         </RelativeLayout>
-
-        <com.nextshopper.view.SettingItem
+        <RelativeLayout
             android:id="@+id/details_spec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/details_support"
-            nextshopper:item="@string/spec" />
+            android:padding="5dp"
+            android:background="@drawable/textview_selector">
+            <TextView
+                android:id="@+id/spec_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/spec"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/spec_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spec_title"
+                android:layout_marginRight="20dp"
+                android:maxLines="3"
+                android:text="@string/test"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/side_arrow"/>
+        </RelativeLayout>
         <View
             android:id="@+id/details_spec_line"
             android:layout_width="match_parent"

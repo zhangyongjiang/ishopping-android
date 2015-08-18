@@ -1,18 +1,22 @@
 package com.nextshopper.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nextshopper.activity.HomeActivity;
 import com.nextshopper.activity.R;
 
 
-public class TitleView extends FrameLayout {
+public class TitleView extends FrameLayout implements View.OnClickListener{
 
     private ImageView imageLeft;
     private TextView textMiddle;
@@ -28,6 +32,7 @@ public class TitleView extends FrameLayout {
         imageRight = (ImageView) findViewById(R.id.titile_image_right);
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.TitleView);
         imageLeft.setImageDrawable(ta.getDrawable(R.styleable.TitleView_imageLeft));
+        imageLeft.setOnClickListener(this);
         textMiddle.setText(ta.getString(R.styleable.TitleView_textMiddle));
         textMiddle.setTextColor(ta.getColor(R.styleable.TitleView_textMiddleColor, Color.WHITE));
         textRight.setText(ta.getString(R.styleable.TitleView_textRight));
@@ -35,6 +40,15 @@ public class TitleView extends FrameLayout {
         imageRight.setImageDrawable(ta.getDrawable(R.styleable.TitleView_imageRight));
     }
 
+    @Override
+    public void onClick(View v) {
+        Activity activity = ((Activity) v.getContext());
+        if(! (activity instanceof HomeActivity)){
+            activity.finish();
+        }else{
+            ((HomeActivity) activity).getmNavigationDrawerFragment().getmDrawerLayout().openDrawer(Gravity.START);
+        }
+    }
 
     public ImageView getImageLeft() {
         return imageLeft;

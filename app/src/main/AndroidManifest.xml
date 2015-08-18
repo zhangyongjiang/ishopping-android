@@ -73,6 +73,10 @@
             android:name=".RecoverPwdActivity"
             android:label="@string/title_activity_recover_pwd" >
         </activity>
+        <activity
+            android:name=".SpecActivity"
+            android:label="@string/title_activity_spec" >
+        </activity>
     </application>
 
 </manifest>

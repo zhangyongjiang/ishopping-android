@@ -53,6 +53,9 @@ public class HomeActivity extends FragmentActivity
         mNavigationDrawerFragment.getmDrawerLayout().openDrawer(Gravity.START);
     }
 
+    public NavigationDrawerFragment getmNavigationDrawerFragment() {
+        return mNavigationDrawerFragment;
+    }
 
     /**
      * A placeholder fragment containing a simple view.

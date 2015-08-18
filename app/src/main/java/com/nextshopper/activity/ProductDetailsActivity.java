@@ -3,6 +3,7 @@ package com.nextshopper.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,12 +39,13 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
     private TextView priceView;
     private TextView oriPriceView;
     private Button buyNowButton;
-    private SettingItem specView;
+    private TextView specView;
     private SettingItem reviewView;
     private TextView followerView;
     private TextView storeNameView;
     private ImageView storeLogoView;
     private View supportView;
+    private View detailsSpecView;
     private ProductDetails details = new ProductDetails();
     private ScreenSlidePagerAdapter adapter;
     private boolean like;
@@ -61,13 +63,15 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
         oriPriceView = (TextView) findViewById(R.id.details_org_price);
         buyNowButton = (Button) findViewById(R.id.details_buy_now);
         buyNowButton.setOnClickListener(this);
-        specView = (SettingItem) findViewById(R.id.details_spec);
+        specView = (TextView) findViewById(R.id.spec_details);
         reviewView = (SettingItem) findViewById(R.id.details_review);
         followerView = (TextView) findViewById(R.id.details_follower);
         storeNameView = (TextView) findViewById(R.id.details_store_name);
         storeLogoView = (ImageView) findViewById(R.id.details_store_logo);
         supportView = findViewById(R.id.details_support);
         supportView.setOnClickListener(this);
+        detailsSpecView = findViewById(R.id.details_spec);
+        detailsSpecView.setOnClickListener(this);
         View likeView = findViewById(R.id.details_like);
         likeView.setOnClickListener(this);
         refresh();
@@ -84,7 +88,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
                 nameView.setText(productDetails.product.name);
                 priceView.setText(String.format(getResources().getString(R.string.salesprice), productDetails.product.salePrice));
                 oriPriceView.setText(String.format(getResources().getString(R.string.listprice), productDetails.product.listPrice));
-                specView.setItem(String.format(getResources().getString(R.string.spec), productDetails.product.description));
+                specView.setText( productDetails.product.description);
                 reviewView.setItem(String.format(getResources().getString(R.string.review), productDetails.product.reviews));
                 followerView.setText(String.format(getResources().getString(R.string.product_followers), productDetails.storeDetails.summary.products, productDetails.storeDetails.summary.followers));
                 getSupportFragmentManager().beginTransaction().add(R.id.details_fragment, TrendingFragment.newInstance("Product", null, null, productDetails.product.id)).commit();
@@ -162,6 +166,12 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
             Dialog dialog = builder.create();
             dialog.show();
             dialog.setCanceledOnTouchOutside(true);
+        }
+        else if(v.getId()==R.id.details_spec){
+           Intent intent = new Intent(this, SpecActivity.class);
+            intent.putExtra("spec",details.product.description);
+            intent.putExtra("imgUrl", details.product.imgs.get(0));
+            startActivity(intent);
         }
     }
 }
