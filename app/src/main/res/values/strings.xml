@@ -143,4 +143,7 @@
     <string name="buer_protection_details">Nextshooper always stand behind your customers. Get your items or get your money back!</string>
     <string name="free_return_details">Don\'t like it? No problem! You can return it for free with 15 days after you receive the item.</string>
     <string name="title_activity_spec">SpecActivity</string>
+    <string name="title_activity_review">ReviewActivity</string>
+    <string name="reviews">Reviews</string>
+    <string name="newreview">New</string>
 </resources>

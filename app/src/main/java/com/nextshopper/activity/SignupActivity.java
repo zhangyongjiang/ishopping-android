@@ -7,12 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -85,7 +79,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
                         //Bitmap thumnailCamera = data.getParcelableExtra("data");
                         Uri imageUri = data.getData();
                         Bitmap thumnailBitmap = Bitmap.createScaledBitmap(getThumbnail(imageUri,240), 240, 240,false);
-                        Bitmap roundBitmap = toRoundCorner(thumnailBitmap, 120);
+                        Bitmap roundBitmap = Util.toRoundCorner(thumnailBitmap, 120);
                         singup_pics.setImageBitmap(roundBitmap);
                         photoViewStub.setVisibility(View.INVISIBLE);
                         // save image
@@ -242,27 +236,6 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
         return Uri.fromFile(mediaFile);
     }
 
-    public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
-
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
-        final float roundPx = pixels;
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        return output;
-    }
 
     public Bitmap getThumbnail(Uri uri, int THUMBNAIL_SIZE) throws FileNotFoundException, IOException {
         InputStream input = this.getContentResolver().openInputStream(uri);

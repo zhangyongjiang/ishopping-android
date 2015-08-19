@@ -23,7 +23,7 @@ public class SpecActivity extends BaseActivity {
        Intent intent =  getIntent();
         String imgUrl  = intent.getStringExtra("imgUrl");
         imageView.setTag(imgUrl);
-        BitmapWorkerTask task = new BitmapWorkerTask(imageView);
+        BitmapWorkerTask task = new BitmapWorkerTask(imageView, false, 0);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imgUrl);
         String spec = intent.getStringExtra("spec");
         textView.setText(spec);

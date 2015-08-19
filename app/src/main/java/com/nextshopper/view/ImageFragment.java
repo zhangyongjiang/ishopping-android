@@ -35,7 +35,7 @@ public class ImageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_image, container, false);
         imageView = (ImageView)view.findViewById(R.id.details_img);
         imageView.setTag(url);
-        BitmapWorkerTask task = new BitmapWorkerTask(imageView);
+        BitmapWorkerTask task = new BitmapWorkerTask(imageView, false, 0);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
         return view;
     }

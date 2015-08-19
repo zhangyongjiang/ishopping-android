@@ -21,9 +21,15 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 
     private String imageUrl;
     private ImageView imageView;
+    private boolean toRound;
+    private int height;
 
-    public BitmapWorkerTask(ImageView imageView){
+    public BitmapWorkerTask(ImageView imageView, boolean toRound, int height){
         this.imageView = imageView;
+        this.height =(int)(160 * imageView.getContext().getResources().getDisplayMetrics().density);
+        this.toRound = toRound;
+        if(height!=0)
+            this.height = height;
     }
 
 
@@ -48,6 +54,8 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         // 根据Tag找到相应的ImageView控件，将下载好的图片显示出来。
         if(imageView!=null && bitmap!=null && imageView.getTag().equals(imageUrl)){
             //bitmap = Util.getRoundedCornerBitmap(gridView.getContext(), bitmap, 12, bitmap.getWidth(), bitmap.getHeight(), false, false, true, true);
+            if(toRound)
+                bitmap = Util.toRoundCorner(bitmap,height);
             imageView.setImageBitmap(bitmap);
         }
     }
@@ -74,7 +82,6 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(copyiInputStream1, null, options);
-            int height = (int)(160*imageView.getContext().getResources().getDisplayMetrics().density);
             options.inSampleSize = Util.calculateInSampleSize(options, height, height);
             options.inJustDecodeBounds = false;
 

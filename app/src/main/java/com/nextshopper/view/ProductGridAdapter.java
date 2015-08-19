@@ -140,7 +140,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         try {
             Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
             if (bitmap == null) {
-                BitmapWorkerTask task = new BitmapWorkerTask(imageView);
+                BitmapWorkerTask task = new BitmapWorkerTask(imageView, false, 0);
                 //task.execute(imageUrl);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imageUrl);
             } else {

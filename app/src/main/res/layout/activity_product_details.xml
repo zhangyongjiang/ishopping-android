@@ -208,19 +208,41 @@
             android:background="@color/white"
             android:text="@string/product_deliver"
             android:textStyle="bold" />
+        <View
+            android:id="@+id/details_review_line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/details_deliver"
+            android:background="@color/gray"/>
 
-        <com.nextshopper.view.SettingItem
-            android:id="@+id/details_review"
+        <RelativeLayout
+            android:id="@+id/details_review_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/details_deliver"
-            nextshopper:item="@string/review" />
+            android:padding="12dp"
+            android:background="@drawable/textview_selector"
+            android:layout_below="@id/details_review_line2">
+            <TextView
+                android:id="@+id/details_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/review" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/details_review"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/side_arrow"/>
+        </RelativeLayout>
 
         <View
             android:id="@+id/details_review_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/details_review"
+            android:layout_below="@id/details_review_all"
             android:background="@color/gray" />
 
         <View

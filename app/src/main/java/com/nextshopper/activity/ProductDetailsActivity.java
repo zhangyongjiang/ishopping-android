@@ -24,7 +24,6 @@ import com.nextshopper.rest.BitmapWorkerTask;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.ProductDetails;
 import com.nextshopper.view.ImageFragment;
-import com.nextshopper.view.SettingItem;
 import com.nextshopper.view.TrendingFragment;
 
 import retrofit.Callback;
@@ -40,15 +39,17 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
     private TextView oriPriceView;
     private Button buyNowButton;
     private TextView specView;
-    private SettingItem reviewView;
+    private TextView reviewView;
     private TextView followerView;
     private TextView storeNameView;
     private ImageView storeLogoView;
     private View supportView;
     private View detailsSpecView;
+    private View reviewViewAll;
     private ProductDetails details = new ProductDetails();
     private ScreenSlidePagerAdapter adapter;
     private boolean like;
+    private int storeHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
         buyNowButton = (Button) findViewById(R.id.details_buy_now);
         buyNowButton.setOnClickListener(this);
         specView = (TextView) findViewById(R.id.spec_details);
-        reviewView = (SettingItem) findViewById(R.id.details_review);
+        reviewView = (TextView) findViewById(R.id.details_review);
         followerView = (TextView) findViewById(R.id.details_follower);
         storeNameView = (TextView) findViewById(R.id.details_store_name);
         storeLogoView = (ImageView) findViewById(R.id.details_store_logo);
@@ -72,6 +73,9 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
         supportView.setOnClickListener(this);
         detailsSpecView = findViewById(R.id.details_spec);
         detailsSpecView.setOnClickListener(this);
+        reviewViewAll = findViewById(R.id.details_review_all);
+        reviewViewAll.setOnClickListener(this);
+        storeHeight = (int)(60 * getResources().getDisplayMetrics().density);
         View likeView = findViewById(R.id.details_like);
         likeView.setOnClickListener(this);
         refresh();
@@ -89,7 +93,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
                 priceView.setText(String.format(getResources().getString(R.string.salesprice), productDetails.product.salePrice));
                 oriPriceView.setText(String.format(getResources().getString(R.string.listprice), productDetails.product.listPrice));
                 specView.setText( productDetails.product.description);
-                reviewView.setItem(String.format(getResources().getString(R.string.review), productDetails.product.reviews));
+                reviewView.setText(String.format(getResources().getString(R.string.review), productDetails.product.reviews));
                 followerView.setText(String.format(getResources().getString(R.string.product_followers), productDetails.storeDetails.summary.products, productDetails.storeDetails.summary.followers));
                 getSupportFragmentManager().beginTransaction().add(R.id.details_fragment, TrendingFragment.newInstance("Product", null, null, productDetails.product.id)).commit();
                 storeNameView.setText(productDetails.storeDetails.store.info.name);
@@ -97,7 +101,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
                 like = productDetails.liked;
                 if (like)
                     likesView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_color_full, 0, 0, 0);
-                BitmapWorkerTask task = new BitmapWorkerTask(storeLogoView);
+                BitmapWorkerTask task = new BitmapWorkerTask(storeLogoView, false, storeHeight);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, productDetails.storeDetails.store.info.logo);
             }
 
@@ -172,6 +176,8 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
             intent.putExtra("spec",details.product.description);
             intent.putExtra("imgUrl", details.product.imgs.get(0));
             startActivity(intent);
+        } else if(v.getId()==R.id.details_review_all){
+            ReviewActivity.startReviewActivity(details.reviews, this);
         }
     }
 }

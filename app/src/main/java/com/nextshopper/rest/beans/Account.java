@@ -1,6 +1,6 @@
 package com.nextshopper.rest.beans;
 
-public class Account { 
+public class Account{
 	public String userId;
 	public String extId;
 	public AccountType type;
@@ -9,4 +9,5 @@ public class Account {
 	public int version;
 	public long created;
 	public long updated;
-} 
+
+}
