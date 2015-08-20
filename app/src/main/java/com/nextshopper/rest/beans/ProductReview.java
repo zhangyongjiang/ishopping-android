@@ -44,4 +44,6 @@ public class ProductReview implements Parcelable{
         comment = in.readString();
         created = in.readLong();
     }
+
+    public ProductReview(){}
 }

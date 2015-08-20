@@ -37,4 +37,5 @@ public class ProductReviewDetails implements Parcelable{
 		review = (ProductReview)in.readParcelable(ProductReview.class.getClassLoader());
 		user = in.readParcelable(UserBasicInfo.class.getClassLoader());
 	}
+	public ProductReviewDetails(){}
 }

@@ -1,6 +1,8 @@
 package com.nextshopper.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nextshopper.activity.R;
+import com.nextshopper.common.Constant;
 import com.nextshopper.rest.BitmapWorkerTask;
 import com.nextshopper.rest.beans.ProductReviewDetails;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -52,8 +56,14 @@ public class ReviewAdapter extends BaseAdapter {
         ProductReviewDetails review = getItem(position);
         ImageView imageView = (ImageView)convertView.findViewById(R.id.user_img);
         imageView.setTag(review.user.imgPath);
-        BitmapWorkerTask task = new BitmapWorkerTask(imageView, true, userHeight);;
-        task.execute(review.user.imgPath);
+        if(position!=0) {
+            BitmapWorkerTask task = new BitmapWorkerTask(imageView, true, userHeight);
+            task.execute(review.user.imgPath);
+        }else{
+            File imageFile = new File(ctx.getDir("imageDir", Context.MODE_PRIVATE), Constant.THUMNAIL);
+            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+            imageView.setImageBitmap(bitmap);
+        }
         TextView name = (TextView) convertView.findViewById(R.id.review_user_name);
         name.setText(review.user.firstName + " " + review.user.lastName);
         ImageView ratingView = (ImageView) convertView.findViewById(R.id.review_rating);
@@ -75,5 +85,10 @@ public class ReviewAdapter extends BaseAdapter {
            case 5: return R.drawable.stars_5;
        }
        return R.drawable.start_0;
+    }
+
+    public void update(List<ProductReviewDetails> list){
+        this.list = list;
+        notifyDataSetChanged();
     }
 }
