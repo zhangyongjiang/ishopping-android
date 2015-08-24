@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,15 +13,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nextshopper.common.Constant;
+import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.rest.ApiService;
-import com.nextshopper.rest.BitmapWorkerTask;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.ProductDetails;
 import com.nextshopper.view.ImageFragment;
+import com.nextshopper.view.TitleView;
 import com.nextshopper.view.TrendingFragment;
 
 import retrofit.Callback;
@@ -50,6 +50,8 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
     private ScreenSlidePagerAdapter adapter;
     private boolean like;
     private int storeHeight;
+    private int requestCode =0;
+    private TitleView titleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+        titleView =(TitleView) findViewById(R.id.details_title);
         likesView = (TextView) findViewById(R.id.details_like);
         nameView = (TextView) findViewById(R.id.details_name);
         priceView = (TextView) findViewById(R.id.details_price);
@@ -101,8 +104,10 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
                 like = productDetails.liked;
                 if (like)
                     likesView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_color_full, 0, 0, 0);
-                BitmapWorkerTask task = new BitmapWorkerTask(storeLogoView, false, storeHeight);
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, productDetails.storeDetails.store.info.logo);
+
+                ((NextShopperApplication)getApplicationContext()).loadBitmaps(productDetails.storeDetails.store.info.logo,storeLogoView, false, storeHeight);
+                //BitmapWorkerTask task = new BitmapWorkerTask(storeLogoView, false, storeHeight);
+                //task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, productDetails.storeDetails.store.info.logo);
             }
 
             @Override
@@ -150,10 +155,15 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
         } else if (v.getId() == R.id.details_buy_now) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
-            builder.setView(inflater.inflate(R.layout.buy_now, null)).setPositiveButton(R.string.add_to_cart, new DialogInterface.OnClickListener() {
+            final View view = inflater.inflate(R.layout.buy_now, null);
+            builder.setView(view).setPositiveButton(R.string.add_to_cart, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                      SharedPreferences sp = getSharedPreferences(Constant.CART, MODE_PRIVATE);
+                    details.product.quantity = Integer.parseInt(((EditText) view.findViewById(R.id.product_quantity)).getText().toString());
+                    details.product.storeName = details.storeDetails.store.info.name;
+                    ((NextShopperApplication)getApplicationContext()).getProductList().add(details.product);
+                    titleView.setImageRight(R.drawable.shopping_cart_full);
+
                 }
             }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
@@ -177,7 +187,20 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
             intent.putExtra("imgUrl", details.product.imgs.get(0));
             startActivity(intent);
         } else if(v.getId()==R.id.details_review_all){
-            ReviewActivity.startReviewActivity(details.reviews, this);
+            ReviewActivity.startReviewActivity(details.reviews, this, requestCode);
         }
     }
+
+    public void onActivityResult(int code, int resultcode, Intent data){
+        if(code==requestCode && resultcode ==RESULT_OK){
+            reviewView.setText(String.format(getResources().getString(R.string.review), details.product.reviews+data.getIntExtra("num_of_review", 0)));
+        }
+    }
+
+    public void rightOnClick(View view){
+        Intent intent  = new Intent(this, OrderActivity.class);
+        startActivity(intent);
+
+    }
+
 }

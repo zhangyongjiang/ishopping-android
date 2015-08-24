@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.nextshopper.activity.HomeActivity;
 import com.nextshopper.activity.R;
+import com.nextshopper.activity.ReviewActivity;
 
 
 public class TitleView extends FrameLayout implements View.OnClickListener{
@@ -45,7 +46,10 @@ public class TitleView extends FrameLayout implements View.OnClickListener{
         Activity activity = ((Activity) v.getContext());
         if(! (activity instanceof HomeActivity)){
             activity.finish();
-        }else{
+        }else if(!(activity instanceof ReviewActivity)){
+            ((ReviewActivity)activity).update();
+        }
+        else{
             ((HomeActivity) activity).getmNavigationDrawerFragment().getmDrawerLayout().openDrawer(Gravity.START);
         }
     }
@@ -78,7 +82,7 @@ public class TitleView extends FrameLayout implements View.OnClickListener{
         return imageRight;
     }
 
-    public void setImageRight(ImageView imageRight) {
-        this.imageRight = imageRight;
+    public void setImageRight(int id) {
+        this.imageRight.setImageResource(id);
     }
 }

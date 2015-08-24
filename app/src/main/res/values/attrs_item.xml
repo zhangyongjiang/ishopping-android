@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="Item">
+        <attr name="left_value" format="string"/>
+        <attr name="right_value" format="string"/>
+    </declare-styleable>
+</resources>

@@ -27,5 +27,6 @@ public class Product {
 	public int version;
 	public long created;
 	public long updated;
+	public String storeName;
 
 } 

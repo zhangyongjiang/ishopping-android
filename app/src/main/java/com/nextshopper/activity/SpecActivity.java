@@ -1,12 +1,11 @@
 package com.nextshopper.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nextshopper.rest.BitmapWorkerTask;
+import com.nextshopper.common.NextShopperApplication;
 
 
 public class SpecActivity extends BaseActivity {
@@ -23,8 +22,9 @@ public class SpecActivity extends BaseActivity {
        Intent intent =  getIntent();
         String imgUrl  = intent.getStringExtra("imgUrl");
         imageView.setTag(imgUrl);
-        BitmapWorkerTask task = new BitmapWorkerTask(imageView, false, 0);
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imgUrl);
+        ((NextShopperApplication)getApplicationContext()).loadBitmaps(imgUrl, imageView, false, 0);
+        //BitmapWorkerTask task = new BitmapWorkerTask(imageView, false, 0);
+        //task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imgUrl);
         String spec = intent.getStringExtra("spec");
         textView.setText(spec);
 

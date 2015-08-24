@@ -24,6 +24,7 @@ public class ReviewActivity extends BaseActivity {
     private int requestCode=0;
     List<ProductReviewDetails> reviewList;
     private ReviewAdapter reviewAdapter;
+    private int newreview=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +35,10 @@ public class ReviewActivity extends BaseActivity {
         listView.setAdapter(reviewAdapter);
     }
 
-    public static void startReviewActivity(ArrayList<ProductReviewDetails> reviewList, Context ctx){
+    public static void startReviewActivity(ArrayList<ProductReviewDetails> reviewList, ProductDetailsActivity ctx, int requestCode){
         Intent intent = new Intent(ctx, ReviewActivity.class);
         intent.putParcelableArrayListExtra(KEY, reviewList);
-        ctx.startActivity(intent);
+        ctx.startActivityForResult(intent, requestCode, null);
     }
 
     public void rightOnClick(View view){
@@ -47,6 +48,7 @@ public class ReviewActivity extends BaseActivity {
 
     public void onActivityResult(int code, int resultcode, Intent data){
         if(code == requestCode && resultcode ==RESULT_OK){
+            newreview++;
             ProductReviewDetails d = new ProductReviewDetails();
             d.review = new ProductReview();
             d.review.rating =data.getIntExtra("rating",0);
@@ -61,5 +63,10 @@ public class ReviewActivity extends BaseActivity {
         }
 
     }
-
+    public void update(){
+        Intent intent = new Intent();
+        intent.putExtra("num_of_review",newreview);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 }

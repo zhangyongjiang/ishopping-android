@@ -18,7 +18,8 @@
             android:padding="10dp"
             nextshopper:imageLeft="@drawable/back"
             nextshopper:textMiddle="@string/product_details"
-            nextshopper:textMiddleColor="@color/black" />
+            nextshopper:textMiddleColor="@color/black"
+            nextshopper:imageRight="@drawable/shopping_cart"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"

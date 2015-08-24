@@ -2,10 +2,7 @@ package com.nextshopper.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.util.Log;
-import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +15,8 @@ import android.widget.TextView;
 import com.nextshopper.activity.ProductDetailsActivity;
 import com.nextshopper.activity.R;
 import com.nextshopper.common.Constant;
+import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.rest.ApiService;
-import com.nextshopper.rest.BitmapWorkerTask;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.Product;
 import com.nextshopper.rest.beans.ProductList;
@@ -39,7 +36,6 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
     private Context ctx;
     private GridView gridView;
     private SearchableProductList searchableProductList = new SearchableProductList();
-    private LruCache<String, Bitmap> memoryCache;
     private int start = 0;
     private int numOfItem = 20;
     private int mFirstVisibleItem;
@@ -50,15 +46,6 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         this.ctx = ctx;
         this.gridView = gridView;
         this.trendingFragment = trendingFragment;
-        int maxMemory = (int) Runtime.getRuntime().maxMemory();
-        int cacheSize = maxMemory / 24;
-        memoryCache = new LruCache<String, Bitmap>(cacheSize) {
-            @Override
-            protected int sizeOf(String key, Bitmap bitmap) {
-                return bitmap.getByteCount();
-            }
-        };
-
     }
 
     @Override
@@ -102,7 +89,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                 ctx.startActivity(intent);
             }
         };
-        imageView.setTag(sp.imgUrl.get(0));
+        //imageView.setTag(sp.imgUrl.get(0));
         imageView.setImageBitmap(null);
         setImageView(imageView, sp.imgUrl.get(0));
         convertView.setOnClickListener(listener);
@@ -111,46 +98,13 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
     }
 
     void setImageView(ImageView imageView, String url) {
-        Bitmap bitmap = getBitmapFromMemoryCache(url);
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
-        } else {
-            loadBitmaps(url,imageView);
-
-        }
-    }
-
-    void addBitmapToMemoryCache(String key, Bitmap bitmap) {
-        if (getBitmapFromMemoryCache(key) == null) {
-            memoryCache.put(key, bitmap);
-        }
+        ((NextShopperApplication)ctx.getApplicationContext()).loadBitmaps(url,imageView, false, 0);
     }
 
     public void setSearchableProductList(SearchableProductList searchableProductList) {
         if (searchableProductList.items == null) return;
         this.searchableProductList.items.addAll(searchableProductList.items);
         notifyDataSetChanged();
-    }
-
-    public Bitmap getBitmapFromMemoryCache(String key) {
-        return memoryCache.get(key);
-    }
-
-    private void loadBitmaps(String imageUrl, ImageView imageView) {
-        try {
-            Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
-            if (bitmap == null) {
-                BitmapWorkerTask task = new BitmapWorkerTask(imageView, false, 0);
-                //task.execute(imageUrl);
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imageUrl);
-            } else {
-                if (imageView != null && bitmap != null && imageView.getTag().equals(imageUrl)) {
-                    imageView.setImageBitmap(bitmap);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

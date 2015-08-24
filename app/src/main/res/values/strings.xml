@@ -146,4 +146,23 @@
     <string name="title_activity_review">ReviewActivity</string>
     <string name="reviews">Reviews</string>
     <string name="newreview">New</string>
+    <string name="title_activity_create_review">CreateReviewActivity</string>
+    <string name="create_a_review">Create a Review</string>
+    <string name="create">Create</string>
+    <string name="rating">Rating</string>
+    <string name="your_review">Your review</string>
+    <string name="title_activity_order">OrderActivity</string>
+    <string name="shopper_cart">Shopping Cart</string>
+    <string name="checkout">Checkout</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="total">Total</string>
+    <string name="credit_your_have">Credit You Have</string>
+    <string name="coupon_code">Coupon Code</string>
+    <string name="net_pay">Net Pay</string>
+    <string name="n_and_a">N/A</string>
+    <string name="order_store_name">Store:  %1$s</string>
+    <string name="order_prodcut_price">USD %1$.2f</string>
+    <string name="empty_cart">Remove this item from shopping cart?</string>
+    <string name="minus">-</string>
+    <string name="add">+</string>
 </resources>

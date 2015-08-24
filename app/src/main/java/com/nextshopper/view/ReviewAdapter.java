@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.nextshopper.activity.R;
 import com.nextshopper.common.Constant;
-import com.nextshopper.rest.BitmapWorkerTask;
+import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.rest.beans.ProductReviewDetails;
 
 import java.io.File;
@@ -57,8 +57,9 @@ public class ReviewAdapter extends BaseAdapter {
         ImageView imageView = (ImageView)convertView.findViewById(R.id.user_img);
         imageView.setTag(review.user.imgPath);
         if(position!=0) {
-            BitmapWorkerTask task = new BitmapWorkerTask(imageView, true, userHeight);
-            task.execute(review.user.imgPath);
+            ((NextShopperApplication)ctx.getApplicationContext()).loadBitmaps(review.user.imgPath,imageView, true, userHeight);
+           // BitmapWorkerTask task = new BitmapWorkerTask(imageView, true, userHeight);
+           // task.execute(review.user.imgPath);
         }else{
             File imageFile = new File(ctx.getDir("imageDir", Context.MODE_PRIVATE), Constant.THUMNAIL);
             Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
