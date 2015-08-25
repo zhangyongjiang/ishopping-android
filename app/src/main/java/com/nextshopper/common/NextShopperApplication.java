@@ -9,21 +9,21 @@ import android.widget.ImageView;
 import com.nextshopper.rest.BitmapWorkerTask;
 import com.nextshopper.rest.beans.Product;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by siyiliu on 8/20/15.
  */
 public class NextShopperApplication extends Application{
-    private List<Product> productList;
+    private Map<String, Product> productMap;
     private LruCache<String, Bitmap> memoryCache;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
-        productList = new ArrayList<>();
+        productMap =  new HashMap<>();
         int maxMemory = (int) Runtime.getRuntime().maxMemory();
         int cacheSize = maxMemory / 8;
         memoryCache = new LruCache<String, Bitmap>(cacheSize) {
@@ -34,16 +34,8 @@ public class NextShopperApplication extends Application{
         };
     }
 
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
-
-    public void add(Product product){
-        productList.add(product);
+    public Map<String, Product> getProductMap() {
+        return productMap;
     }
 
     public LruCache<String, Bitmap> getCache(){

@@ -1,14 +1,12 @@
 package com.nextshopper.view;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.nextshopper.activity.R;
@@ -16,14 +14,14 @@ import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.rest.beans.Product;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by siyiliu on 8/23/15.
  */
-public class OrderAdapter extends BaseAdapter implements NumberPicker.OnValueChangeListener, NumberPicker.OnScrollListener{
+public class OrderAdapter extends BaseAdapter implements View.OnClickListener{
     private Context context;
     private List<Product> productList;
-    private Product product;
 
     public OrderAdapter(Context ctx, List<Product> productList ){
         context = ctx;
@@ -49,45 +47,53 @@ public class OrderAdapter extends BaseAdapter implements NumberPicker.OnValueCha
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.order_item, parent, false);
         }
-        product = productList.get(position);
+        Product product = productList.get(position);
        ImageView imageView=  (ImageView)convertView.findViewById(R.id.order_img);
         TextView productNameView = (TextView) convertView.findViewById(R.id.order_product_name);
         TextView productStoreView = (TextView) convertView.findViewById(R.id.order_store_name);
         TextView prodcutPriceView =(TextView) convertView.findViewById(R.id.order_product_price);
         ((NextShopperApplication)context.getApplicationContext()).loadBitmaps(product.imgs.get(0), imageView, false, 0);
-        TextView quantity = (TextView) convertView.findViewById(R.id.item_quantity);
+        Button quantityButton = (Button) convertView.findViewById(R.id.item_quantity);
         productNameView.setText(product.name);
         productStoreView.setText(String.format(context.getResources().getString(R.string.order_store_name), product.storeName));
         prodcutPriceView.setText(String.format(context.getResources().getString(R.string.order_prodcut_price), product.salePrice));
-        quantity.setText(product.quantity+"");
+        quantityButton.setText(product.quantity + "");
+        Button minusButton = (Button)convertView.findViewById(R.id.item_minus);
+        minusButton.setTag(quantityButton);
+        quantityButton.setTag(product);
+        Button addButton = (Button) convertView.findViewById(R.id.item_add);
+        minusButton.setOnClickListener(this);
+        addButton.setOnClickListener(this);
+        addButton.setTag(quantityButton);
         return convertView;
     }
 
     @Override
-    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-        if(newVal==0){
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Warining");
-            builder.setMessage(context.getString(R.string.empty_cart));
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    productList.remove(product);
+    public void onClick(View v) {
+        Button quantityButton = (Button)v.getTag();
+        Product product = (Product) quantityButton.getTag();
+        if(v.getId()==R.id.item_minus){
+            if(Integer.parseInt(quantityButton.getText().toString())==1){
+                productList.remove(product);
+                //quantityButton.setText(String.valueOf(Integer.parseInt(quantityButton.getText().toString())-1));
+                ((NextShopperApplication)context.getApplicationContext()).getProductMap().remove(product.id);
+               // notifyDataSetChanged();
+            }
+            else{
+                quantityButton.setText(String.valueOf(Integer.parseInt(quantityButton.getText().toString())-1));
+                Map<String, Product> map =  ((NextShopperApplication)context.getApplicationContext()).getProductMap();
+                map.get(product.id).quantity =  map.get(product.id).quantity-1;
+                map.put(product.id, product);
+                //notifyDataSetChanged();
+            }
+        } else if(v.getId()==R.id.item_add){
 
-                }
-            });
-            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
+            quantityButton.setText(String.valueOf(Integer.parseInt(quantityButton.getText().toString())+1));
+            Map<String, Product> map =  ((NextShopperApplication)context.getApplicationContext()).getProductMap();
+            map.get(product.id).quantity =  map.get(product.id).quantity+1;
+            map.put(product.id, product);
+           // notifyDataSetChanged();
         }
-         product.quantity = newVal;
-    }
-
-    @Override
-    public void onScrollStateChange(NumberPicker view, int scrollState) {
-
+        notifyDataSetChanged();
     }
 }

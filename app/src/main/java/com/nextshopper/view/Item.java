@@ -25,7 +25,7 @@ public class Item extends FrameLayout {
         right.setText(ta.getString(R.styleable.Item_right_value));
     }
 
-    void setRight(String text){
+    public void setRight(String text){
       right.setText(text);
     }
 }

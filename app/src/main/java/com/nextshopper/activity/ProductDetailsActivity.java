@@ -21,10 +21,13 @@ import com.nextshopper.common.Constant;
 import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
+import com.nextshopper.rest.beans.Product;
 import com.nextshopper.rest.beans.ProductDetails;
 import com.nextshopper.view.ImageFragment;
 import com.nextshopper.view.TitleView;
 import com.nextshopper.view.TrendingFragment;
+
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -161,7 +164,13 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
                 public void onClick(DialogInterface dialog, int which) {
                     details.product.quantity = Integer.parseInt(((EditText) view.findViewById(R.id.product_quantity)).getText().toString());
                     details.product.storeName = details.storeDetails.store.info.name;
-                    ((NextShopperApplication)getApplicationContext()).getProductList().add(details.product);
+                    Map<String, Product> map = ((NextShopperApplication) getApplicationContext()).getProductMap();
+                    if (map.get(details.product.id) == null) {
+                        map.put(details.product.id, details.product);
+                    } else {
+                        map.get(details.product.id).quantity +=details.product.quantity;
+                    }
+
                     titleView.setImageRight(R.drawable.shopping_cart_full);
 
                 }
