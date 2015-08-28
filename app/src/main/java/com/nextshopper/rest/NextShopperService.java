@@ -450,9 +450,12 @@ public interface NextShopperService {
 	@GET("/ws/shopping-cart/list")
 	void ShoppingAPI_List(Callback<CartItemDetailsList> callback);
 
-	@POST("/ws/shopping-cart/add")
-	void ShoppingAPI_AddCartItem(@Body CartItemRequest item, Callback<CartItemDetailsList> callback);
-
+    @POST("/ws/shopping-cart/add")
+    void ShoppingAPI_AddCartItem(@Body CartItemRequest item, Callback<CartItemDetailsList> callback);
+    
+    @POST("/ws/shopping-cart/add-all")
+    void ShoppingAPI_AddCartItems(@Body CartItemRequestList items, Callback<CartItemDetailsList> callback);
+    
 	@POST("/ws/shopping-cart/remove/{cartItemId}")
 	void ShoppingAPI_RemoveCartItem(@Path("cartItemId") String cartItemId, Callback<CartItemDetailsList> callback);
 
