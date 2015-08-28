@@ -166,4 +166,6 @@
     <string name="minus">-</string>
     <string name="add">+</string>
     <string name="price">$%1$.2f</string>
+    <string name="title_activity_shipping">ShippingActivity</string>
+    <string name="next">Next</string>
 </resources>

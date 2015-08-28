@@ -1,6 +1,8 @@
 package com.nextshopper.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import com.nextshopper.common.NextShopperApplication;
@@ -50,5 +52,10 @@ public class OrderActivity extends BaseActivity {
         totalView.setRight(String.format(getResources().getString(R.string.price),total));
         creditView.setRight(String.format(getResources().getString(R.string.price),credit));
         netPayView.setRight(String.format(getResources().getString(R.string.price),total));
+    }
+
+    public void rightOnClick(View view){
+       Intent intent = new Intent(this, ShippingActivity.class);
+        startActivity(intent);
     }
 }
