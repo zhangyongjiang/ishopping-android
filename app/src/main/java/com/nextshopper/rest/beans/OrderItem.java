@@ -1,6 +1,8 @@
 package com.nextshopper.rest.beans;
 
-public class OrderItem { 
+import java.util.Map;
+
+public class OrderItem {
 	public String orderId;
 	public String userId;
 	public String productId;
@@ -15,4 +17,6 @@ public class OrderItem {
 	public int version;
 	public long created;
 	public long updated;
-} 
+    public String skuId;
+    public Map<String, String> options;
+}

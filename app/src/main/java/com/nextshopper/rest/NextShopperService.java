@@ -447,8 +447,11 @@ public interface NextShopperService {
 	@POST("/ws/resource/delete/{resourceId}")
 	void ResourceAPI_DeleteRedource(@Path("resourceId") String resourceId, Callback<GenericResponse> callback);
 
-	@GET("/ws/shopping-cart/list")
-	void ShoppingAPI_List(Callback<CartItemDetailsList> callback);
+    @GET("/ws/shopping-cart/list")
+    void ShoppingAPI_List(@Query("couponCode")String couponCode, Callback<CartItemDetailsList> callback);
+
+    @POST("/ws/shopping-cart/check-coupon/{couponCode}")
+    void ShoppingAPI_CheckCoupon(@Path("couponCode")String couponCode, Callback<CouponDetails> callback);
 
     @POST("/ws/shopping-cart/add")
     void ShoppingAPI_AddCartItem(@Body CartItemRequest item, Callback<CartItemDetailsList> callback);

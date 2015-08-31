@@ -1,5 +1,7 @@
 package com.nextshopper.rest.beans;
 
 public class OptionValue {
-	public String value;
+    public String id;
+    public String title;
+    public String img;
 }
