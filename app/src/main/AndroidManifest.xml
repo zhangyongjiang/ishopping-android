@@ -94,6 +94,14 @@
             android:name=".ShippingActivity"
             android:label="@string/title_activity_shipping" >
         </activity>
+        <activity
+            android:name=".StoreDetailsActivity"
+            android:label="@string/title_activity_store_details" >
+        </activity>
+        <activity
+            android:name=".ContactSellerActivity"
+            android:label="@string/title_activity_contact_seller" >
+        </activity>
     </application>
 
 </manifest>

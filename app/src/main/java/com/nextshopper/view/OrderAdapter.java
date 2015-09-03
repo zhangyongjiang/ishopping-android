@@ -11,10 +11,16 @@ import android.widget.TextView;
 
 import com.nextshopper.activity.R;
 import com.nextshopper.common.NextShopperApplication;
+import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.beans.CartItemDetailsList;
 import com.nextshopper.rest.beans.Product;
 
 import java.util.List;
 import java.util.Map;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by siyiliu on 8/23/15.
@@ -78,6 +84,17 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener{
                 //quantityButton.setText(String.valueOf(Integer.parseInt(quantityButton.getText().toString())-1));
                 ((NextShopperApplication)context.getApplicationContext()).getProductMap().remove(product.id);
                // notifyDataSetChanged();
+                ApiService.getService().ShoppingAPI_RemoveCartItem(product.id, new Callback<CartItemDetailsList>() {
+                    @Override
+                    public void success(CartItemDetailsList cartItemDetailsList, Response response) {
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
             }
             else{
                 quantityButton.setText(String.valueOf(Integer.parseInt(quantityButton.getText().toString())-1));
@@ -85,6 +102,17 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener{
                 map.get(product.id).quantity =  map.get(product.id).quantity-1;
                 map.put(product.id, product);
                 //notifyDataSetChanged();
+                ApiService.getService().ShoppingAPI_UpdateItemQuantity(product.id, map.get(product.id).quantity, new Callback<CartItemDetailsList>() {
+                    @Override
+                    public void success(CartItemDetailsList cartItemDetailsList, Response response) {
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
             }
         } else if(v.getId()==R.id.item_add){
 
@@ -93,6 +121,17 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener{
             map.get(product.id).quantity =  map.get(product.id).quantity+1;
             map.put(product.id, product);
            // notifyDataSetChanged();
+            ApiService.getService().ShoppingAPI_UpdateItemQuantity(product.id, map.get(product.id).quantity, new Callback<CartItemDetailsList>() {
+                @Override
+                public void success(CartItemDetailsList cartItemDetailsList, Response response) {
+
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+
+                }
+            });
         }
         notifyDataSetChanged();
     }

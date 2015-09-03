@@ -2,7 +2,9 @@ package com.nextshopper.rest;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.nextshopper.common.Util;
@@ -20,13 +22,13 @@ import java.net.URL;
 public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 
     private String imageUrl;
-    private ImageView imageView;
+    private View view;
     private boolean toRound;
     private int height;
 
-    public BitmapWorkerTask(ImageView imageView, boolean toRound, int height){
-        this.imageView = imageView;
-        this.height =(int)(160 * imageView.getContext().getResources().getDisplayMetrics().density);
+    public BitmapWorkerTask(View view, boolean toRound, int height){
+        this.view = view;
+        this.height =(int)(160 * view.getContext().getResources().getDisplayMetrics().density);
         this.toRound = toRound;
         if(height!=0)
             this.height = height;
@@ -37,7 +39,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     protected Bitmap doInBackground(String... params) {
         imageUrl = params[0];
         Bitmap bitmap= null;
-        if(imageView!=null && imageView.getTag().equals(imageUrl)) {
+        if(view!=null && view.getTag().equals(imageUrl)) {
             if (!imageUrl.startsWith("http")) {
                 bitmap =downloadBitmap ("http://api.onsalelocal.com/ws/resource/download?path=" + imageUrl);
             }else {
@@ -52,11 +54,15 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
         // 根据Tag找到相应的ImageView控件，将下载好的图片显示出来。
-        if(imageView!=null && bitmap!=null && imageView.getTag().equals(imageUrl)){
+        if(view!=null && bitmap!=null && view.getTag().equals(imageUrl)){
             //bitmap = Util.getRoundedCornerBitmap(gridView.getContext(), bitmap, 12, bitmap.getWidth(), bitmap.getHeight(), false, false, true, true);
             if(toRound)
                 bitmap = Util.toRoundCorner(bitmap,height);
-            imageView.setImageBitmap(bitmap);
+            if(view instanceof ImageView) {
+                ((ImageView)view).setImageBitmap(bitmap);
+            } else{
+                view.setBackground(new BitmapDrawable(bitmap));
+            }
         }
     }
     private Bitmap downloadBitmap(String imageUrl) {

@@ -168,4 +168,21 @@
     <string name="price">$%1$.2f</string>
     <string name="title_activity_shipping">ShippingActivity</string>
     <string name="next">Next</string>
+    <string name="title_activity_store_details">StoreDetailsActivity</string>
+    <string name="store">Store</string>
+    <string name="follow">+ Follow</string>
+    <string name="following">Following</string>
+    <string name="products">Products</string>
+    <string name="contact">Contact</string>
+    <string name="about">About</string>
+    <string name="title_activity_contact_seller">ContactSellerActivity</string>
+    <string name="contact_seller">Contact Seller</string>
+    <string name="subject">Subject</string>
+    <string name="your_message">You message here</string>
+    <string name="attach_a_photo">Attach a photo</string>
+    <string name="title_activity_pwd_update">PwdUpdateActivity</string>
+    <string name="current_pwd_required">Current password is required</string>
+    <string name="error">Error</string>
+    <string name="new_pwd_required">New password is required</string>
+    <string name="pwd_not_match">Password does not match</string>
 </resources>

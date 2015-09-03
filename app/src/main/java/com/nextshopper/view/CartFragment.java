@@ -3,16 +3,18 @@ package com.nextshopper.view;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.nextshopper.activity.HomeActivity;
 import com.nextshopper.activity.R;
+import com.nextshopper.common.NextShopperApplication;
+import com.nextshopper.rest.beans.Product;
 
-public class CartFragment extends Fragment implements View.OnClickListener{
+import java.util.Map;
+
+public class CartFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,8 +62,18 @@ public class CartFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_cart, container, false);
-        TextView startShopping = (TextView)view.findViewById(R.id.start_shopping);
-        startShopping.setOnClickListener(this);
+        Map<String, Product> productMap = ((NextShopperApplication)getActivity().getApplication()).getProductMap();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        if(productMap.size()==0){
+            Fragment emptyCartFragment = new EmptyCartFragment();
+            ft.replace(R.id.cart_container, emptyCartFragment);
+            ft.commit();
+        }else{
+           Fragment cartListFragment = new CartListFragment();
+            ft.replace(R.id.cart_container, cartListFragment);
+            ft.commit();
+        }
+
         return view;
     }
 
@@ -94,10 +106,4 @@ public class CartFragment extends Fragment implements View.OnClickListener{
         public void onFragmentInteraction(Uri uri);
     }
 
-    @Override
-    public void onClick(View v) {
-       FragmentManager fragmentManager =  getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container, HomeActivity.PlaceholderFragment.newInstance("Shop")).commit();
-        fragmentManager.executePendingTransactions();
-    }
 }

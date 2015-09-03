@@ -6,7 +6,6 @@ import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,10 +29,7 @@ import com.nextshopper.rest.beans.User;
 import com.nextshopper.view.TitleView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -78,7 +74,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
                 try {
                         //Bitmap thumnailCamera = data.getParcelableExtra("data");
                         Uri imageUri = data.getData();
-                        Bitmap thumnailBitmap = Bitmap.createScaledBitmap(getThumbnail(imageUri,240), 240, 240,false);
+                        Bitmap thumnailBitmap = Bitmap.createScaledBitmap(Util.getThumbnail(this, imageUri,240), 240, 240,false);
                         Bitmap roundBitmap = Util.toRoundCorner(thumnailBitmap, 120);
                         singup_pics.setImageBitmap(roundBitmap);
                         photoViewStub.setVisibility(View.INVISIBLE);
@@ -236,21 +232,6 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
         return Uri.fromFile(mediaFile);
     }
 
-
-    public Bitmap getThumbnail(Uri uri, int THUMBNAIL_SIZE) throws FileNotFoundException, IOException {
-        InputStream input = this.getContentResolver().openInputStream(uri);
-        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
-        onlyBoundsOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
-        input.close();
-        int inSampleSize = Util.calculateInSampleSize(onlyBoundsOptions, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-        BitmapFactory.Options o2 = new BitmapFactory.Options();
-        o2.inSampleSize = inSampleSize;
-        input = this.getContentResolver().openInputStream(uri);
-        Bitmap bitmap =  BitmapFactory.decodeStream(input, null,o2);
-        input.close();
-        return bitmap;
-    }
 
     private String getCookieString(Response response) {
         for (Header header : response.getHeaders()) {

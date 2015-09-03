@@ -18,22 +18,9 @@
         android:layout_height="1dp"
         android:layout_below="@id/settings_title"
         android:background="@color/gray"/>
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/message_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/message_line"
-
-        android:background="@color/lightgreen">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:layout_centerHorizontal="true"
-            android:text="@string/no_message"
-            android:textSize="20sp"
-            android:drawableTop="@drawable/empty_messages"/>
-
-    </RelativeLayout>
-
-
+        android:layout_below="@id/message_line"/>
 </RelativeLayout>

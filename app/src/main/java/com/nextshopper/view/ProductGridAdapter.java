@@ -165,7 +165,19 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
                     }
                 });
-            }else {
+            } else if(trendingFragment.getArguments().get("Tab").equals("Store")){
+                service.ProductAPI_ListStorePublicProducts(((String) trendingFragment.getArguments().get("ProductId")), start, numOfItem, new Callback<ProductList>() {
+                    @Override
+                    public void success(ProductList productList, Response response) {
+                        setSearchableProductList( convert(productList));
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
+            } else {
                 service.ProductAPI_RecommendationsForProduct(start, numOfItem, trendingFragment.getArguments().getString("ProductId"), new Callback<SearchableProductList>() {
                     @Override
                     public void success(SearchableProductList searchableProductList, Response response) {

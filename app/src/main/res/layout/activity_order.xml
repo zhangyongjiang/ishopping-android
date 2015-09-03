@@ -16,42 +16,8 @@
         app:textMiddleColor="@color/black"
         app:textRight="@string/checkout"
         app:textRightColor="@color/red"/>
-    <ListView
-        android:id="@+id/list_of_order"
+    <fragment android:name="com.nextshopper.view.CartListFragment"
+        android:id="@+id/cartlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_subtotal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:left_value="@string/subtotal"
-        app:right_value="@string/test"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_shipping"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_value="@string/shipping"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_total"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_value="@string/total"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_credit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_value="@string/credit_your_have"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_coupon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_value="@string/coupon_code"
-        app:right_value="@string/n_and_a"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_netpay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_value="@string/net_pay"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>

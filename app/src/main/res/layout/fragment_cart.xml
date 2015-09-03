@@ -8,53 +8,16 @@
         android:id="@+id/cart_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
         nextshopper:imageLeft="@drawable/menu_active"
         nextshopper:textMiddle="@string/home_shoppingcart"
-        nextshopper:textMiddleColor="@color/black">
+        nextshopper:textMiddleColor="@color/black"
+        nextshopper:textRight="@string/checkout"
+        nextshopper:textRightColor="@color/red">
     </com.nextshopper.view.TitleView>
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/cart_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cart_title"
-        android:background="@color/lightgreen">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray"
-            ></View>
-        <TextView
-            android:id="@+id/cart_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_centerHorizontal="true"
-            android:text="@string/cart_empty"
-            android:textSize="25sp"
-            />
-        <ImageView
-            android:id="@+id/cart_empty_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cart_empty"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="30dp"
-            android:src="@drawable/empty_cart"/>
-        <TextView
-            android:id="@+id/start_shopping"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cart_empty_image"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/rectangle"
-            android:text="@string/start_shopping"
-            style="@style/TextFont.WelcomeText"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:clickable="true"
-            />
-    </RelativeLayout>
-
+        android:layout_below="@id/cart_title"/>
 </RelativeLayout>

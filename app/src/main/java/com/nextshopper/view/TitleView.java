@@ -44,9 +44,9 @@ public class TitleView extends FrameLayout implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         Activity activity = ((Activity) v.getContext());
-        if(! (activity instanceof HomeActivity)){
+        if(! (activity instanceof HomeActivity) && !(activity instanceof ReviewActivity)){
             activity.finish();
-        }else if(!(activity instanceof ReviewActivity)){
+        }else if((activity instanceof ReviewActivity)){
             ((ReviewActivity)activity).update();
         }
         else{

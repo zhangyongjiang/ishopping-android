@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.nextshopper.common.Constant;
 import com.nextshopper.common.NextShopperApplication;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.Product;
@@ -49,12 +50,16 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
     private View supportView;
     private View detailsSpecView;
     private View reviewViewAll;
+    private View storeView;
+    private View detailsShareView;
+    private View detailsQuestionView;
     private ProductDetails details = new ProductDetails();
     private ScreenSlidePagerAdapter adapter;
     private boolean like;
     private int storeHeight;
     private int requestCode =0;
     private TitleView titleView;
+    private ImageFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +75,17 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
         oriPriceView = (TextView) findViewById(R.id.details_org_price);
         buyNowButton = (Button) findViewById(R.id.details_buy_now);
         buyNowButton.setOnClickListener(this);
+        detailsQuestionView = findViewById(R.id.details_question);
+        detailsQuestionView.setOnClickListener(this);
         specView = (TextView) findViewById(R.id.spec_details);
         reviewView = (TextView) findViewById(R.id.details_review);
         followerView = (TextView) findViewById(R.id.details_follower);
         storeNameView = (TextView) findViewById(R.id.details_store_name);
         storeLogoView = (ImageView) findViewById(R.id.details_store_logo);
+        detailsShareView = findViewById(R.id.details_share);
+        detailsShareView.setOnClickListener(this);
+        storeView = findViewById(R.id.details_social);
+        storeView.setOnClickListener(this);
         supportView = findViewById(R.id.details_support);
         supportView.setOnClickListener(this);
         detailsSpecView = findViewById(R.id.details_spec);
@@ -127,7 +138,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
 
         @Override
         public Fragment getItem(int position) {
-            ImageFragment fragment = ImageFragment.newInstance(details.product.imgs.get(position));
+            fragment = ImageFragment.newInstance(details.product.imgs.get(position));
             return fragment;
 
         }
@@ -197,6 +208,13 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
             startActivity(intent);
         } else if(v.getId()==R.id.details_review_all){
             ReviewActivity.startReviewActivity(details.reviews, this, requestCode);
+        } else if(v.getId() == R.id.details_social){
+            StoreDetailsActivity.startActivity(this, details.storeDetails.id);
+        } else if(v.getId() == R.id.details_share){
+            Util.share(this, details.product.name, fragment.getBitMap());
+        } else if(v.getId() == R.id.details_question){
+            Intent intent = new Intent(this, ContactSellerActivity.class);
+            startActivity(intent);
         }
     }
 

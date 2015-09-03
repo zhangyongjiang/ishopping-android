@@ -1,6 +1,7 @@
 package com.nextshopper.common;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,8 +11,15 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.Uri;
+import android.provider.MediaStore;
 
+import com.nextshopper.activity.R;
 import com.nextshopper.rest.beans.User;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by siyiliu on 7/16/15.
@@ -99,4 +107,34 @@ public class Util {
 
         return output;
     }
+
+    public static Bitmap getThumbnail(Context ctx, Uri uri, int THUMBNAIL_SIZE) throws FileNotFoundException, IOException {
+        InputStream input = ctx.getContentResolver().openInputStream(uri);
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+        int inSampleSize = Util.calculateInSampleSize(onlyBoundsOptions, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = inSampleSize;
+        input = ctx.getContentResolver().openInputStream(uri);
+        Bitmap bitmap =  BitmapFactory.decodeStream(input, null,o2);
+        input.close();
+        return bitmap;
+    }
+
+    public static void share(Context ctx, String text, Bitmap bitmap){
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.setType("image/*");
+        String title = ctx.getResources().getString(R.string.share);
+        Intent chooser = Intent.createChooser(sendIntent, title);
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, Constant.NEXT_SHOPPER_SHARE);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+        String url= MediaStore.Images.Media.insertImage(ctx.getContentResolver(), bitmap, "title", "nextshopper");
+        sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(url));
+        if (sendIntent.resolveActivity(ctx.getPackageManager()) != null) {
+            ctx.startActivity(chooser);
+        }
+    }
+
 }

@@ -14,4 +14,5 @@ public class Constant {
     public static final String PASSWORD="password";
     public static final String GENDER="gender";
     public static final String USER_ID="userId";
+    public static final String NEXT_SHOPPER_SHARE="Next Shopper";
 }

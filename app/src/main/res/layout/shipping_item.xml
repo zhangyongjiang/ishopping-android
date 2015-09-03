@@ -12,6 +12,7 @@
         android:textStyle="bold"
         android:text="@string/test"/>
     <EditText
+        android:id="@+id/shipping_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
