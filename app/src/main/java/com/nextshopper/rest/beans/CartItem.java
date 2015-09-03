@@ -1,8 +1,11 @@
 package com.nextshopper.rest.beans;
 
-public class CartItem { 
+import java.util.Map;
+
+public class CartItem {
 	public String productId;
-	public String option;
+    public String skuId;
+    public Map<String, String> options;
 	public String userId;
 	public float price;
 	public int quantity;

@@ -17,9 +17,14 @@ public class UserOrder {
 	public java.util.List sellerNotes;
 	public float commissionPercent;
 	public java.util.List promotionList;
-	public float promoValue;
 	public String id;
 	public int version;
 	public long created;
 	public long updated;
+    public float creditUsed;
+    public float creditEarned;
+    public float couponValue;
+    public float couponValueRefund;
+    public String couponCode;
+
 } 
