@@ -16,8 +16,8 @@
         app:textMiddleColor="@color/black"
         app:textRight="@string/checkout"
         app:textRightColor="@color/red"/>
-    <fragment android:name="com.nextshopper.view.CartListFragment"
-        android:id="@+id/cartlist"
+    <FrameLayout
+        android:id="@+id/order_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

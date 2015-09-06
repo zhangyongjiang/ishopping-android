@@ -102,6 +102,10 @@
             android:name=".ContactSellerActivity"
             android:label="@string/title_activity_contact_seller" >
         </activity>
+        <activity
+            android:name=".OrderPreviewActivity"
+            android:label="@string/title_activity_order_preview" >
+        </activity>
     </application>
 
 </manifest>

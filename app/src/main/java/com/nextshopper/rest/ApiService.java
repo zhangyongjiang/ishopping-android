@@ -1,7 +1,5 @@
 package com.nextshopper.rest;
 
-import com.nextshopper.rest.*;
-
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 
@@ -14,6 +12,7 @@ public class ApiService {
     private static RestAdapter.Builder builder = new RestAdapter.Builder().setEndpoint(endpoint);
 
     private static com.nextshopper.rest.NextShopperService service;
+    private static String cookie;
 
     public static com.nextshopper.rest.NextShopperService getService() {
         if (service == null) {
@@ -23,6 +22,7 @@ public class ApiService {
     }
 
     public static void buildService(final String cookieValue) {
+        cookie = cookieValue;
         service = builder.setRequestInterceptor(
                 new RequestInterceptor() {
                     @Override
@@ -33,6 +33,10 @@ public class ApiService {
                     }
                 }).build().create(com.nextshopper.rest.NextShopperService.class);
     }
+   public static String getCookie(){
+       return cookie;
+   }
+
 }
 
 

@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.nextshopper.activity.R;
@@ -28,10 +30,12 @@ import retrofit.client.Response;
 public class OrderAdapter extends BaseAdapter implements View.OnClickListener{
     private Context context;
     private List<Product> productList;
+    private boolean changable;
 
-    public OrderAdapter(Context ctx, List<Product> productList ){
+    public OrderAdapter(Context ctx, List<Product> productList, boolean changable ){
         context = ctx;
         this.productList = productList;
+        this.changable = changable;
     }
     @Override
     public int getCount() {
@@ -71,6 +75,17 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener{
         minusButton.setOnClickListener(this);
         addButton.setOnClickListener(this);
         addButton.setTag(quantityButton);
+        if(!changable){
+            convertView.findViewById(R.id.order_quantity).setVisibility(View.GONE);
+            LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            TextView textView = new TextView(context);
+            textView.setText("Quantity: " + product.quantity);
+            textView.setLayoutParams(layoutParams);
+            ((RelativeLayout)convertView).addView(textView);
+
+        }
         return convertView;
     }
 

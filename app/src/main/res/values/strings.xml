@@ -185,4 +185,18 @@
     <string name="error">Error</string>
     <string name="new_pwd_required">New password is required</string>
     <string name="pwd_not_match">Password does not match</string>
+    <string name="phone">Phone</string>
+    <string name="Address">Address</string>
+    <string name="country">Country</string>
+    <string name="state">State</string>
+    <string name="city">City</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="title_activity_order_preview">OrderPreviewActivity</string>
+    <string name="order_preview">Order Preview</string>
+    <string name="submit">Submit</string>
+    <string name="ship_to">Ship To</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="thanks">Thanks for your order!</string>
+    <string name="order_shipped">Your order will be shipped soon.</string>
+    <string name="continue_shopping">Continue Shopping</string>
 </resources>

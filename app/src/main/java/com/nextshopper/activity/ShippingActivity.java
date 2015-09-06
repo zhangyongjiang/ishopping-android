@@ -1,14 +1,14 @@
 package com.nextshopper.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
 
+import com.braintreepayments.api.dropin.BraintreePaymentActivity;
 import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.beans.PaymentToken;
 import com.nextshopper.rest.beans.ShippingInfo;
-import com.nextshopper.rest.beans.User;
+import com.nextshopper.view.InputItem;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -16,39 +16,49 @@ import retrofit.client.Response;
 
 
 public class ShippingActivity extends BaseActivity {
-    private ListView listView;
-    private ArrayAdapter<String> arrayAdapter;
+
     private ShippingInfo shippingInfo;
+    private InputItem firstNameView;
+    private InputItem lastNameView;
+    private InputItem phoneView;
+    private InputItem addressView;
+    private InputItem countryView;
+    private InputItem stateView;
+    private InputItem cityView;
+    private InputItem zipcodeView;
+    private static int BT_REQUEST_CODE=100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shipping);
-        listView =(ListView) findViewById(R.id.shipping_checkout);
-        String[] strs = new String[]{"First Name", "Last Name", "Phone", "Address","Country", "state", "City","Zip Code"};
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.shipping_item, R.id.shipping_title, strs);
-        listView.setAdapter(arrayAdapter);
-        shippingInfo = new ShippingInfo();
-        for(int i =0; i<listView.getAdapter().getCount(); i++){
-            View view = listView.getChildAt(i);
-            EditText editText = (EditText)view.findViewById(R.id.shipping_info);
-            if(i==0) shippingInfo.firstName = editText.getText().toString();
-            if(i==1) shippingInfo.lastName = editText.getText().toString();
-            if(i==2) shippingInfo.phoneNumber = editText.getText().toString();
-            if(i==3) shippingInfo.address = editText.getText().toString();
-            if(i==4) shippingInfo.country = editText.getText().toString();
-            if(i==5) shippingInfo.state = editText.getText().toString();
-            if(i==6) shippingInfo.city = editText.getText().toString();
-            if(i==7) shippingInfo.zipcode = editText.getText().toString();
-        }
-
+        firstNameView =(InputItem) findViewById(R.id.shipping_firstname);
+        lastNameView =(InputItem) findViewById(R.id.shipping_lastname);
+        phoneView =(InputItem) findViewById(R.id.shipping_phone);
+        addressView =(InputItem) findViewById(R.id.shipping_address);
+        countryView =(InputItem) findViewById(R.id.shipping_country);
+        stateView =(InputItem) findViewById(R.id.shipping_state);
+        cityView =(InputItem) findViewById(R.id.shipping_city);
+        zipcodeView =(InputItem) findViewById(R.id.shipping_zipcode);
     }
 
     public void rightOnClick(View view){
-        ApiService.getService().UserAPI_AddShipping(shippingInfo, new Callback<User>() {
-            @Override
-            public void success(User user, Response response) {
+        shippingInfo = new ShippingInfo();
+        shippingInfo.firstName = firstNameView.getEditText().getText().toString();
+        shippingInfo.lastName = lastNameView.getEditText().getText().toString();
+        shippingInfo.phoneNumber = phoneView.getEditText().getText().toString();
+        shippingInfo.address =  addressView.getEditText().getText().toString();
+        shippingInfo.country = countryView.getEditText().getText().toString();
+        shippingInfo.state = stateView.getEditText().getText().toString();
+        shippingInfo.city = cityView.getEditText().getText().toString();
+        shippingInfo.zipcode = zipcodeView.getEditText().getText().toString();
 
+        ApiService.getService().ShoppingAPI_GetPaymentToken(null, new Callback<PaymentToken>() {
+            @Override
+            public void success(PaymentToken paymentToken, Response response) {
+                Intent intent = new Intent(ShippingActivity.this, BraintreePaymentActivity.class);
+                intent.putExtra(BraintreePaymentActivity.EXTRA_CLIENT_TOKEN, paymentToken.token);
+                startActivityForResult(intent, BT_REQUEST_CODE);
             }
 
             @Override
@@ -56,6 +66,19 @@ public class ShippingActivity extends BaseActivity {
 
             }
         });
-        finish();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == BT_REQUEST_CODE) {
+            if (resultCode == BraintreePaymentActivity.RESULT_OK) {
+                String paymentMethodNonce = data.getStringExtra(BraintreePaymentActivity.EXTRA_PAYMENT_METHOD_NONCE);
+                postNonceToServer(paymentMethodNonce);
+            }
+        }
+    }
+    void postNonceToServer(String nonce) {
+          OrderPreviewActivity.startActivity(this, shippingInfo, nonce);
+    }
+
 }

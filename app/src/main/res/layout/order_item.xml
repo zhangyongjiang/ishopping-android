@@ -38,6 +38,7 @@
         android:text="@string/order_prodcut_price" />
 
     <LinearLayout
+        android:id="@+id/order_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

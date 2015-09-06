@@ -69,7 +69,7 @@ public class CartFragment extends Fragment{
             ft.replace(R.id.cart_container, emptyCartFragment);
             ft.commit();
         }else{
-           Fragment cartListFragment = new CartListFragment();
+           Fragment cartListFragment = CartListFragment.newInstance(true);
             ft.replace(R.id.cart_container, cartListFragment);
             ft.commit();
         }

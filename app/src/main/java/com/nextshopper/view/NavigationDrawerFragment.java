@@ -62,8 +62,17 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
     private boolean mUserLearnedDrawer;
     private ListView menuListView;
     private boolean login;
+    private static final String ARG_PARAM = "param";
 
     public NavigationDrawerFragment() {
+    }
+
+    public static NavigationDrawerFragment newIntance(String str){
+        NavigationDrawerFragment fragment = new NavigationDrawerFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM, str);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override

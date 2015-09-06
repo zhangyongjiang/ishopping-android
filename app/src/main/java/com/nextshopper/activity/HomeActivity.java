@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.nextshopper.view.AboutFragment;
 import com.nextshopper.view.CartFragment;
+import com.nextshopper.view.ConfirmFragment;
 import com.nextshopper.view.HomeFragment;
 import com.nextshopper.view.MessageFragment;
 import com.nextshopper.view.NavigationDrawerFragment;
@@ -36,6 +37,9 @@ public class HomeActivity extends FragmentActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+       String str =  getIntent().getStringExtra("fragment");
+        if(str!=null)
+            this.onNavigationDrawerItemSelected(0, str);
     }
 
     @Override
@@ -71,6 +75,7 @@ public class HomeActivity extends FragmentActivity
              case "Message": return new MessageFragment();
              case "Order History": return new OrderHistoryFragment();
              case "About": return new AboutFragment();
+             case "Confirm": return new ConfirmFragment();
              default:return new AboutFragment();
          }
         }

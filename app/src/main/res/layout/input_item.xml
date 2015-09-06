@@ -27,7 +27,6 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:background="@null"
-            android:text="@string/updage_profile"
             android:textColor="@color/gray"
             android:textSize="18sp" />
     </LinearLayout>

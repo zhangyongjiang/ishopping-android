@@ -36,9 +36,18 @@ public class CartListFragment extends Fragment {
     private Item netPayView;
     List<Product> productList;
     private float shipping;
+    private static final String ARG_PARAM1 = "param";
 
     public CartListFragment() {
         // Required empty public constructor
+    }
+
+    public static CartListFragment newInstance(boolean param) {
+        CartListFragment fragment = new CartListFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(ARG_PARAM1, param);
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -50,9 +59,8 @@ public class CartListFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.list_of_order);
         Map<String, Product> productMap = ((NextShopperApplication) getActivity().getApplicationContext()).getProductMap();
         productList = new ArrayList<Product>(productMap.values());
-        OrderAdapter orderAdapter = new OrderAdapter(getActivity(), productList);
+        OrderAdapter orderAdapter = new OrderAdapter(getActivity(), productList, this.getArguments().getBoolean(ARG_PARAM1));
         listView.setAdapter(orderAdapter);
-        ;
         subtotalView = (Item) view.findViewById(R.id.order_subtotal);
         shippingView = (Item) view.findViewById(R.id.order_shipping);
         totalView = (Item) view.findViewById(R.id.order_total);

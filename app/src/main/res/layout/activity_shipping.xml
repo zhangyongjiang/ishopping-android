@@ -1,13 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.nextshopper.activity.ShippingActivity">
+
     <com.nextshopper.view.TitleView
         android:id="@+id/shipping_title_view"
         android:layout_width="match_parent"
@@ -17,13 +18,62 @@
         app:textMiddle="@string/shipping"
         app:textMiddleColor="@color/black"
         app:textRight="@string/next"
-        app:textRightColor="@color/red"/>
-    <ListView
-        android:id="@+id/shipping_checkout"
+        app:textRightColor="@color/red" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_below="@id/shipping_title_view"
-        android:background="@drawable/rectangle_input"/>
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rectangle_input"
+        android:orientation="vertical">
 
+        <com.nextshopper.view.InputItem
+            android:id="@+id/shipping_firstname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field="@string/first_name" />
+
+        <com.nextshopper.view.InputItem
+            android:id="@+id/shipping_lastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field="@string/last_name" />
+
+        <com.nextshopper.view.InputItem
+            android:id="@+id/shipping_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field="@string/phone" />
+
+        <com.nextshopper.view.InputItem
+            android:id="@+id/shipping_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field="@string/Address" />
+
+        <com.nextshopper.view.InputItem
+            android:id="@+id/shipping_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field="@string/country" />
+
+        <com.nextshopper.view.InputItem
+            android:id="@+id/shipping_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field="@string/state" />
+
+        <com.nextshopper.view.InputItem
+            android:id="@+id/shipping_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field="@string/city" />
+
+        <com.nextshopper.view.InputItem
+            android:id="@+id/shipping_zipcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field="@string/zip_code" />
+    </LinearLayout>
 </RelativeLayout>
