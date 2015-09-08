@@ -145,6 +145,8 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                 @Override
                 public void success(User user, Response response) {
                     Util.saveUserData(LoginActivity.this, user);
+                    String cookie = Util.getCookieString(response);
+                    ApiService.buildService(cookie);
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra(Constant.USER_ID, user.id);
                     LoginActivity.this.startActivity(intent);

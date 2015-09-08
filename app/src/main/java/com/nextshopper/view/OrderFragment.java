@@ -1,5 +1,6 @@
 package com.nextshopper.view;
 
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,12 +11,10 @@ import com.nextshopper.activity.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- * Use the {@link OrderHistoryFragment#newInstance} factory method to
+ * Use the {@link OrderFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OrderHistoryFragment extends Fragment {
+public class OrderFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -24,7 +23,6 @@ public class OrderHistoryFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private boolean empty;
 
 
     /**
@@ -33,11 +31,11 @@ public class OrderHistoryFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment OrderHistoryFragment.
+     * @return A new instance of fragment OrderFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static OrderHistoryFragment newInstance(String param1, String param2) {
-        OrderHistoryFragment fragment = new OrderHistoryFragment();
+    public static OrderFragment newInstance(String param1, String param2) {
+        OrderFragment fragment = new OrderFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -45,7 +43,7 @@ public class OrderHistoryFragment extends Fragment {
         return fragment;
     }
 
-    public OrderHistoryFragment() {
+    public OrderFragment() {
         // Required empty public constructor
     }
 
@@ -56,15 +54,15 @@ public class OrderHistoryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragmen
-        View view = inflater.inflate(R.layout.fragment_order, container, false);
-        getFragmentManager().beginTransaction().add(R.id.order_history_container, new OrderListFragment()).commit();
-        return view;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_order, container, false);
     }
+
 
 }

@@ -1,16 +1,89 @@
 package com.nextshopper.rest;
 
+import com.nextshopper.rest.beans.ASTracking;
+import com.nextshopper.rest.beans.AccountType;
+import com.nextshopper.rest.beans.BankInfo;
+import com.nextshopper.rest.beans.CancelRequest;
+import com.nextshopper.rest.beans.CartItemDetailsList;
+import com.nextshopper.rest.beans.CartItemRequest;
+import com.nextshopper.rest.beans.CartItemRequestList;
+import com.nextshopper.rest.beans.ChangePasswordRequest;
+import com.nextshopper.rest.beans.CheckoutRequest;
+import com.nextshopper.rest.beans.CouponDetails;
+import com.nextshopper.rest.beans.CreditCardBillingInfo;
+import com.nextshopper.rest.beans.FacebookToken;
+import com.nextshopper.rest.beans.Favorite;
+import com.nextshopper.rest.beans.GenericResponse;
+import com.nextshopper.rest.beans.LikeRequest;
+import com.nextshopper.rest.beans.ListWrapper;
+import com.nextshopper.rest.beans.LoginRequest;
+import com.nextshopper.rest.beans.MailMessage;
+import com.nextshopper.rest.beans.Memo;
+import com.nextshopper.rest.beans.Message;
+import com.nextshopper.rest.beans.MessageDetails;
+import com.nextshopper.rest.beans.MessageDetailsList;
+import com.nextshopper.rest.beans.MessageThread;
+import com.nextshopper.rest.beans.MyStore;
+import com.nextshopper.rest.beans.NextShopperNumbers;
+import com.nextshopper.rest.beans.Notification;
+import com.nextshopper.rest.beans.NotificationList;
+import com.nextshopper.rest.beans.OrderItemList;
+import com.nextshopper.rest.beans.OrderItemNote;
+import com.nextshopper.rest.beans.OrderStatus;
+import com.nextshopper.rest.beans.PaymentToken;
+import com.nextshopper.rest.beans.Product;
+import com.nextshopper.rest.beans.ProductCategory;
+import com.nextshopper.rest.beans.ProductDetails;
+import com.nextshopper.rest.beans.ProductList;
+import com.nextshopper.rest.beans.ProductReview;
+import com.nextshopper.rest.beans.ProductReviewDetailsList;
+import com.nextshopper.rest.beans.Promotion;
+import com.nextshopper.rest.beans.PushNotificationToken;
+import com.nextshopper.rest.beans.RefundRequest;
+import com.nextshopper.rest.beans.RegisterRequest;
+import com.nextshopper.rest.beans.Resource;
+import com.nextshopper.rest.beans.ReturnRequest;
+import com.nextshopper.rest.beans.SearchableProductList;
+import com.nextshopper.rest.beans.SearchableUserList;
+import com.nextshopper.rest.beans.SellerCommentOnProductReview;
+import com.nextshopper.rest.beans.ShippingInfo;
+import com.nextshopper.rest.beans.Store;
+import com.nextshopper.rest.beans.StoreBasicInfo;
+import com.nextshopper.rest.beans.StoreDetails;
+import com.nextshopper.rest.beans.StoreDetailsList;
+import com.nextshopper.rest.beans.StoreMoneyFlowDetails;
+import com.nextshopper.rest.beans.StorePayment;
+import com.nextshopper.rest.beans.StoreReview;
+import com.nextshopper.rest.beans.StoreSalesSummary;
+import com.nextshopper.rest.beans.StoreStatementDetails;
+import com.nextshopper.rest.beans.StoreStatus;
+import com.nextshopper.rest.beans.StringList;
+import com.nextshopper.rest.beans.SupportedVersions;
+import com.nextshopper.rest.beans.SystemConfiguration;
+import com.nextshopper.rest.beans.Tracking;
+import com.nextshopper.rest.beans.TrendProductList;
+import com.nextshopper.rest.beans.TwitterToken;
+import com.nextshopper.rest.beans.User;
+import com.nextshopper.rest.beans.UserActivityList;
+import com.nextshopper.rest.beans.UserBasicInfo;
+import com.nextshopper.rest.beans.UserDetails;
+import com.nextshopper.rest.beans.UserFollowDetailsList;
+import com.nextshopper.rest.beans.UserInfo;
+import com.nextshopper.rest.beans.UserInterest;
+import com.nextshopper.rest.beans.UserOrder;
+import com.nextshopper.rest.beans.UserOrderDetails;
+import com.nextshopper.rest.beans.UserOrderDetailsList;
+import com.nextshopper.rest.beans.UserSettings;
+
 import retrofit.Callback;
 import retrofit.http.Body;
+import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
-import retrofit.mime.TypedFile;
-import retrofit.http.GET;
 import retrofit.http.Path;
 import retrofit.http.Query;
-
-import com.nextshopper.rest.beans.*;
+import retrofit.mime.TypedFile;
 
 public interface NextShopperService {
 	@POST("/ws/admin/suspend-store/{storeId}")
@@ -251,7 +324,7 @@ public interface NextShopperService {
 	void OrderAPI_UserOrderList(@Query("offset") int offset, @Query("size") int size, Callback<UserOrderDetailsList> callback);
 
 	@GET("/ws/order/user-order-item-list")
-	void OrderAPI_UserOrderItemList(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
+	void OrderAPI_UserOrderItemList(@Query("offset") int offset, @Query("size") int size, Callback<OrderItemList> callback);
 
 	@GET("/ws/order/store-order-list")
 	void OrderAPI_StoreOrderList(@Query("offset") int offset, @Query("size") int size, @Query("status") OrderStatus status, Callback<UserOrderDetailsList> callback);

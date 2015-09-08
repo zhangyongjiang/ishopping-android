@@ -199,4 +199,15 @@
     <string name="thanks">Thanks for your order!</string>
     <string name="order_shipped">Your order will be shipped soon.</string>
     <string name="continue_shopping">Continue Shopping</string>
+    <string name="quantity_num">Quantity: %1$d</string>
+    <string name="price_usd">Price: USD  %1$.2f</string>
+    <string name="rave_it">Rave It!</string>
+    <string name="title_activity_order_details">OrderDetailsActivity</string>
+    <string name="order_details">Order Details</string>
+    <string name="order_number">Order Number</string>
+    <string name="order_date">Order Date</string>
+    <string name="order_status">Order Status</string>
+    <string name="grand_total">Grand Total</string>
+    <string name="store_credit_applied">Store Credit Applied</string>
+    <string name="coupon_applied">Coupon Applied</string>
 </resources>

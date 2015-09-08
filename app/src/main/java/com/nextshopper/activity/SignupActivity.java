@@ -35,7 +35,6 @@ import java.util.Date;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
-import retrofit.client.Header;
 import retrofit.client.Response;
 import retrofit.mime.TypedByteArray;
 import retrofit.mime.TypedFile;
@@ -145,14 +144,13 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
         service.UserAPI_Register(request, new Callback<User>() {
             @Override
             public void success(User user, Response response) {
-                String cookie = getCookieString(response);
+                String cookie = Util.getCookieString(response);
                 ApiService.buildService(cookie);
                 if (dir != null) {
                     TypedFile typedFile = new TypedFile("image/jpeg", new File(dir, Constant.THUMNAIL));
                     ApiService.getService().UserAPI_Upload(typedFile, new Callback<User>() {
                         @Override
                         public void success(User user, Response response) {
-                            Util.saveUserData(SignupActivity.this, user);
                             Log.d(ACTIVITY_NAME, user.info.imgPath);
                         }
 
@@ -162,7 +160,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
                         }
                     });
                 }
-
+                Util.saveUserData(SignupActivity.this, user);
                 Intent intent = new Intent(SignupActivity.this, HomeActivity.class);
                 intent.putExtra(Constant.USER_ID, user.id);
                 SignupActivity.this.startActivity(intent);
@@ -233,12 +231,4 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
     }
 
 
-    private String getCookieString(Response response) {
-        for (Header header : response.getHeaders()) {
-            if (null != header.getName() && header.getName().equals("Set-Cookie")) {
-                return header.getValue();
-            }
-        }
-        return null;
-    }
 }

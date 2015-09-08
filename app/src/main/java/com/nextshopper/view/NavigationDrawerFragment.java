@@ -107,11 +107,12 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
                 selectItem(position, ((TextView) view).getText().toString());
             }
         });
-
-        if (getActivity().getIntent().getStringExtra(Constant.USER_ID) != null) {
+        SharedPreferences pref = getActivity().getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
+        String userId=  pref.getString(Constant.USER_ID, "");
+        if (!userId.isEmpty()) {
             listview.setAdapter(new MenuAdapter(getString(R.string.login_menu).split(","),getActivity()));
             TextView userTextView = (TextView) layout.findViewById(R.id.menu_user);
-            SharedPreferences pref = getActivity().getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
+            //SharedPreferences pref = getActivity().getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
             userTextView.setText(pref.getString(Constant.FIRST_NAME, "") + " " + pref.getString(Constant.LAST_NAME, ""));
             ContextWrapper cw = new ContextWrapper(getActivity().getApplicationContext());
             File imageFile = new File(cw.getDir("imageDir", Context.MODE_PRIVATE), Constant.THUMNAIL);

@@ -1,6 +1,8 @@
 package com.nextshopper.common;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -20,6 +22,9 @@ import com.nextshopper.rest.beans.User;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
+import retrofit.client.Header;
+import retrofit.client.Response;
 
 /**
  * Created by siyiliu on 7/16/15.
@@ -79,6 +84,7 @@ public class Util {
 
     public static void saveUserData(Context ctx, User user) {
         SharedPreferences.Editor editor = ctx.getSharedPreferences(Constant.USER, ctx.MODE_PRIVATE).edit();
+        editor.putString(Constant.USER_ID, user.id);
         editor.putString(Constant.FIRST_NAME, user.info.firstName);
         editor.putString(Constant.LAST_NAME, user.info.lastName);
        // editor.putString(Constant.EMAIL, user.);
@@ -135,6 +141,26 @@ public class Util {
         if (sendIntent.resolveActivity(ctx.getPackageManager()) != null) {
             ctx.startActivity(chooser);
         }
+    }
+
+    public static String getCookieString(Response response) {
+        for (Header header : response.getHeaders()) {
+            if (null != header.getName() && header.getName().equals("Set-Cookie")) {
+                return header.getValue();
+            }
+        }
+        return null;
+    }
+
+    public static void alertBox(Context ctx, String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+        builder.setMessage(msg).setTitle(R.string.dialog_title);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }

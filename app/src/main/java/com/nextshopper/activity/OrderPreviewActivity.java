@@ -3,9 +3,12 @@ package com.nextshopper.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.nextshopper.common.Constant;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.BraintreeBillingInfo;
 import com.nextshopper.rest.beans.CheckoutRequest;
@@ -16,6 +19,7 @@ import com.nextshopper.view.CartListFragment;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedByteArray;
 
 
 public class OrderPreviewActivity extends BaseActivity {
@@ -63,11 +67,14 @@ public class OrderPreviewActivity extends BaseActivity {
         ApiService.getService().ShoppingAPI_Checkout(request, new Callback<UserOrderDetailsList>() {
             @Override
             public void success(UserOrderDetailsList userOrderDetailsList, Response response) {
-
+                Util.alertBox(OrderPreviewActivity.this, Integer.toString(userOrderDetailsList.totalOrders));
             }
 
             @Override
             public void failure(RetrofitError error) {
+                String msg = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
+                Util.alertBox(OrderPreviewActivity.this, msg);
+                Log.e(Constant.NEXTSHOPPER, error.getMessage() + ": " + msg, error);
 
             }
         });

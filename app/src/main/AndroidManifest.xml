@@ -106,6 +106,10 @@
             android:name=".OrderPreviewActivity"
             android:label="@string/title_activity_order_preview" >
         </activity>
+        <activity
+            android:name=".OrderDetailsActivity"
+            android:label="@string/title_activity_order_details" >
+        </activity>
     </application>
 
 </manifest>
