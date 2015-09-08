@@ -66,7 +66,7 @@ public class OrderDetailsActivity extends BaseActivity {
                 ShippingInfo shippingInfo = userOrderDetails.order.shipping;
                 nameView.setText(shippingInfo.firstName + " " + shippingInfo.lastName);
                 addressView.setText(shippingInfo.address);
-                addressView.setText(shippingInfo.city+", "+ shippingInfo.state+" "+ shippingInfo.zipcode+" "+ shippingInfo.country);
+                cityView.setText(shippingInfo.city+", "+ shippingInfo.state+" "+ shippingInfo.zipcode+" "+ shippingInfo.country);
                 adapter.updateList(userOrderDetails.items);
                 Log.d(Constant.NEXTSHOPPER, userOrderDetails.toString());
 

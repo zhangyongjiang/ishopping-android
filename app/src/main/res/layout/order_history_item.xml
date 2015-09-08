@@ -8,16 +8,14 @@
         android:id="@+id/item_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:text="@string/test" />
+        android:layout_marginBottom="5dp" />
 
     <TextView
         android:id="@+id/item_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="5dp"
-        android:text="@string/test" />
+        android:layout_marginBottom="5dp" />
 
     <RelativeLayout
         android:id="@+id/item_details"
