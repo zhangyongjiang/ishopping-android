@@ -11,7 +11,7 @@
         android:layout_margin="10dp"
         nextshopper:imageLeft="@drawable/menu_active"
         nextshopper:textMiddle="@string/home_message"
-        nextshopper:textMiddleColor="@color/black"></com.nextshopper.view.TitleView>
+        nextshopper:textMiddleColor="@color/black"/>
     <View
         android:id="@+id/message_line"
         android:layout_width="match_parent"

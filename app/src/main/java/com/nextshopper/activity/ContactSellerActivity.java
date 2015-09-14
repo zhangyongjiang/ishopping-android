@@ -1,5 +1,8 @@
 package com.nextshopper.activity;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,12 +11,15 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nextshopper.common.Constant;
 import com.nextshopper.common.Util;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +28,28 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
     private TextView attachView;
     private int REQUEST_CODE = 1;
     private ImageView imageView;
+    private TextView subjectView;
+    private static String SUBJECT="subject";
+    private EditText messageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_seller);
+        subjectView = (TextView)findViewById(R.id.contact_subject);
+        messageView =(EditText) findViewById(R.id.create_review_comment);
+        String subject = getIntent().getStringExtra(SUBJECT);
+        if(subject!=null && !subject.isEmpty()){
+            subjectView.setText(subject);
+        }
         attachView =(TextView) findViewById(R.id.contact_seller_attach);
         attachView.setOnClickListener(this);
         imageView =(ImageView) findViewById(R.id.contact_seller_img);
+    }
+
+    public static void startActivityForResult(Activity ctx, String subject, int requestCode){
+        Intent intent = new Intent(ctx, ContactSellerActivity.class);
+        intent.putExtra(SUBJECT, subject);
+        ctx.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -53,6 +74,16 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
                     Uri imageUri = data.getData();
                     Bitmap bitmap = Util.getThumbnail(this, imageUri, 240);
                     imageView.setImageBitmap(bitmap);
+                    ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                    File dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
+                    File thumnail = new File(dir, Constant.THUMNAIL);
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(thumnail);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    } catch (Exception e) {
+                        Log.e(Constant.NEXTSHOPPER, e.getMessage(), e);
+                    }
                 }
                 catch (Exception e) {
                     Log.e(Constant.NEXTSHOPPER, e.getMessage(), e);
@@ -67,7 +98,10 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
     }
 
     public void rightOnClick(View view) {
-        finish();
+         Intent intent = new Intent();
+         intent.putExtra("message", messageView.getText().toString());
+         this.setResult(RESULT_OK, intent);
+         finish();
     }
 
 }

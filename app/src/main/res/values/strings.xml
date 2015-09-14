@@ -210,4 +210,14 @@
     <string name="grand_total">Grand Total</string>
     <string name="store_credit_applied">Store Credit Applied</string>
     <string name="coupon_applied">Coupon Applied</string>
+    <string name="title_activity_review_order">ReviewOrderActivity</string>
+    <string name="review_title">Review</string>
+    <string name="service">Service</string>
+    <string name="product">Product</string>
+    <string name="next_shopper">Next Shopper</string>
+    <string name="title_activity_msg_thread">MsgThreadActivity</string>
+    <string name="message_thread">Message Thread</string>
+    <string name="reply">Reply</string>
+    <string name="title_activity_favorite">FavoriteActivity</string>
+    <string name="title_activity_followed_store">FollowedStoreActivity</string>
 </resources>

@@ -90,6 +90,7 @@ public class Util {
        // editor.putString(Constant.EMAIL, user.);
        // editor.putString(Constant.PASSWORD, user.info.pwd);
         editor.putString(Constant.GENDER, user.info.gender.toString());
+
         editor.commit();
     }
     public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {

@@ -15,6 +15,8 @@ import com.nextshopper.rest.beans.FacebookToken;
 import com.nextshopper.rest.beans.Favorite;
 import com.nextshopper.rest.beans.GenericResponse;
 import com.nextshopper.rest.beans.LikeRequest;
+import com.nextshopper.rest.beans.ListFavoriteDetails;
+import com.nextshopper.rest.beans.ListFollowingStore;
 import com.nextshopper.rest.beans.ListWrapper;
 import com.nextshopper.rest.beans.LoginRequest;
 import com.nextshopper.rest.beans.MailMessage;
@@ -162,7 +164,7 @@ public interface NextShopperService {
 	void FavoriteAPI_RemoveFavorite(@Path("favId") String favId, Callback<GenericResponse> callback);
 
 	@GET("/ws/favorite/list")
-	void FavoriteAPI_FavoriteList(Callback<ListWrapper> callback);
+	void FavoriteAPI_FavoriteList(Callback<ListFavoriteDetails> callback);
 
 	@GET("/ws/message/sys/msg-list")
 	void MessageAPI_GetSystemMessages(@Query("offset") int offset, @Query("size") int size, Callback<MessageDetailsList> callback);
@@ -578,7 +580,7 @@ public interface NextShopperService {
 	void SocialAPI_FollowingStores(@Path("userId") String userId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@GET("/ws/social/following-stores")
-	void SocialAPI_MyFollowingStores(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
+	void SocialAPI_MyFollowingStores(@Query("offset") int offset, @Query("size") int size, Callback<ListFollowingStore> callback);
 
 	@GET("/ws/social/store-followers/{storeId}")
 	void SocialAPI_ListStoreFollowers(@Path("storeId") String storeId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);

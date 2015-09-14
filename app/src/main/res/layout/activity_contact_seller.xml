@@ -26,7 +26,7 @@
         android:layout_below="@id/contact_seller_title"
         android:background="@drawable/rectangle_input">
         <TextView
-            android:id="@+id/create_review_rating"
+            android:id="@+id/contact_subject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -34,7 +34,7 @@
         <View
             android:id="@+id/rating_line"
             android:layout_width="match_parent"
-            android:layout_below="@id/create_review_rating"
+            android:layout_below="@id/contact_subject"
             android:layout_marginBottom="8dp"
             android:layout_height="1dp"
             android:background="@color/gray"/>

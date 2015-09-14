@@ -110,6 +110,22 @@
             android:name=".OrderDetailsActivity"
             android:label="@string/title_activity_order_details" >
         </activity>
+        <activity
+            android:name=".ReviewOrderActivity"
+            android:label="@string/title_activity_review_order" >
+        </activity>
+        <activity
+            android:name=".MsgThreadActivity"
+            android:label="@string/title_activity_msg_thread" >
+        </activity>
+        <activity
+            android:name=".FavoriteActivity"
+            android:label="@string/title_activity_favorite" >
+        </activity>
+        <activity
+            android:name=".FollowedStoreActivity"
+            android:label="@string/title_activity_followed_store" >
+        </activity>
     </application>
 
 </manifest>

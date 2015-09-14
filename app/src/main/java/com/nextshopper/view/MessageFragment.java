@@ -7,6 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nextshopper.activity.R;
+import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.beans.MessageDetailsList;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MessageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -53,8 +59,22 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_message, container, false);
-    }
+        View view =  inflater.inflate(R.layout.fragment_message, container, false);
+        getFragmentManager().beginTransaction().add(R.id.message_container, new MsgListFragment()).commit();
+        ApiService.getService().MessageAPI_GetUserMessages(0, 20, new Callback<MessageDetailsList>() {
+            @Override
+            public void success(MessageDetailsList messageDetailsList, Response response) {
+                if (messageDetailsList.total == 0) {
+                    getFragmentManager().beginTransaction().replace(R.id.message_container, new EmptyMsgFragment()).commit();
+                }
+            }
 
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+        return view;
+    }
 
 }

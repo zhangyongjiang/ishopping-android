@@ -1,0 +1,142 @@
+package com.nextshopper.view;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.nextshopper.activity.MsgThreadActivity;
+import com.nextshopper.activity.R;
+import com.nextshopper.common.Constant;
+import com.nextshopper.common.NextShopperApplication;
+import com.nextshopper.common.Util;
+import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.beans.MessageDetails;
+import com.nextshopper.rest.beans.MessageDetailsList;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedByteArray;
+
+/**
+ * Created by siyiliu on 9/8/15.
+ */
+public class MessageAdapter extends BaseAdapter implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
+    private Activity ctx;
+    private List<MessageDetails> messageItemDetailsList = new ArrayList<>();
+    private int start = 0;
+    private int numOfItem = 20;
+    private ListView listView;
+    private String userId;
+
+    public MessageAdapter(Activity ctx, ListView listView){
+        this.ctx = ctx;
+        this.listView = listView;
+        this.listView.setOnItemClickListener(this);
+        SharedPreferences pre = ctx.getPreferences(Context.MODE_PRIVATE);
+        userId = pre.getString(Constant.USER_ID,"");
+    }
+
+    @Override
+    public int getCount() {
+        return messageItemDetailsList.size();
+    }
+
+    @Override
+    public MessageDetails getItem(int position) {
+        return messageItemDetailsList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        final MessageDetails messageDetails = messageItemDetailsList.get(position);
+        if(convertView==null){
+            convertView = LayoutInflater.from(ctx).inflate(R.layout.message_item, parent, false);
+        }
+        ImageView logoView = (ImageView)convertView.findViewById(R.id.message_item_img);
+        String imageUrl = null;
+        TextView senderView = (TextView) convertView.findViewById(R.id.message_item_sender);
+        TextView titleView = (TextView)convertView.findViewById(R.id.message_item_title);
+        TextView contentView = (TextView) convertView.findViewById(R.id.message_item_content);
+        TextView timeView = (TextView) convertView.findViewById(R.id.message_item_time);
+        if(userId.equals(messageDetails.message.senderId)){
+            if(messageDetails.userReceiverInfo!=null) {
+                if(messageDetails.userReceiverInfo.info!=null) {
+                    imageUrl = messageDetails.userReceiverInfo.info.imgPath;
+                    senderView.setText(messageDetails.userReceiverInfo.info.firstName+" "+messageDetails.userReceiverInfo.info.lastName);
+                }
+            }else if(messageDetails.storeReceiverInfo!=null){
+               imageUrl = messageDetails.storeReceiverInfo.info.logo;
+                senderView.setText(messageDetails.storeReceiverInfo.info.name);
+            }
+
+        }else if(userId.equals(messageDetails.message.recipientId)){
+            if(messageDetails.userSenderInfo!=null){
+                if(messageDetails.userSenderInfo.info!=null){
+                    imageUrl = messageDetails.userSenderInfo.info.imgPath;
+                    senderView.setText(messageDetails.userSenderInfo.info.firstName+" "+messageDetails.userSenderInfo.info.lastName);
+                }else if(messageDetails.storeSenderInfo!=null){
+                    imageUrl = messageDetails.storeSenderInfo.info.logo;
+                    senderView.setText(messageDetails.storeReceiverInfo.info.name);
+                }
+            }
+        }
+        titleView.setText(messageDetails.message.subject);
+        contentView.setText(messageDetails.message.content);
+        timeView.setText(new Date(messageDetails.message.created).toString().substring(0,10));
+        logoView.setTag(imageUrl);
+        ((NextShopperApplication) ctx.getApplicationContext()).loadBitmaps(imageUrl, logoView, false, 0);
+        return convertView;
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        int lastVisibleItem = firstVisibleItem + visibleItemCount;
+        if (lastVisibleItem == this.getCount()) {
+            ApiService.getService().MessageAPI_GetUserMessages(start, numOfItem, new Callback<MessageDetailsList>() {
+                @Override
+                public void success(MessageDetailsList messageDetailsList, Response response) {
+                      MessageAdapter.this.messageItemDetailsList.addAll(messageDetailsList.items);
+                        notifyDataSetChanged();
+                    }
+
+                @Override
+                public void failure(RetrofitError error) {
+                  String msg = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
+                    Util.alertBox(ctx, msg);
+                }
+            });
+
+            start = start + numOfItem;
+        }
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        MsgThreadActivity.startActivity(ctx,getItem(position).message.id);
+    }
+
+}

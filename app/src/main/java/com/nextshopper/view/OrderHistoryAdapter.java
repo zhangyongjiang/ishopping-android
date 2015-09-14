@@ -1,6 +1,7 @@
 package com.nextshopper.view;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nextshopper.activity.ContactSellerActivity;
 import com.nextshopper.activity.OrderDetailsActivity;
 import com.nextshopper.activity.R;
+import com.nextshopper.activity.ReviewOrderActivity;
 import com.nextshopper.common.Constant;
 import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.rest.ApiService;
@@ -32,14 +35,14 @@ import retrofit.mime.TypedByteArray;
 /**
  * Created by siyiliu on 9/6/15.
  */
-public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener{
+public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener, View.OnClickListener{
     private List<OrderItemDetails> orderItemDetailsList = new ArrayList<>();
     private int start = 0;
     private int numOfItem = 20;
-    private Context ctx;
+    private Activity ctx;
     private ListView listView;
 
-    public OrderHistoryAdapter(Context ctx, ListView listView){
+    public OrderHistoryAdapter(Activity ctx, ListView listView){
         this.ctx = ctx;
         this.listView = listView;
         this.listView.setOnItemClickListener(this);
@@ -79,6 +82,12 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
         timeView.setText(new Date(orderItemDetails.item.created).toString());
         TextView statusView =(TextView) convertView.findViewById(R.id.item_status);
         statusView.setText(orderItemDetails.order.status.toString());
+        TextView raveView = (TextView) convertView.findViewById(R.id.item_rave_it);
+        raveView.setTag(orderItemDetails);
+        raveView.setOnClickListener(this);
+        TextView contactSellerView = (TextView) convertView.findViewById(R.id.item_contact_seller);
+        contactSellerView.setTag(orderItemDetails);
+        contactSellerView.setOnClickListener(this);
         return convertView;
     }
 
@@ -89,8 +98,12 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
             ApiService.getService().OrderAPI_UserOrderItemList(start, numOfItem, new Callback<OrderItemList>() {
                 @Override
                 public void success(OrderItemList list, Response response) {
-                    OrderHistoryAdapter.this.orderItemDetailsList.addAll(list.items);
-                    notifyDataSetChanged();
+                    if(list.total==0 && start==0){
+                        ctx.getFragmentManager().beginTransaction().replace(R.id.order_history_container, new EmptyOrderFragment()).commit();
+                    }else {
+                        OrderHistoryAdapter.this.orderItemDetailsList.addAll(list.items);
+                        notifyDataSetChanged();
+                    }
                 }
 
                 @Override
@@ -111,5 +124,17 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         OrderDetailsActivity.startActivity(ctx, getItem(position).order.id);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.item_rave_it){
+            Intent intent = new Intent(ctx, ReviewOrderActivity.class);
+            ctx.startActivity(intent);
+
+        }else if(v.getId() == R.id.item_contact_seller){
+            Intent intent = new Intent(ctx, ContactSellerActivity.class);
+            ctx.startActivity(intent);
+        }
     }
 }
