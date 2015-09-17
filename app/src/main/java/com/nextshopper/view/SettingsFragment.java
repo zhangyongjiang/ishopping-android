@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
 import com.nextshopper.activity.ChangePasswordActivity;
+import com.nextshopper.activity.FavoriteActivity;
+import com.nextshopper.activity.FollowedStoreActivity;
 import com.nextshopper.activity.ProfileActivity;
 import com.nextshopper.activity.R;
 import com.nextshopper.activity.ShippingActivity;
@@ -21,6 +23,12 @@ import retrofit.client.Response;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener{
     private ToggleButton pushView;
+    private SettingItem profileView;
+    private SettingItem changePwdView;
+    private SettingItem shippingView;
+    private SettingItem favoriteView;
+    private SettingItem storeView;
+    private SettingItem logoutView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,9 +39,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        final SettingItem profile = (SettingItem)view.findViewById(R.id.profile);
-        SettingItem changePwd = (SettingItem) view.findViewById(R.id.password);
+        profileView = (SettingItem)view.findViewById(R.id.profile);
+        changePwdView = (SettingItem) view.findViewById(R.id.password);
+        shippingView =(SettingItem) view.findViewById(R.id.shipping);
         pushView =(ToggleButton)view.findViewById(R.id.setting_push_noti);
+        favoriteView = (SettingItem) view.findViewById(R.id.setting_favorite);
+        storeView =(SettingItem) view.findViewById(R.id.setting_stores);
+        logoutView = (SettingItem) view.findViewById(R.id.setting_logout);
+
         ApiService.getService().PushNotificationAPI_GetPushNotificationSetting(new Callback<UserSettings>() {
             @Override
             public void success(UserSettings userSettings, Response response) {
@@ -49,8 +62,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             public void failure(RetrofitError error) {
             }
         });
-        profile.setOnClickListener(this);
-        changePwd.setOnClickListener(this);
+        profileView.setOnClickListener(this);
+        changePwdView.setOnClickListener(this);
+        shippingView.setOnClickListener(this);
+        favoriteView.setOnClickListener(this);
+        storeView.setOnClickListener(this);
+        logoutView.setOnClickListener(this);
         return view;
     }
 
@@ -65,6 +82,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         } else if(v.getId() == R.id.shipping){
             Intent intent = new Intent(getActivity(), ShippingActivity.class);
             startActivity(intent);
+        } else if(v.getId()==R.id.setting_favorite){
+            Intent intent = new Intent(getActivity(), FavoriteActivity.class);
+            startActivity(intent);
+        } else if(v.getId()==R.id.setting_stores){
+            Intent intent = new Intent(getActivity(), FollowedStoreActivity.class);
+            startActivity(intent);
+        } else if(v.getId() == R.id.setting_logout){
+
         }
     }
 }

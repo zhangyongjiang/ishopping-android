@@ -10,7 +10,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:text="@string/order_empty"
-        android:textSize="25sp" />
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/order_empty_image"

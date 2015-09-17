@@ -220,4 +220,6 @@
     <string name="reply">Reply</string>
     <string name="title_activity_favorite">FavoriteActivity</string>
     <string name="title_activity_followed_store">FollowedStoreActivity</string>
+    <string name="no_favorite">You don\'t have favorite</string>
+    <string name="no_follow_store">You haven\'t followed any store yet.</string>
 </resources>

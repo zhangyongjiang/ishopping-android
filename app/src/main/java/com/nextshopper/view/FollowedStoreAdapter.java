@@ -8,9 +8,10 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
-import com.nextshopper.rest.beans.MessageDetails;
-import com.nextshopper.rest.beans.MessageDetailsList;
+import com.nextshopper.rest.beans.ListFollowingStore;
+import com.nextshopper.rest.beans.StoreFollowDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ import retrofit.client.Response;
  */
 public class FollowedStoreAdapter extends BaseAdapter implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener{
     private Context ctx;
-    private List<MessageDetails> messageItemDetailsList = new ArrayList<>();
+    private List<StoreFollowDetails> messageItemDetailsList = new ArrayList<>();
     private int start = 0;
     private int numOfItem = 20;
     private ListView listView;
@@ -56,22 +57,19 @@ public class FollowedStoreAdapter extends BaseAdapter implements AbsListView.OnS
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
         if (lastVisibleItem == this.getCount()) {
-            ApiService.getService().MessageAPI_GetUserMessages(start, numOfItem, new Callback<MessageDetailsList>() {
+
+            ApiService.getService().SocialAPI_MyFollowingStores(start, numOfItem, new Callback<ListFollowingStore>() {
                 @Override
-                public void success(MessageDetailsList messageDetailsList, Response response) {
-                    if (messageDetailsList.total == 0 && start == 0) {
-                        //ctx.getFragmentManager().beginTransaction().replace(R.id.message_container, new EmptyMsgFragment());
-                    } else {
-                        //MessageAdapter.this.messageItemDetailsList.addAll(messageDetailsList.items);
-                    }
+                public void success(ListFollowingStore listFollowingStore, Response response) {
+                    messageItemDetailsList.addAll(listFollowingStore.items);
+                    notifyDataSetChanged();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-
+                    Util.alertBox(ctx, error);
                 }
             });
-
             start = start + numOfItem;
         }
     }

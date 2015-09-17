@@ -71,7 +71,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/push_notifications"
-                android:textSize="18sp"
                 android:layout_margin="12dp"/>
             <ToggleButton
                 android:id="@+id/setting_push_noti"
@@ -85,15 +84,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/setting_notification"
             android:layout_marginTop="40dp"
-            nextshopper:item="@string/favorites"
-            ></com.nextshopper.view.SettingItem>
+            nextshopper:item="@string/favorites" />
         <com.nextshopper.view.SettingItem
             android:id="@+id/setting_stores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/setting_favorite"
-            nextshopper:item="@string/followed_stores">
-        </com.nextshopper.view.SettingItem>
+            nextshopper:item="@string/followed_stores"/>
         <View
             android:id="@+id/setting_line3"
             android:layout_width="match_parent"

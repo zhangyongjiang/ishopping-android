@@ -7,6 +7,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.nextshopper.activity.FollowedStoreActivity">
 
     <com.nextshopper.view.TitleView
@@ -15,8 +16,21 @@
         app:imageLeft="@drawable/back"
         app:textMiddle="@string/following"
         app:textMiddleColor="@color/black"/>
-    <FrameLayout
-        android:id="@+id/followed_store_container"
+    <ListView
+        android:id="@+id/following_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/following_empty_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/empty_store"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/following_empty_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_follow_store"
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>

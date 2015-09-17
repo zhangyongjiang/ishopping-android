@@ -2,7 +2,6 @@ package com.nextshopper.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,8 @@ import com.nextshopper.activity.ContactSellerActivity;
 import com.nextshopper.activity.OrderDetailsActivity;
 import com.nextshopper.activity.R;
 import com.nextshopper.activity.ReviewOrderActivity;
-import com.nextshopper.common.Constant;
 import com.nextshopper.common.NextShopperApplication;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.OrderItemDetails;
 import com.nextshopper.rest.beans.OrderItemList;
@@ -30,7 +29,6 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
 
 /**
  * Created by siyiliu on 9/6/15.
@@ -98,18 +96,13 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
             ApiService.getService().OrderAPI_UserOrderItemList(start, numOfItem, new Callback<OrderItemList>() {
                 @Override
                 public void success(OrderItemList list, Response response) {
-                    if(list.total==0 && start==0){
-                        ctx.getFragmentManager().beginTransaction().replace(R.id.order_history_container, new EmptyOrderFragment()).commit();
-                    }else {
                         OrderHistoryAdapter.this.orderItemDetailsList.addAll(list.items);
                         notifyDataSetChanged();
                     }
-                }
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Log.e(Constant.NEXTSHOPPER, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
-
+                    Util.alertBox(ctx, error);
                 }
             });
             start = start + numOfItem;

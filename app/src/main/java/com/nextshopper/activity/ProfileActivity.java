@@ -83,7 +83,7 @@ public class ProfileActivity extends BaseActivity implements AdapterView.OnItemS
 
                 @Override
                 public void failure(RetrofitError error) {
-
+                  Util.alertBox(ProfileActivity.this, error);
                 }
             });
             User user = new User();

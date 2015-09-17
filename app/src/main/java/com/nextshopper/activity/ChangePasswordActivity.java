@@ -3,10 +3,9 @@ package com.nextshopper.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import com.nextshopper.common.Constant;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.ChangePasswordRequest;
 import com.nextshopper.rest.beans.GenericResponse;
@@ -15,7 +14,6 @@ import com.nextshopper.view.InputItem;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
 
 
 public class ChangePasswordActivity extends BaseActivity{
@@ -68,16 +66,14 @@ public class ChangePasswordActivity extends BaseActivity{
             ApiService.getService().UserAPI_ChangePassword(request, new Callback<GenericResponse>() {
                 @Override
                 public void success(GenericResponse genericResponse, Response response) {
-                    Log.e(Constant.NEXTSHOPPER, genericResponse.msg);
-
+                    finish();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Log.e(Constant.NEXTSHOPPER, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
-                }
+                    Util.alertBox(ChangePasswordActivity.this, ((GenericResponse) error.getBody()).errorCode);
+                     }
             });
         }
-      finish();
     }
 }

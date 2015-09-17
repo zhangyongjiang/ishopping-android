@@ -61,7 +61,7 @@ public class MessageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_message, container, false);
         getFragmentManager().beginTransaction().add(R.id.message_container, new MsgListFragment()).commit();
-        ApiService.getService().MessageAPI_GetUserMessages(0, 20, new Callback<MessageDetailsList>() {
+        ApiService.getService().MessageAPI_GetUserMessages(0, 5, new Callback<MessageDetailsList>() {
             @Override
             public void success(MessageDetailsList messageDetailsList, Response response) {
                 if (messageDetailsList.total == 0) {

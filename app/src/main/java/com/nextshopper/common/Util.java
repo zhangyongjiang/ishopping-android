@@ -168,4 +168,14 @@ public class Util {
         dialog.show();
     }
 
+    public static void alertBox(Context ctx, String error){
+        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+        builder.setMessage(error).setTitle(R.string.dialog_title);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }

@@ -7,6 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nextshopper.activity.R;
+import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.beans.OrderItemList;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,6 +70,21 @@ public class OrderHistoryFragment extends Fragment {
         // Inflate the layout for this fragmen
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         getFragmentManager().beginTransaction().add(R.id.order_history_container, new OrderListFragment()).commit();
+        ApiService.getService().OrderAPI_UserOrderItemList(0, 5, new Callback<OrderItemList>() {
+
+            @Override
+            public void success(OrderItemList orderItemList, Response response) {
+                if (orderItemList.total == 0) {
+                    getFragmentManager().beginTransaction().replace(R.id.order_history_container, new EmptyOrderFragment()).commit();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+
         return view;
     }
 
