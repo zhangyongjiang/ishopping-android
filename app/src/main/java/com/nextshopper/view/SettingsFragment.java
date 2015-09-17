@@ -1,6 +1,9 @@
 package com.nextshopper.view;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,11 +14,15 @@ import android.widget.ToggleButton;
 import com.nextshopper.activity.ChangePasswordActivity;
 import com.nextshopper.activity.FavoriteActivity;
 import com.nextshopper.activity.FollowedStoreActivity;
+import com.nextshopper.activity.MainActivity;
 import com.nextshopper.activity.ProfileActivity;
 import com.nextshopper.activity.R;
 import com.nextshopper.activity.ShippingActivity;
+import com.nextshopper.common.Constant;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.UserSettings;
+
+import java.io.File;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -89,7 +96,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             Intent intent = new Intent(getActivity(), FollowedStoreActivity.class);
             startActivity(intent);
         } else if(v.getId() == R.id.setting_logout){
-
+            SharedPreferences preferences = getActivity().getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
+            preferences.edit().clear().commit();
+            ContextWrapper cw = new ContextWrapper(getActivity().getApplicationContext());
+            File dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            File thumnail = new File(dir, Constant.THUMNAIL);
+            thumnail.delete();
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
         }
     }
 }
