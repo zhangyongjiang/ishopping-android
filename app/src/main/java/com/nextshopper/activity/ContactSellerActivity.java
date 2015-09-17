@@ -17,11 +17,19 @@ import android.widget.TextView;
 
 import com.nextshopper.common.Constant;
 import com.nextshopper.common.Util;
+import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.beans.Message;
+import com.nextshopper.rest.beans.Resource;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 
 
 public class ContactSellerActivity extends BaseActivity implements View.OnClickListener {
@@ -30,14 +38,18 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
     private ImageView imageView;
     private TextView subjectView;
     private static String SUBJECT="subject";
+    private static String MSG_ID="msg_id";
     private EditText messageView;
+    private String subject;
+    private String msgId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_seller);
         subjectView = (TextView)findViewById(R.id.contact_subject);
         messageView =(EditText) findViewById(R.id.create_review_comment);
-        String subject = getIntent().getStringExtra(SUBJECT);
+        subject = getIntent().getStringExtra(SUBJECT);
+        msgId = getIntent().getStringExtra(MSG_ID);
         if(subject!=null && !subject.isEmpty()){
             subjectView.setText(subject);
         }
@@ -46,9 +58,10 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
         imageView =(ImageView) findViewById(R.id.contact_seller_img);
     }
 
-    public static void startActivityForResult(Activity ctx, String subject, int requestCode){
+    public static void startActivityForResult(Activity ctx, String subject, String msgId, int requestCode){
         Intent intent = new Intent(ctx, ContactSellerActivity.class);
         intent.putExtra(SUBJECT, subject);
+        intent.putExtra(MSG_ID, msgId);
         ctx.startActivityForResult(intent, requestCode);
     }
 
@@ -76,7 +89,7 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
                     imageView.setImageBitmap(bitmap);
                     ContextWrapper cw = new ContextWrapper(getApplicationContext());
                     File dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
-                    File thumnail = new File(dir, Constant.THUMNAIL);
+                    File thumnail = new File(dir, Constant.ATTACHMENT);
                     FileOutputStream fos = null;
                     try {
                         fos = new FileOutputStream(thumnail);
@@ -98,8 +111,41 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
     }
 
     public void rightOnClick(View view) {
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        File dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        TypedFile typedFile = new TypedFile("image/jpeg", new File(dir, Constant.ATTACHMENT));
+        ApiService.getService().ResourceAPI_UploadForUser(typedFile, "", "", new Callback<Resource>() {
+            @Override
+            public void success(Resource resource, Response response) {
+                Message msg = new Message();
+                msg.subject = subject;
+                msg.content = messageView.getText().toString();
+                msg.attachments = new ArrayList<>();
+                msg.attachments.add(resource.path);
+                ApiService.getService().MessageAPI_UserReplyMessage(msgId, msg, new Callback<Message>() {
+                    @Override
+                    public void success(Message message, Response response) {
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Util.alertBox(ContactSellerActivity.this, error);
+                    }
+                });
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Util.alertBox(ContactSellerActivity.this, error);
+            }
+        });
+
          Intent intent = new Intent();
-         intent.putExtra("message", messageView.getText().toString());
+         intent.putExtra("content", messageView.getText().toString());
+         intent.putExtra("subject", subject);
+         intent.putExtra("imgPath", Constant.ATTACHMENT);
          this.setResult(RESULT_OK, intent);
          finish();
     }

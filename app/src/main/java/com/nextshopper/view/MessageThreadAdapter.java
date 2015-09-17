@@ -1,6 +1,7 @@
 package com.nextshopper.view;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nextshopper.activity.R;
+import com.nextshopper.common.Constant;
 import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.rest.beans.MessageDetails;
-import com.nextshopper.rest.beans.MsgType;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,9 +24,12 @@ import java.util.List;
 public class MessageThreadAdapter extends BaseAdapter {
     private Context ctx;
     private List<MessageDetails> detailsList = new ArrayList<>();
+    private String userId;
 
     public MessageThreadAdapter(Context ctx){
         this.ctx = ctx;
+        SharedPreferences pre = ctx.getSharedPreferences(Constant.USER_ID,Context.MODE_PRIVATE);
+        userId = pre.getString(Constant.USER_ID,"");
     }
 
     @Override
@@ -55,23 +59,41 @@ public class MessageThreadAdapter extends BaseAdapter {
         TextView senderView = (TextView) convertView.findViewById(R.id.message_item_sender);
         TextView titleView = (TextView)convertView.findViewById(R.id.message_item_title);
         TextView contentView = (TextView) convertView.findViewById(R.id.message_item_content);
-        TextView timeView = (TextView) contentView.findViewById(R.id.message_item_time);
-        if(messageDetails.message.type.equals(MsgType.Store2User)){
-            imageUrl = messageDetails.storeSenderInfo.info.logo;
-            senderView.setText(messageDetails.storeSenderInfo.info.name);
-        }else if(messageDetails.message.type.equals(MsgType.User2User)||messageDetails.message.type.equals(MsgType.User2Store)){
-            imageUrl = messageDetails.userSenderInfo.info.imgPath;
-            senderView.setText(messageDetails.userSenderInfo.info.firstName+" "+messageDetails.userSenderInfo.info.lastName);
+        TextView timeView = (TextView) convertView.findViewById(R.id.message_item_time);
+        if(userId.equals(messageDetails.message.senderId)){
+            if(messageDetails.userReceiverInfo!=null) {
+                if(messageDetails.userReceiverInfo.info!=null) {
+                    imageUrl = messageDetails.userReceiverInfo.info.imgPath;
+                    senderView.setText(messageDetails.userReceiverInfo.info.firstName+" "+messageDetails.userReceiverInfo.info.lastName);
+                }
+            }else if(messageDetails.storeReceiverInfo!=null){
+                imageUrl = messageDetails.storeReceiverInfo.info.logo;
+                senderView.setText(messageDetails.storeReceiverInfo.info.name);
+            }
+
+        }else if(userId.equals(messageDetails.message.recipientId)){
+            if(messageDetails.userSenderInfo!=null){
+                if(messageDetails.userSenderInfo.info!=null){
+                    imageUrl = messageDetails.userSenderInfo.info.imgPath;
+                    senderView.setText(messageDetails.userSenderInfo.info.firstName+" "+messageDetails.userSenderInfo.info.lastName);
+                }else if(messageDetails.storeSenderInfo!=null){
+                    imageUrl = messageDetails.storeSenderInfo.info.logo;
+                    senderView.setText(messageDetails.storeReceiverInfo.info.name);
+                }
+            }
         }
+
         titleView.setText(messageDetails.message.subject);
         contentView.setText(messageDetails.message.content);
-        timeView.setText(new Date(messageDetails.message.created).toString());
-        logoView.setTag(imageUrl);
-        ((NextShopperApplication) ctx.getApplicationContext()).loadBitmaps(imageUrl, logoView, false, 0);
+        timeView.setText(new Date(messageDetails.message.created).toString().substring(0,10));
+        if(imageUrl!=null) {
+            logoView.setTag(imageUrl);
+            ((NextShopperApplication) ctx.getApplicationContext()).loadBitmaps(imageUrl, logoView, false, 0);
+        }
        // ContextWrapper cw = new ContextWrapper(ctx.getApplicationContext());
         //File imageFile = new File(cw.getDir("imageDir", Context.MODE_PRIVATE), Constant.ATTACH);
         //Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-        return contentView;
+        return convertView;
     }
 
     public void updateList(List<MessageDetails> list){

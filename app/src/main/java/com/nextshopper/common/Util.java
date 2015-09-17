@@ -23,8 +23,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
+import retrofit.mime.TypedByteArray;
 
 /**
  * Created by siyiliu on 7/16/15.
@@ -87,6 +89,7 @@ public class Util {
         editor.putString(Constant.USER_ID, user.id);
         editor.putString(Constant.FIRST_NAME, user.info.firstName);
         editor.putString(Constant.LAST_NAME, user.info.lastName);
+        editor.putString(Constant.IMG_PATH, user.info.imgPath);
        // editor.putString(Constant.EMAIL, user.);
        // editor.putString(Constant.PASSWORD, user.info.pwd);
         editor.putString(Constant.GENDER, user.info.gender.toString());
@@ -153,7 +156,8 @@ public class Util {
         return null;
     }
 
-    public static void alertBox(Context ctx, String msg){
+    public static void alertBox(Context ctx, RetrofitError error){
+        String msg = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
         builder.setMessage(msg).setTitle(R.string.dialog_title);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {

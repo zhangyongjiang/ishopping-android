@@ -20,7 +20,6 @@ import java.util.Date;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
 
 
 public class OrderDetailsActivity extends BaseActivity {
@@ -74,7 +73,7 @@ public class OrderDetailsActivity extends BaseActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.alertBox(OrderDetailsActivity.this, new String(((TypedByteArray)error.getBody()).getBytes()));
+                Util.alertBox(OrderDetailsActivity.this,error);
             }
         });
 

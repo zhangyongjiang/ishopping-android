@@ -10,7 +10,7 @@ public class Message {
 	public MsgType type;
 	public int viewed;
 	public String orderId;
-	public java.util.List attachments;
+	public java.util.List<String> attachments;
 	public java.util.List tags;
 	public String id;
 	public int version;

@@ -57,6 +57,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
     private static final int CAPTURE_ACTIVITY_REQUEST_CODE = 100;
     private static final int PICK_IMAGE_REQUEST = 200;
     private File dir;
+    private User user;
 
 
     @Override
@@ -144,6 +145,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
         service.UserAPI_Register(request, new Callback<User>() {
             @Override
             public void success(User user, Response response) {
+                SignupActivity.this.user = user;
                 String cookie = Util.getCookieString(response);
                 ApiService.buildService(cookie);
                 if (dir != null) {
@@ -151,6 +153,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
                     ApiService.getService().UserAPI_Upload(typedFile, new Callback<User>() {
                         @Override
                         public void success(User user, Response response) {
+                            SignupActivity.this.user.info.imgPath = user.info.imgPath;
                             Log.d(ACTIVITY_NAME, user.info.imgPath);
                         }
 

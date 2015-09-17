@@ -9,8 +9,10 @@ public class Constant {
     public static final String USER = "user";
     public static final String THUMNAIL = "thumnail.jpg";
     public static final String ATTACH="attach";
+    public static final String ATTACHMENT="attachment";
     public static final String FIRST_NAME="userName";
     public static final String LAST_NAME="lastName";
+    public static final String IMG_PATH="imgPath";
     public static final String EMAIL ="email";
     public static final String PASSWORD="password";
     public static final String GENDER="gender";

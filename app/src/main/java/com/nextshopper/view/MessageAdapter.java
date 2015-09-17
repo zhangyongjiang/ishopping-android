@@ -29,7 +29,6 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
 
 /**
  * Created by siyiliu on 9/8/15.
@@ -46,7 +45,7 @@ public class MessageAdapter extends BaseAdapter implements AbsListView.OnScrollL
         this.ctx = ctx;
         this.listView = listView;
         this.listView.setOnItemClickListener(this);
-        SharedPreferences pre = ctx.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences pre = ctx.getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
         userId = pre.getString(Constant.USER_ID,"");
     }
 
@@ -102,8 +101,10 @@ public class MessageAdapter extends BaseAdapter implements AbsListView.OnScrollL
         titleView.setText(messageDetails.message.subject);
         contentView.setText(messageDetails.message.content);
         timeView.setText(new Date(messageDetails.message.created).toString().substring(0,10));
-        logoView.setTag(imageUrl);
-        ((NextShopperApplication) ctx.getApplicationContext()).loadBitmaps(imageUrl, logoView, false, 0);
+        if(imageUrl!= null) {
+            logoView.setTag(imageUrl);
+            ((NextShopperApplication) ctx.getApplicationContext()).loadBitmaps(imageUrl, logoView, false, 0);
+        }
         return convertView;
     }
 
@@ -120,8 +121,7 @@ public class MessageAdapter extends BaseAdapter implements AbsListView.OnScrollL
 
                 @Override
                 public void failure(RetrofitError error) {
-                  String msg = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
-                    Util.alertBox(ctx, msg);
+                    Util.alertBox(ctx, error);
                 }
             });
 
