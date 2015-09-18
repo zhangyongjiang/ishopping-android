@@ -45,6 +45,10 @@ public class ShippingActivity extends BaseActivity {
         stateView =(InputItem) findViewById(R.id.shipping_state);
         cityView =(InputItem) findViewById(R.id.shipping_city);
         zipView =(InputItem) findViewById(R.id.shipping_zipcode);
+        fill();
+    }
+
+    private void fill(){
         SharedPreferences pref = getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
         firstNameView.setEditText(pref.getString(Constant.FIRST_NAME,""));
         lastNameView.setEditText(pref.getString(Constant.LAST_NAME,""));

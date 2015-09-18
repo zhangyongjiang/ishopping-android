@@ -93,6 +93,14 @@ public class Util {
        // editor.putString(Constant.EMAIL, user.);
        // editor.putString(Constant.PASSWORD, user.info.pwd);
         editor.putString(Constant.GENDER, user.info.gender.toString());
+        if(user.shippingInfo!=null && user.shippingInfo.size()>0) {
+            editor.putString(Constant.PHONE, user.shippingInfo.get(0).phoneNumber);
+            editor.putString(Constant.ADDRESS, user.shippingInfo.get(0).address);
+            editor.putString(Constant.COUNTRY, user.shippingInfo.get(0).country);
+            editor.putString(Constant.STATE, user.shippingInfo.get(0).state);
+            editor.putString(Constant.CITY, user.shippingInfo.get(0).city);
+            editor.putString(Constant.ZIP, user.shippingInfo.get(0).zipcode);
+        }
 
         editor.commit();
     }

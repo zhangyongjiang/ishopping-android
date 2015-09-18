@@ -117,8 +117,10 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
             ContextWrapper cw = new ContextWrapper(getActivity().getApplicationContext());
             File imageFile = new File(cw.getDir("imageDir", Context.MODE_PRIVATE), Constant.THUMNAIL);
             Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-            Drawable drawable = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 240, 240, true));
-            userTextView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+            if(bitmap!=null) {
+                Drawable drawable = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 240, 240, true));
+                userTextView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+            }
         }
         else{
             listview.setAdapter(new MenuAdapter(getString(R.string.guest_menu).split(","), getActivity()));
