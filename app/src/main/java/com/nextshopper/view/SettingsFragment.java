@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 import com.nextshopper.activity.ChangePasswordActivity;
@@ -19,6 +20,7 @@ import com.nextshopper.activity.ProfileActivity;
 import com.nextshopper.activity.R;
 import com.nextshopper.activity.ShippingActivity;
 import com.nextshopper.common.Constant;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.UserSettings;
 
@@ -53,7 +55,27 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         favoriteView = (SettingItem) view.findViewById(R.id.setting_favorite);
         storeView =(SettingItem) view.findViewById(R.id.setting_stores);
         logoutView = (SettingItem) view.findViewById(R.id.setting_logout);
+        pushView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                UserSettings settings = new UserSettings();
+                if(isChecked){
+                    settings.notificationEnabled= 1;
+                }else{
+                   settings.notificationEnabled=0;
+                }
+                ApiService.getService().PushNotificationAPI_UpdatePushNotificationSetting(settings, new Callback<UserSettings>() {
+                    @Override
+                    public void success(UserSettings userSettings, Response response) {
+                    }
 
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Util.alertBox(SettingsFragment.this.getActivity(), error);
+                    }
+                });
+            }
+        });
         ApiService.getService().PushNotificationAPI_GetPushNotificationSetting(new Callback<UserSettings>() {
             @Override
             public void success(UserSettings userSettings, Response response) {
@@ -106,4 +128,5 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             startActivity(intent);
         }
     }
+
 }

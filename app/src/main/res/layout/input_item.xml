@@ -11,24 +11,23 @@
         <TextView
             android:id="@+id/input_view"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:gravity="end"
+            android:layout_marginRight="20dp"
             android:text="@string/updage_profile"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/input_edit"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:singleLine="true"
             android:background="@null"
             android:textColor="@color/gray"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
     </LinearLayout>
     <View
         android:id="@+id/input_item_line"
