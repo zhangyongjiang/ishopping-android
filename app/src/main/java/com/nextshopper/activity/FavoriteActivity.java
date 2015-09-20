@@ -6,6 +6,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.ListFavoriteDetails;
 import com.nextshopper.view.FavoriteAdapter;
@@ -29,7 +30,8 @@ public class FavoriteActivity extends BaseActivity {
         textView =(TextView) findViewById(R.id.empty_text);
         final FavoriteAdapter adapter = new FavoriteAdapter(this);
         gridView.setAdapter(adapter);
-        ApiService.getService().FavoriteAPI_FavoriteList(new Callback<ListFavoriteDetails>() {
+        gridView.setOnScrollListener(adapter);
+        ApiService.getService().SocialAPI_ListMyFavProducts(0, 5, new Callback<ListFavoriteDetails>() {
             @Override
             public void success(ListFavoriteDetails listFavoriteDetails, Response response) {
                 if(listFavoriteDetails.total==0){
@@ -38,12 +40,11 @@ public class FavoriteActivity extends BaseActivity {
                     imageView.setVisibility(View.GONE);
                     textView.setVisibility(View.GONE);
                 }
-                adapter.updateList(listFavoriteDetails.items);
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                Util.alertBox(FavoriteActivity.this, error);
             }
         });
 

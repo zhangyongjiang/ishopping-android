@@ -19,7 +19,11 @@
     <GridView
         android:id="@+id/favorite_gridview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:numColumns="2"
+        android:horizontalSpacing="15dp"
+        android:verticalSpacing="15dp"
+        android:padding="15dp"/>
     <ImageView
         android:id="@+id/empty_img"
         android:layout_width="wrap_content"

@@ -589,7 +589,7 @@ public interface NextShopperService {
 	void SocialAPI_LikedProducts(@Path("userId") String userId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
 
 	@GET("/ws/social/liked-products")
-	void SocialAPI_ListMyFavProducts(@Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);
+	void SocialAPI_ListMyFavProducts(@Query("offset") int offset, @Query("size") int size, Callback<ListFavoriteDetails> callback);
 
 	@GET("/ws/social/product-likers/{productId}")
 	void SocialAPI_ListProductLikers(@Path("productId") String productId, @Query("offset") int offset, @Query("size") int size, Callback<ListWrapper> callback);

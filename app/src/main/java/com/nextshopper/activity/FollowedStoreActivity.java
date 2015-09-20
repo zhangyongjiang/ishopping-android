@@ -30,6 +30,8 @@ public class FollowedStoreActivity extends BaseActivity {
         textView =(TextView) findViewById(R.id.following_empty_text);
         FollowedStoreAdapter adapter = new FollowedStoreAdapter(this);
         listView.setAdapter(adapter);
+        listView.setOnScrollListener(adapter);
+        listView.setOnItemClickListener(adapter);
         ApiService.getService().SocialAPI_MyFollowingStores(0, 5, new Callback<ListFollowingStore>() {
             @Override
             public void success(ListFollowingStore listFollowingStore, Response response) {

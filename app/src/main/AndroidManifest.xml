@@ -126,6 +126,10 @@
             android:name=".FollowedStoreActivity"
             android:label="@string/title_activity_followed_store" >
         </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about" >
+        </activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,17 +14,26 @@ import android.widget.TextView;
 import com.nextshopper.activity.ProductDetailsActivity;
 import com.nextshopper.activity.R;
 import com.nextshopper.common.NextShopperApplication;
+import com.nextshopper.common.Util;
+import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.FavoriteDetails;
+import com.nextshopper.rest.beans.ListFavoriteDetails;
 import com.nextshopper.rest.beans.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 /**
  * Created by siyiliu on 9/13/15.
  */
-public class FavoriteAdapter extends BaseAdapter{
+public class FavoriteAdapter extends BaseAdapter implements AbsListView.OnScrollListener{
     private Context ctx;
+    private int start = 0;
+    private int numOfItem = 20;
     private List<FavoriteDetails> list = new ArrayList<>();
 
     public FavoriteAdapter(Context ctx){
@@ -36,7 +46,7 @@ public class FavoriteAdapter extends BaseAdapter{
 
     @Override
     public FavoriteDetails getItem(int position) {
-        return list.get(0) ;
+        return list.get(position) ;
     }
 
     @Override
@@ -84,4 +94,32 @@ public class FavoriteAdapter extends BaseAdapter{
     void setImageView(ImageView imageView, String url) {
         ((NextShopperApplication)ctx.getApplicationContext()).loadBitmaps(url, imageView, false, 0);
     }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        int lastVisibleItem = firstVisibleItem + visibleItemCount;
+        if (lastVisibleItem == this.getCount()) {
+
+            ApiService.getService().SocialAPI_ListMyFavProducts(start, numOfItem, new Callback<ListFavoriteDetails>() {
+                @Override
+                public void success(ListFavoriteDetails listFavoriteDetails, Response response) {
+                    FavoriteAdapter.this.list.addAll(listFavoriteDetails.items);
+                    notifyDataSetChanged();
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Util.alertBox(ctx, error);
+                }
+            });
+
+            start = start + numOfItem;
+        }
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
 }

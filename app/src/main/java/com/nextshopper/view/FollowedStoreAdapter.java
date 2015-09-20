@@ -1,13 +1,19 @@
 package com.nextshopper.view;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.nextshopper.activity.R;
+import com.nextshopper.activity.StoreDetailsActivity;
+import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.ListFollowingStore;
@@ -25,7 +31,7 @@ import retrofit.client.Response;
  */
 public class FollowedStoreAdapter extends BaseAdapter implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener{
     private Context ctx;
-    private List<StoreFollowDetails> messageItemDetailsList = new ArrayList<>();
+    private List<StoreFollowDetails> list = new ArrayList<>();
     private int start = 0;
     private int numOfItem = 20;
     private ListView listView;
@@ -35,12 +41,12 @@ public class FollowedStoreAdapter extends BaseAdapter implements AbsListView.OnS
     }
     @Override
     public int getCount() {
-        return 0;
+        return list.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public StoreFollowDetails getItem(int position) {
+        return list.get(position);
     }
 
     @Override
@@ -50,7 +56,18 @@ public class FollowedStoreAdapter extends BaseAdapter implements AbsListView.OnS
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+        StoreFollowDetails item = list.get(position);
+        if(convertView==null) {
+            convertView = LayoutInflater.from(ctx).inflate(R.layout.following_item, parent,false);
+        }
+        ImageView logoView = (ImageView)convertView.findViewById(R.id.following_store_logo);
+        logoView.setTag(item.store.logo);
+        ((NextShopperApplication) ctx.getApplicationContext()).loadBitmaps(item.store.logo, logoView, false, 0);
+        TextView nameView = (TextView) convertView.findViewById(R.id.following_store_name);
+        nameView.setText(item.store.name);
+        TextView proAndFollView = (TextView) convertView.findViewById(R.id.following_store_pf);
+        proAndFollView.setText(String.format(ctx.getResources().getString(R.string.product_followers), item.storeSummary.products, item.storeSummary.followers));
+        return convertView;
     }
 
     @Override
@@ -61,7 +78,7 @@ public class FollowedStoreAdapter extends BaseAdapter implements AbsListView.OnS
             ApiService.getService().SocialAPI_MyFollowingStores(start, numOfItem, new Callback<ListFollowingStore>() {
                 @Override
                 public void success(ListFollowingStore listFollowingStore, Response response) {
-                    messageItemDetailsList.addAll(listFollowingStore.items);
+                    list.addAll(listFollowingStore.items);
                     notifyDataSetChanged();
                 }
 
@@ -81,6 +98,6 @@ public class FollowedStoreAdapter extends BaseAdapter implements AbsListView.OnS
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-       // OrderDetailsActivity.startActivity(ctx, getItem(position).message.id);
+        StoreDetailsActivity.startActivity(ctx, list.get(position).storeFollow.storeId);
     }
 }

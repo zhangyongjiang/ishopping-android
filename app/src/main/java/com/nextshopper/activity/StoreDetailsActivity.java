@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nextshopper.common.Constant;
 import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
@@ -90,11 +92,12 @@ public class StoreDetailsActivity extends BaseActivity implements View.OnClickLi
                 ApiService.getService().SocialAPI_FollowStore(storeId, new Callback<GenericResponse>() {
                     @Override
                     public void success(GenericResponse genericResponse, Response response) {
+                        Log.d(Constant.NEXTSHOPPER, genericResponse.msg);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-
+                       Util.alertBox(StoreDetailsActivity.this, error);
                     }
                 });
             } else{

@@ -42,8 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_us"
-            nextshopper:item="@string/fqa"
-            ></com.nextshopper.view.SettingItem>
+            nextshopper:item="@string/fqa" />
         <com.nextshopper.view.SettingItem
             android:id="@+id/about_support"
             android:layout_width="match_parent"
@@ -92,7 +91,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/setting_item_line"
                 android:text="@string/version"
-                android:textSize="18sp"
                 android:layout_margin="12dp"/>
             <TextView
                 android:layout_width="wrap_content"

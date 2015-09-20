@@ -22,6 +22,7 @@ import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
+import com.nextshopper.rest.beans.GenericResponse;
 import com.nextshopper.rest.beans.Product;
 import com.nextshopper.rest.beans.ProductDetails;
 import com.nextshopper.view.ImageFragment;
@@ -60,6 +61,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
     private int requestCode =0;
     private TitleView titleView;
     private ImageFragment fragment;
+    private String productId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
     }
 
     protected void refresh() {
-        String productId = getIntent().getStringExtra("productId");
+        productId = getIntent().getStringExtra("productId");
         NextShopperService service = ApiService.getService();
         service.ProductAPI_Get(productId, new Callback<ProductDetails>() {
             @Override
@@ -161,10 +163,32 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
                 likesView.setText(Integer.toString(details.product.likes + 1));
                 likesView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_color_full, 0, 0, 0);
                 like = true;
+                ApiService.getService().SocialAPI_LikeProduct(productId, new Callback<GenericResponse>() {
+                    @Override
+                    public void success(GenericResponse genericResponse, Response response) {
+                        Log.d(Constant.NEXTSHOPPER, genericResponse.toString());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Util.alertBox(ProductDetailsActivity.this, error);
+                    }
+                });
             } else {
                 likesView.setText(Integer.toString(details.product.likes));
                 likesView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_color, 0, 0, 0);
                 like = false;
+                ApiService.getService().FavoriteAPI_RemoveFavorite(productId, new Callback<GenericResponse>() {
+                    @Override
+                    public void success(GenericResponse genericResponse, Response response) {
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Util.alertBox(ProductDetailsActivity.this, error);
+                    }
+                });
             }
         } else if (v.getId() == R.id.details_buy_now) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
