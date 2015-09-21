@@ -20,6 +20,7 @@ import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.Message;
 import com.nextshopper.rest.beans.Resource;
+import com.nextshopper.view.TitleView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,20 +39,28 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
     private ImageView imageView;
     private TextView subjectView;
     private static String SUBJECT="subject";
+    private static String TITLE="title";
     private static String MSG_ID="msg_id";
     private EditText messageView;
     private String subject;
     private String msgId;
+    private String title;
+    private TitleView titleView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_seller);
         subjectView = (TextView)findViewById(R.id.contact_subject);
         messageView =(EditText) findViewById(R.id.create_review_comment);
+        titleView =(TitleView) findViewById(R.id.contact_seller_title);
         subject = getIntent().getStringExtra(SUBJECT);
         msgId = getIntent().getStringExtra(MSG_ID);
+        title = getIntent().getStringExtra(TITLE);
         if(subject!=null && !subject.isEmpty()){
             subjectView.setText(subject);
+        }
+        if(title!=null && !title.isEmpty()){
+            titleView.setTextMiddle("Contact "+ title);
         }
         attachView =(TextView) findViewById(R.id.contact_seller_attach);
         attachView.setOnClickListener(this);
@@ -150,4 +159,9 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
          finish();
     }
 
+    public static void startActivity(Context ctx, String title){
+        Intent intent = new Intent(ctx, ContactSellerActivity.class);
+        intent.putExtra(TITLE, title);
+        ctx.startActivity(intent);
+    }
 }

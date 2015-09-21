@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nextshopper.activity.AboutActivity;
+import com.nextshopper.activity.ContactSellerActivity;
 import com.nextshopper.activity.R;
+import com.nextshopper.common.Constant;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,16 +48,24 @@ public class AboutFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(getActivity(), AboutActivity.class);
         if(v.getId()==R.id.about_us){
+            Intent intent = new Intent(getActivity(), AboutActivity.class);
             intent.putExtra(TITLE, "About Us");
+            startActivity(intent);
         } else if(v.getId()==R.id.about_fqa){
+            Intent intent = new Intent(getActivity(), AboutActivity.class);
             intent.putExtra(TITLE,"FAQ");
+            startActivity(intent);
         } else if(v.getId()==R.id.about_tos){
+            Intent intent = new Intent(getActivity(), AboutActivity.class);
             intent.putExtra(TITLE,"Terms of Service");
+            startActivity(intent);
         }else if(v.getId()==R.id.about_pp){
+            Intent intent = new Intent(getActivity(), AboutActivity.class);
             intent.putExtra(TITLE,"Privacy Policy");
+            startActivity(intent);
+        }else if(v.getId()==R.id.about_support){
+            ContactSellerActivity.startActivity(getActivity(), Constant.NEXTSHOPPER);
         }
-        startActivity(intent);
     }
 }
