@@ -1,5 +1,6 @@
 package com.nextshopper.view;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.nextshopper.activity.ProductDetailsActivity;
 import com.nextshopper.activity.R;
 import com.nextshopper.common.Constant;
 import com.nextshopper.common.NextShopperApplication;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.Product;
@@ -113,16 +115,19 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         mVisibleItemCount = visibleItemCount;
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
         if (lastVisibleItem == this.getCount()) {
+            final ProgressDialog progressDialog= Util.getProgressDialog(ctx);
             NextShopperService service = ApiService.getService();
             if (trendingFragment.getArguments().getString("Tab").equals("Trending")) {
                 service.ProductAPI_PopularProducts(null, start, numOfItem, new Callback<TrendProductList>() {
                     @Override
                     public void success(TrendProductList trendProductList, Response response) {
+                        progressDialog.dismiss();
                         setSearchableProductList(trendProductList);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+                        progressDialog.dismiss();
                         Log.e("NextShopper", error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
 
                     }
@@ -131,11 +136,13 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                 service.ProductAPI_NewProducts(start, numOfItem, new Callback<SearchableProductList>() {
                     @Override
                     public void success(SearchableProductList searchableProductList, Response response) {
+                        progressDialog.dismiss();
                         setSearchableProductList(searchableProductList);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+                        progressDialog.dismiss();
                         Log.i("HomeActivity", error.getMessage());
                     }
                 });
@@ -143,11 +150,13 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                 service.ProductAPI_RecommendationsForUser(start, numOfItem, null, null, new Callback<SearchableProductList>() {
                     @Override
                     public void success(SearchableProductList searchableProductList, Response response) {
+                        progressDialog.dismiss();
                         setSearchableProductList(searchableProductList);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+                        progressDialog.dismiss();
                         Log.e("HomeActivity", error.getMessage());
                     }
                 });
@@ -156,11 +165,13 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                 service.ProductAPI_Search(trendingFragment.getArguments().getString("Keywords"), trendingFragment.getArguments().getString("Cat"), null, null, null, start, numOfItem, null, new Callback<ProductList>() {
                     @Override
                     public void success(ProductList productList, Response response) {
+                        progressDialog.dismiss();
                         setSearchableProductList( convert(productList));
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+                        progressDialog.dismiss();
                         Log.e(Constant.NEXTSHOPPER, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
 
                     }
@@ -169,23 +180,26 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                 service.ProductAPI_ListStorePublicProducts(((String) trendingFragment.getArguments().get("ProductId")), start, numOfItem, new Callback<ProductList>() {
                     @Override
                     public void success(ProductList productList, Response response) {
+                        progressDialog.dismiss();
                         setSearchableProductList( convert(productList));
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-
+                       progressDialog.dismiss();
                     }
                 });
             } else {
                 service.ProductAPI_RecommendationsForProduct(start, numOfItem, trendingFragment.getArguments().getString("ProductId"), new Callback<SearchableProductList>() {
                     @Override
                     public void success(SearchableProductList searchableProductList, Response response) {
+                        progressDialog.dismiss();
                         setSearchableProductList(searchableProductList);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+                        progressDialog.dismiss();
                         Log.e(Constant.NEXTSHOPPER, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
                     }
                 });

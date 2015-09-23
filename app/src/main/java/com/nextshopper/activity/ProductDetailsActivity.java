@@ -2,6 +2,7 @@ package com.nextshopper.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -103,9 +104,11 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
     protected void refresh() {
         productId = getIntent().getStringExtra("productId");
         NextShopperService service = ApiService.getService();
+        final ProgressDialog progressDialog= Util.getProgressDialog(this);
         service.ProductAPI_Get(productId, new Callback<ProductDetails>() {
             @Override
             public void success(ProductDetails productDetails, Response response) {
+                progressDialog.dismiss();
                 adapter.addAll(productDetails);
                 likesView.setText(Integer.toString(productDetails.product.likes));
                 nameView.setText(productDetails.product.name);
@@ -128,7 +131,9 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
                 Log.e(Constant.NEXTSHOPPER, error.toString());
+                Util.alertBox(ProductDetailsActivity.this, error);
             }
         });
     }

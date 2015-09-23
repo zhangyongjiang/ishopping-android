@@ -1,5 +1,6 @@
 package com.nextshopper.view;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nextshopper.activity.R;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.OrderItemList;
 
@@ -70,10 +72,12 @@ public class OrderHistoryFragment extends Fragment {
         // Inflate the layout for this fragmen
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         getFragmentManager().beginTransaction().add(R.id.order_history_container, new OrderListFragment()).commit();
+        final ProgressDialog progressDialog= Util.getProgressDialog(getActivity());
         ApiService.getService().OrderAPI_UserOrderItemList(0, 5, new Callback<OrderItemList>() {
 
             @Override
             public void success(OrderItemList orderItemList, Response response) {
+                progressDialog.dismiss();
                 if (orderItemList.total == 0) {
                     getFragmentManager().beginTransaction().replace(R.id.order_history_container, new EmptyOrderFragment()).commit();
                 }
@@ -81,7 +85,8 @@ public class OrderHistoryFragment extends Fragment {
 
             @Override
             public void failure(RetrofitError error) {
-
+               progressDialog.dismiss();
+                Util.alertBox(getActivity(), error);
             }
         });
 

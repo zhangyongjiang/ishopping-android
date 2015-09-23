@@ -1,5 +1,6 @@
 package com.nextshopper.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,10 +53,11 @@ public class OrderDetailsActivity extends BaseActivity {
         listView = (ListView) findViewById(R.id.order_details_all_list);
         final OneOrderAdapter adapter = new OneOrderAdapter(this);
         listView.setAdapter(adapter);
-
+        final ProgressDialog progressDialog= Util.getProgressDialog(this);
         ApiService.getService().OrderAPI_GetOrderById(storeId, new Callback<UserOrderDetails>() {
             @Override
             public void success(UserOrderDetails userOrderDetails, Response response) {
+                progressDialog.dismiss();
                 orderNumberView.setRight(userOrderDetails.order.orderNumber);
                 orderDateView.setRight(new Date(userOrderDetails.order.created).toString());
                 orderStatusView.setRight(userOrderDetails.order.status.toString());
@@ -73,6 +75,7 @@ public class OrderDetailsActivity extends BaseActivity {
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
                 Util.alertBox(OrderDetailsActivity.this,error);
             }
         });

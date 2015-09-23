@@ -1,5 +1,6 @@
 package com.nextshopper.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -83,17 +84,19 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
         shippingInfo.state = stateView.getText().toString();
         shippingInfo.city = cityView.getEditText().getText().toString();
         shippingInfo.zipcode = zipView.getEditText().getText().toString();
+        final ProgressDialog progressDialog= Util.getProgressDialog(ShippingActivity.this);
         if (source.equals("setting")) {
             Util.saveShippingInfo(this, shippingInfo);
             ApiService.getService().UserAPI_AddShipping(shippingInfo, new Callback<User>() {
                 @Override
                 public void success(User user, Response response) {
-
+                  progressDialog.dismiss();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-
+                    progressDialog.dismiss();
+                    Util.alertBox(ShippingActivity.this, error);
                 }
             });
             finish();
@@ -108,7 +111,8 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
 
                 @Override
                 public void failure(RetrofitError error) {
-
+                    progressDialog.dismiss();
+                    Util.alertBox(ShippingActivity.this, error);
                 }
             });
         }

@@ -1,6 +1,7 @@
 package com.nextshopper.view;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,15 +94,18 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
         if (lastVisibleItem == this.getCount()) {
+            final ProgressDialog progressDialog= Util.getProgressDialog(ctx);
             ApiService.getService().OrderAPI_UserOrderItemList(start, numOfItem, new Callback<OrderItemList>() {
                 @Override
                 public void success(OrderItemList list, Response response) {
                         OrderHistoryAdapter.this.orderItemDetailsList.addAll(list.items);
                         notifyDataSetChanged();
+                        progressDialog.dismiss();
                     }
 
                 @Override
                 public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
                     Util.alertBox(ctx, error);
                 }
             });

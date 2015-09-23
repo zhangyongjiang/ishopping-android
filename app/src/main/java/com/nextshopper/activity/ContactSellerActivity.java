@@ -1,6 +1,7 @@
 package com.nextshopper.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -123,9 +124,11 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
         TypedFile typedFile = new TypedFile("image/jpeg", new File(dir, Constant.ATTACHMENT));
+        final ProgressDialog progressDialog= Util.getProgressDialog(this);
         ApiService.getService().ResourceAPI_UploadForUser(typedFile, "", "", new Callback<Resource>() {
             @Override
             public void success(Resource resource, Response response) {
+                progressDialog.dismiss();
                 Message msg = new Message();
                 msg.subject = subject;
                 msg.content = messageView.getText().toString();
@@ -147,6 +150,7 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
                 Util.alertBox(ContactSellerActivity.this, error);
             }
         });

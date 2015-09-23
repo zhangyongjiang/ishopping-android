@@ -1,5 +1,6 @@
 package com.nextshopper.view;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -99,17 +100,18 @@ public class FavoriteAdapter extends BaseAdapter implements AbsListView.OnScroll
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
         if (lastVisibleItem == this.getCount()) {
-
+            final ProgressDialog progressDialog= Util.getProgressDialog(ctx);
             ApiService.getService().SocialAPI_ListMyFavProducts(start, numOfItem, new Callback<ListFavoriteDetails>() {
                 @Override
                 public void success(ListFavoriteDetails listFavoriteDetails, Response response) {
+                    progressDialog.dismiss();
                     FavoriteAdapter.this.list.addAll(listFavoriteDetails.items);
                     notifyDataSetChanged();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Util.alertBox(ctx, error);
+                    progressDialog.dismiss();Util.alertBox(ctx, error);
                 }
             });
 

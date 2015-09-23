@@ -1,5 +1,6 @@
 package com.nextshopper.view;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.ListView;
 
 import com.nextshopper.activity.R;
 import com.nextshopper.common.NextShopperApplication;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.CartItemDetailsList;
 import com.nextshopper.rest.beans.CartItemRequest;
@@ -69,15 +71,18 @@ public class CartListFragment extends Fragment {
         netPayView = (Item) view.findViewById(R.id.order_netpay);
 
         CartItemRequestList cartItemRequestList = convert(productList);
+        final ProgressDialog progressDialog= Util.getProgressDialog(getActivity());
         ApiService.getService().ShoppingAPI_AddCartItems(cartItemRequestList, new Callback<CartItemDetailsList>() {
             @Override
             public void success(CartItemDetailsList cartItemDetailsList, Response response) {
+                progressDialog.dismiss();
                 shipping = cartItemDetailsList.shipping;
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+               progressDialog.dismiss();
+                Util.alertBox(CartListFragment.this.getActivity(), error);
             }
         });
         float subtotal=0;

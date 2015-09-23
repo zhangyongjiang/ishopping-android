@@ -1,5 +1,6 @@
 package com.nextshopper.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
@@ -31,9 +32,11 @@ public class FavoriteActivity extends BaseActivity {
         final FavoriteAdapter adapter = new FavoriteAdapter(this);
         gridView.setAdapter(adapter);
         gridView.setOnScrollListener(adapter);
+        final ProgressDialog progressDialog= Util.getProgressDialog(this);
         ApiService.getService().SocialAPI_ListMyFavProducts(0, 5, new Callback<ListFavoriteDetails>() {
             @Override
             public void success(ListFavoriteDetails listFavoriteDetails, Response response) {
+                progressDialog.dismiss();
                 if(listFavoriteDetails.total==0){
                     gridView.setVisibility(View.GONE);
                 }else{
@@ -44,6 +47,7 @@ public class FavoriteActivity extends BaseActivity {
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
                 Util.alertBox(FavoriteActivity.this, error);
             }
         });

@@ -1,5 +1,6 @@
 package com.nextshopper.view;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,16 +75,18 @@ public class FollowedStoreAdapter extends BaseAdapter implements AbsListView.OnS
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
         if (lastVisibleItem == this.getCount()) {
-
+            final ProgressDialog progressDialog= Util.getProgressDialog(ctx);
             ApiService.getService().SocialAPI_MyFollowingStores(start, numOfItem, new Callback<ListFollowingStore>() {
                 @Override
                 public void success(ListFollowingStore listFollowingStore, Response response) {
+                    progressDialog.dismiss();
                     list.addAll(listFollowingStore.items);
                     notifyDataSetChanged();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
                     Util.alertBox(ctx, error);
                 }
             });

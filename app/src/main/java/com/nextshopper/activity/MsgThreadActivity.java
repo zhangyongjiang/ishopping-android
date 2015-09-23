@@ -1,5 +1,6 @@
 package com.nextshopper.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,11 +44,12 @@ public class MsgThreadActivity extends BaseActivity {
         listView =(ListView) findViewById(R.id.msg_thread_listview);
         listView.setAdapter(adapter);
         subjectView = (TextView) findViewById(R.id.msg_thread_subject);
-
+        final ProgressDialog progressDialog= Util.getProgressDialog(this);
 
         ApiService.getService().MessageAPI_GetUserMessageThreadsByMsgId(msgId, new Callback<MessageThread>() {
             @Override
             public void success(MessageThread messageThread, Response response) {
+                progressDialog.dismiss();
                 subjectView.setText(messageThread.items.get(0).message.subject);
                 subject = messageThread.items.get(0).message.subject;
                 adapter.updateList(messageThread.items);
@@ -55,6 +57,7 @@ public class MsgThreadActivity extends BaseActivity {
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
                 Util.alertBox(MsgThreadActivity.this, error);
             }
         });

@@ -1,5 +1,6 @@
 package com.nextshopper.view;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.nextshopper.activity.R;
 import com.nextshopper.common.NextShopperApplication;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.CartItemDetailsList;
 import com.nextshopper.rest.beans.Product;
@@ -93,6 +95,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener{
     public void onClick(View v) {
         Button quantityButton = (Button)v.getTag();
         Product product = (Product) quantityButton.getTag();
+        final ProgressDialog progressDialog= Util.getProgressDialog(context);
         if(v.getId()==R.id.item_minus){
             if(Integer.parseInt(quantityButton.getText().toString())==1){
                 productList.remove(product);
@@ -102,12 +105,12 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener{
                 ApiService.getService().ShoppingAPI_RemoveCartItem(product.id, new Callback<CartItemDetailsList>() {
                     @Override
                     public void success(CartItemDetailsList cartItemDetailsList, Response response) {
-
+                        progressDialog.dismiss();
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-
+                      progressDialog.dismiss();
                     }
                 });
             }
@@ -120,12 +123,12 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener{
                 ApiService.getService().ShoppingAPI_UpdateItemQuantity(product.id, map.get(product.id).quantity, new Callback<CartItemDetailsList>() {
                     @Override
                     public void success(CartItemDetailsList cartItemDetailsList, Response response) {
-
+                        progressDialog.dismiss();
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-
+                        progressDialog.dismiss();
                     }
                 });
             }
@@ -139,12 +142,12 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener{
             ApiService.getService().ShoppingAPI_UpdateItemQuantity(product.id, map.get(product.id).quantity, new Callback<CartItemDetailsList>() {
                 @Override
                 public void success(CartItemDetailsList cartItemDetailsList, Response response) {
-
+                    progressDialog.dismiss();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-
+                    progressDialog.dismiss();
                 }
             });
         }

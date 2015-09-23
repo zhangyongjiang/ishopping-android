@@ -1,5 +1,6 @@
 package com.nextshopper.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
@@ -75,14 +76,16 @@ public class ProfileActivity extends BaseActivity implements AdapterView.OnItemS
             userBasicInfo.firstName = firstName.getEditText().getText().toString();
             userBasicInfo.lastName = lastName.getEditText().getText().toString();
             userBasicInfo.gender = Gender.valueOf(genderSpinner.getSelectedItem().toString());
+            final ProgressDialog progressDialog= Util.getProgressDialog(ProfileActivity.this);
             ApiService.getService().UserAPI_Update(userBasicInfo, new Callback<User>() {
                 @Override
                 public void success(User user, Response response) {
-
+                 progressDialog.dismiss();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
                   Util.alertBox(ProfileActivity.this, error);
                 }
             });

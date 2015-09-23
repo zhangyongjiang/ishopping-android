@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.ProgressDialog;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -139,11 +140,14 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            ApiService.getService().UserAPI_Login(email, password, new Callback<User>(){
+            //showProgress(true);
+            final ProgressDialog progressDialog= Util.getProgressDialog(LoginActivity.this);
+           // final ProgressBar bar = Util.getProgressBar(LoginActivity.this);
+            ApiService.getService().UserAPI_Login(email, password, new Callback<User>() {
 
                 @Override
                 public void success(User user, Response response) {
+                    //
                     Util.saveUserData(LoginActivity.this, user);
                     String cookie = Util.getCookieString(response);
                     ApiService.buildService(cookie);
@@ -154,9 +158,12 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
                 @Override
                 public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
                     Log.e(Constant.NEXTSHOPPER, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
+                    Util.alertBox(LoginActivity.this, error);
                 }
             });
+           // progressDialog.dismiss();
         }
     }
 

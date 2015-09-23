@@ -1,6 +1,7 @@
 package com.nextshopper.activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -63,14 +64,17 @@ public class ChangePasswordActivity extends BaseActivity{
             ChangePasswordRequest request = new ChangePasswordRequest();
             request.oldPassword = current.getEditText().getText().toString();
             request.password = editTextPwd.getEditText().getText().toString();
+            final ProgressDialog progressDialog= Util.getProgressDialog(ChangePasswordActivity.this);
             ApiService.getService().UserAPI_ChangePassword(request, new Callback<GenericResponse>() {
                 @Override
                 public void success(GenericResponse genericResponse, Response response) {
+                    progressDialog.dismiss();
                     finish();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
                     Util.alertBox(ChangePasswordActivity.this, ((GenericResponse) error.getBody()).errorCode);
                      }
             });

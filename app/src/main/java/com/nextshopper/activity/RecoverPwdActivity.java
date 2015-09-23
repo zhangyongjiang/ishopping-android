@@ -1,11 +1,13 @@
 package com.nextshopper.activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.GenericResponse;
 import com.nextshopper.rest.beans.LoginRequest;
@@ -36,10 +38,12 @@ public class RecoverPwdActivity extends BaseActivity {
     public void rightOnClick(View view){
         LoginRequest request = new LoginRequest();
         request.password= emailEditTExt.getText().toString();
+        final ProgressDialog progressDialog= Util.getProgressDialog(this);
         ApiService.getService().UserAPI_ResetPassword(request, new Callback<GenericResponse>(){
 
             @Override
             public void success(GenericResponse genericResponse, Response response) {
+                progressDialog.dismiss();
                 AlertDialog.Builder builder = new AlertDialog.Builder(RecoverPwdActivity.this);
                 new String(((TypedByteArray) response.getBody()).getBytes());
                 builder.setMessage(R.string.recover_pwd_sent).setTitle(R.string.dialog_infomration);
@@ -54,6 +58,7 @@ public class RecoverPwdActivity extends BaseActivity {
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
                 AlertDialog.Builder builder = new AlertDialog.Builder(RecoverPwdActivity.this);
                 builder.setMessage(new String(((TypedByteArray) error.getResponse().getBody()).getBytes())).setTitle(R.string.dialog_title);
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {

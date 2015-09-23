@@ -1,5 +1,6 @@
 package com.nextshopper.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -49,9 +50,11 @@ public class StoreDetailsActivity extends BaseActivity implements View.OnClickLi
         storeContactInfoView = (TextView) findViewById(R.id.store_contact_info);
         storeContactInfoView.setOnClickListener(this);
         storeId = getIntent().getStringExtra(STORE_ID);
+        final ProgressDialog progressDialog= Util.getProgressDialog(this);
         ApiService.getService().StoreAPI_GetStoreDetails(storeId, new Callback<StoreDetails>() {
             @Override
             public void success(StoreDetails storeDetails, Response response) {
+                progressDialog.dismiss();
                 StoreDetailsActivity.this.storeDetails = storeDetails;
                 storeInfo.setTag(storeDetails.store.info.logo);
                 BitmapWorkerTask task = new BitmapWorkerTask(storeInfo, false, 0);
@@ -68,7 +71,8 @@ public class StoreDetailsActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void failure(RetrofitError error) {
-
+             progressDialog.dismiss();
+                Util.alertBox(StoreDetailsActivity.this, error);
             }
         });
     }

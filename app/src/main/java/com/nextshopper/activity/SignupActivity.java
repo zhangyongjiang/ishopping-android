@@ -1,6 +1,7 @@
 package com.nextshopper.activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -142,6 +143,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
         request.gender = Gender.valueOf(genderChosen);
         request.invitationCode = INVITATION_CODE;
         NextShopperService service = ApiService.getService();
+        final ProgressDialog progressDialog= Util.getProgressDialog(SignupActivity.this);
         service.UserAPI_Register(request, new Callback<User>() {
             @Override
             public void success(User user, Response response) {
@@ -153,13 +155,16 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
                     ApiService.getService().UserAPI_Upload(typedFile, new Callback<User>() {
                         @Override
                         public void success(User user, Response response) {
+                            progressDialog.dismiss();
                             SignupActivity.this.user.info.imgPath = user.info.imgPath;
                             Log.d(ACTIVITY_NAME, user.info.imgPath);
                         }
 
                         @Override
                         public void failure(RetrofitError error) {
+                            progressDialog.dismiss();
                             Log.e(ACTIVITY_NAME, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
+                            Util.alertBox(SignupActivity.this, error);
                         }
                     });
                 }

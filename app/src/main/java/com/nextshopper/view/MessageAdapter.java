@@ -1,6 +1,7 @@
 package com.nextshopper.view;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -112,15 +113,18 @@ public class MessageAdapter extends BaseAdapter implements AbsListView.OnScrollL
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
         if (lastVisibleItem == this.getCount()) {
+            final ProgressDialog progressDialog= Util.getProgressDialog(ctx);
             ApiService.getService().MessageAPI_GetUserMessages(start, numOfItem, new Callback<MessageDetailsList>() {
                 @Override
                 public void success(MessageDetailsList messageDetailsList, Response response) {
+                    progressDialog.dismiss();
                       MessageAdapter.this.messageItemDetailsList.addAll(messageDetailsList.items);
                         notifyDataSetChanged();
                     }
 
                 @Override
                 public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
                     Util.alertBox(ctx, error);
                 }
             });

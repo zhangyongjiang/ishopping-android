@@ -1,6 +1,7 @@
 package com.nextshopper.common;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,9 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.nextshopper.activity.R;
 import com.nextshopper.rest.beans.ShippingInfo;
@@ -215,6 +219,15 @@ public class Util {
 
     public static String[][] states = {{"Sichuan", "Beijing", "Shanghai", "Guangdong", "Hunan"}, {"city1"}, {"CA", "MA", "FL", "AL", "AK", "AR", "CO", "CT"}, {"t1", "t2", "t3"}, {"s1", "s2", "s3"},};
 
+    public static ProgressDialog getProgressDialog(Context ctx){
+        return ProgressDialog.show(ctx, "", "Loading...");
+    }
+
+    public static ProgressBar getProgressBar(Context ctx){
+        ProgressBar progressBar = (ProgressBar)LayoutInflater.from(ctx).inflate(R.layout.progressbar, null);
+        progressBar.setVisibility(View.VISIBLE);
+        return progressBar;
+    }
 
 }
 

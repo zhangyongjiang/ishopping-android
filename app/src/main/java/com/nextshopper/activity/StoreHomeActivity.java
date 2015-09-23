@@ -1,7 +1,9 @@
 package com.nextshopper.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.StoreDetails;
@@ -23,15 +25,17 @@ public class StoreHomeActivity extends BaseActivity {
     public void refresh() {
         String storeId = getIntent().getStringExtra("storeId");
         NextShopperService service = ApiService.getService();
+        final ProgressDialog progressDialog= Util.getProgressDialog(this);
         service.StoreAPI_GetStoreDetails(storeId, new Callback<StoreDetails>() {
             @Override
             public void success(StoreDetails storeDetails, Response response) {
-
+              progressDialog.dismiss();
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+             progressDialog.dismiss();
+                Util.alertBox(StoreHomeActivity.this, error);
             }
         });
     }
