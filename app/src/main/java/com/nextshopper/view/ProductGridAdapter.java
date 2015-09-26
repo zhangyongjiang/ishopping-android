@@ -34,15 +34,14 @@ import retrofit.mime.TypedByteArray;
 /**
  * Created by Zhang_Kevin on 7/4/15.
  */
-public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScrollListener {
+public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScrollListener{
     private Context ctx;
     private GridView gridView;
     private SearchableProductList searchableProductList = new SearchableProductList();
     private int start = 0;
     private int numOfItem = 20;
-    private int mFirstVisibleItem;
-    private int mVisibleItemCount;
     private TrendingFragment trendingFragment;
+    private boolean call =true;
 
     public ProductGridAdapter(Context ctx, GridView gridView, TrendingFragment trendingFragment) {
         this.ctx = ctx;
@@ -50,6 +49,10 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
         this.trendingFragment = trendingFragment;
     }
 
+    public void refresh(){
+        start =0;
+        searchableProductList.items.clear();
+    }
     @Override
     public int getCount() {
         if (searchableProductList == null)
@@ -58,7 +61,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
     }
 
     @Override
-    public Object getItem(int position) {
+    public  SearchableProduct getItem(int position) {
         return searchableProductList.items.get(position);
     }
 
@@ -100,24 +103,27 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
     }
 
     void setImageView(ImageView imageView, String url) {
-        ((NextShopperApplication)ctx.getApplicationContext()).loadBitmaps(url,imageView, false, 0);
+        ((NextShopperApplication)ctx.getApplicationContext()).loadBitmaps(url, imageView, false, 0);
     }
 
     public void setSearchableProductList(SearchableProductList searchableProductList) {
         if (searchableProductList.items == null) return;
+        if(searchableProductList.items.size()==0) return;
+        call =true;
         this.searchableProductList.items.addAll(searchableProductList.items);
         notifyDataSetChanged();
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        mFirstVisibleItem = firstVisibleItem;
-        mVisibleItemCount = visibleItemCount;
+        Log.i(Constant.NEXTSHOPPER, "ONScroll called");
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
-        if (lastVisibleItem == this.getCount()) {
+        if (lastVisibleItem == this.getCount() && call) {
             final ProgressDialog progressDialog= Util.getProgressDialog(ctx);
             NextShopperService service = ApiService.getService();
+            call=false;
             if (trendingFragment.getArguments().getString("Tab").equals("Trending")) {
+                Log.i(Constant.NEXTSHOPPER, "Trending, " + start + ", " + numOfItem + ", " +lastVisibleItem+", "+ ProductGridAdapter.this.getCount() + ", ");
                 service.ProductAPI_PopularProducts(null, start, numOfItem, new Callback<TrendProductList>() {
                     @Override
                     public void success(TrendProductList trendProductList, Response response) {
@@ -133,26 +139,28 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                     }
                 });
             } else if (trendingFragment.getArguments().getString("Tab").equals("Newest")) {
+                Log.i(Constant.NEXTSHOPPER, "Newest, " + start + ", " + numOfItem + ", " +lastVisibleItem+", "+ ProductGridAdapter.this.getCount() + ", ");
                 service.ProductAPI_NewProducts(start, numOfItem, new Callback<SearchableProductList>() {
                     @Override
                     public void success(SearchableProductList searchableProductList, Response response) {
                         progressDialog.dismiss();
                         setSearchableProductList(searchableProductList);
-                    }
+                       }
 
                     @Override
                     public void failure(RetrofitError error) {
                         progressDialog.dismiss();
-                        Log.i("HomeActivity", error.getMessage());
+                        Log.i(Constant.NEXTSHOPPER, error.getMessage());
                     }
                 });
             } else if (trendingFragment.getArguments().getString("Tab").equals("Just For You")) {
+                Log.i(Constant.NEXTSHOPPER, "Just For You, " + start + ", " + numOfItem + ", " +lastVisibleItem+", "+ ProductGridAdapter.this.getCount() + ", ");
                 service.ProductAPI_RecommendationsForUser(start, numOfItem, null, null, new Callback<SearchableProductList>() {
                     @Override
                     public void success(SearchableProductList searchableProductList, Response response) {
                         progressDialog.dismiss();
                         setSearchableProductList(searchableProductList);
-                    }
+                     }
 
                     @Override
                     public void failure(RetrofitError error) {
@@ -166,7 +174,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                     @Override
                     public void success(ProductList productList, Response response) {
                         progressDialog.dismiss();
-                        setSearchableProductList( convert(productList));
+                        setSearchableProductList(convert(productList));
                     }
 
                     @Override
@@ -181,7 +189,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                     @Override
                     public void success(ProductList productList, Response response) {
                         progressDialog.dismiss();
-                        setSearchableProductList( convert(productList));
+                        setSearchableProductList(convert(productList));
                     }
 
                     @Override
@@ -190,6 +198,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                     }
                 });
             } else {
+                Log.i(Constant.NEXTSHOPPER, "Recommendation, " + start + ", " + numOfItem + ", " +lastVisibleItem+", "+ ProductGridAdapter.this.getCount() + ", ");
                 service.ProductAPI_RecommendationsForProduct(start, numOfItem, trendingFragment.getArguments().getString("ProductId"), new Callback<SearchableProductList>() {
                     @Override
                     public void success(SearchableProductList searchableProductList, Response response) {
@@ -207,6 +216,105 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
 
             start = start + numOfItem;
         }
+    }
+
+
+    void fetchMore(){
+        final ProgressDialog progressDialog= Util.getProgressDialog(ctx);
+        NextShopperService service = ApiService.getService();
+        if (trendingFragment.getArguments().getString("Tab").equals("Trending")) {
+            service.ProductAPI_PopularProducts(null, start, numOfItem, new Callback<TrendProductList>() {
+                @Override
+                public void success(TrendProductList trendProductList, Response response) {
+                    progressDialog.dismiss();
+                    setSearchableProductList(trendProductList);
+                    Log.i(Constant.NEXTSHOPPER, "Trending");
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
+                    Log.e("NextShopper", error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
+
+                }
+            });
+        } else if (trendingFragment.getArguments().getString("Tab").equals("Newest")) {
+            service.ProductAPI_NewProducts(start, numOfItem, new Callback<SearchableProductList>() {
+                @Override
+                public void success(SearchableProductList searchableProductList, Response response) {
+                    progressDialog.dismiss();
+                    setSearchableProductList(searchableProductList);
+                    Log.i(Constant.NEXTSHOPPER, "Newest");
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
+                    Log.i(Constant.NEXTSHOPPER, error.getMessage());
+                }
+            });
+        } else if (trendingFragment.getArguments().getString("Tab").equals("Just For You")) {
+            service.ProductAPI_RecommendationsForUser(start, numOfItem, null, null, new Callback<SearchableProductList>() {
+                @Override
+                public void success(SearchableProductList searchableProductList, Response response) {
+                    progressDialog.dismiss();
+                    setSearchableProductList(searchableProductList);
+                    Log.i(Constant.NEXTSHOPPER, "Just For You, " + start + ", " + numOfItem + ", " + ProductGridAdapter.this.getCount() + ", ");
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
+                    Log.e("HomeActivity", error.getMessage());
+                }
+            });
+
+        } else if (trendingFragment.getArguments().get("Tab").equals("")) {
+            service.ProductAPI_Search(trendingFragment.getArguments().getString("Keywords"), trendingFragment.getArguments().getString("Cat"), null, null, null, start, numOfItem, null, new Callback<ProductList>() {
+                @Override
+                public void success(ProductList productList, Response response) {
+                    progressDialog.dismiss();
+                    setSearchableProductList(convert(productList));
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
+                    Log.e(Constant.NEXTSHOPPER, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
+
+                }
+            });
+        } else if(trendingFragment.getArguments().get("Tab").equals("Store")){
+            service.ProductAPI_ListStorePublicProducts(((String) trendingFragment.getArguments().get("ProductId")), start, numOfItem, new Callback<ProductList>() {
+                @Override
+                public void success(ProductList productList, Response response) {
+                    progressDialog.dismiss();
+                    setSearchableProductList(convert(productList));
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
+                }
+            });
+        } else {
+            service.ProductAPI_RecommendationsForProduct(start, numOfItem, trendingFragment.getArguments().getString("ProductId"), new Callback<SearchableProductList>() {
+                @Override
+                public void success(SearchableProductList searchableProductList, Response response) {
+                    progressDialog.dismiss();
+                    setSearchableProductList(searchableProductList);
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
+                    Log.e(Constant.NEXTSHOPPER, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
+                }
+            });
+        }
+
+        start = start + numOfItem;
+
     }
 
     @Override

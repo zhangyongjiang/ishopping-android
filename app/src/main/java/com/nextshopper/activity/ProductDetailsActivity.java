@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nextshopper.common.Constant;
@@ -26,9 +27,10 @@ import com.nextshopper.rest.NextShopperService;
 import com.nextshopper.rest.beans.GenericResponse;
 import com.nextshopper.rest.beans.Product;
 import com.nextshopper.rest.beans.ProductDetails;
+import com.nextshopper.rest.beans.SearchableProductList;
+import com.nextshopper.view.GridViewAdapter;
 import com.nextshopper.view.ImageFragment;
 import com.nextshopper.view.TitleView;
-import com.nextshopper.view.TrendingFragment;
 
 import java.util.Map;
 
@@ -63,40 +65,45 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
     private TitleView titleView;
     private ImageFragment fragment;
     private String productId;
+    private ListView listView;
+    private View header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        listView =(ListView) findViewById(R.id.suggestion_listview);
+        header = getLayoutInflater().inflate(R.layout.product_details_heaser,listView, false);
+        listView.addHeaderView(header, null, false);
+        viewPager = (ViewPager) header.findViewById(R.id.viewpager);
         adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        titleView =(TitleView) findViewById(R.id.details_title);
-        likesView = (TextView) findViewById(R.id.details_like);
-        nameView = (TextView) findViewById(R.id.details_name);
-        priceView = (TextView) findViewById(R.id.details_price);
-        oriPriceView = (TextView) findViewById(R.id.details_org_price);
-        buyNowButton = (Button) findViewById(R.id.details_buy_now);
+        titleView =(TitleView) header.findViewById(R.id.details_title);
+        likesView = (TextView) header.findViewById(R.id.details_like);
+        nameView = (TextView) header.findViewById(R.id.details_name);
+        priceView = (TextView) header.findViewById(R.id.details_price);
+        oriPriceView = (TextView) header.findViewById(R.id.details_org_price);
+        buyNowButton = (Button) header.findViewById(R.id.details_buy_now);
         buyNowButton.setOnClickListener(this);
-        detailsQuestionView = findViewById(R.id.details_question);
+        detailsQuestionView = header.findViewById(R.id.details_question);
         detailsQuestionView.setOnClickListener(this);
-        specView = (TextView) findViewById(R.id.spec_details);
-        reviewView = (TextView) findViewById(R.id.details_review);
-        followerView = (TextView) findViewById(R.id.details_follower);
-        storeNameView = (TextView) findViewById(R.id.details_store_name);
-        storeLogoView = (ImageView) findViewById(R.id.details_store_logo);
-        detailsShareView = findViewById(R.id.details_share);
+        specView = (TextView) header.findViewById(R.id.spec_details);
+        reviewView = (TextView) header.findViewById(R.id.details_review);
+        followerView = (TextView) header.findViewById(R.id.details_follower);
+        storeNameView = (TextView) header.findViewById(R.id.details_store_name);
+        storeLogoView = (ImageView) header.findViewById(R.id.details_store_logo);
+        detailsShareView = header.findViewById(R.id.details_share);
         detailsShareView.setOnClickListener(this);
-        storeView = findViewById(R.id.details_social);
+        storeView = header.findViewById(R.id.details_social);
         storeView.setOnClickListener(this);
-        supportView = findViewById(R.id.details_support);
+        supportView = header.findViewById(R.id.details_support);
         supportView.setOnClickListener(this);
-        detailsSpecView = findViewById(R.id.details_spec);
+        detailsSpecView = header.findViewById(R.id.details_spec);
         detailsSpecView.setOnClickListener(this);
-        reviewViewAll = findViewById(R.id.details_review_all);
+        reviewViewAll = header.findViewById(R.id.details_review_all);
         reviewViewAll.setOnClickListener(this);
         storeHeight = (int)(60 * getResources().getDisplayMetrics().density);
-        View likeView = findViewById(R.id.details_like);
+        View likeView = header.findViewById(R.id.details_like);
         likeView.setOnClickListener(this);
         refresh();
     }
@@ -105,6 +112,19 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
         productId = getIntent().getStringExtra("productId");
         NextShopperService service = ApiService.getService();
         final ProgressDialog progressDialog= Util.getProgressDialog(this);
+        final GridViewAdapter gridViewAdapter = new GridViewAdapter(this);
+        listView.setAdapter(gridViewAdapter);
+        service.ProductAPI_RecommendationsForProduct(0, 6, productId, new Callback<SearchableProductList>() {
+            @Override
+            public void success(SearchableProductList searchableProductList, Response response) {
+                gridViewAdapter.updateList(searchableProductList);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+              Util.alertBox(ProductDetailsActivity.this, error);
+            }
+        });
         service.ProductAPI_Get(productId, new Callback<ProductDetails>() {
             @Override
             public void success(ProductDetails productDetails, Response response) {
@@ -117,8 +137,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
                 specView.setText( productDetails.product.description);
                 reviewView.setText(String.format(getResources().getString(R.string.review), productDetails.product.reviews));
                 followerView.setText(String.format(getResources().getString(R.string.product_followers), productDetails.storeDetails.summary.products, productDetails.storeDetails.summary.followers));
-                getSupportFragmentManager().beginTransaction().add(R.id.details_fragment, TrendingFragment.newInstance("Product", null, null, productDetails.product.id)).commit();
-                storeNameView.setText(productDetails.storeDetails.store.info.name);
+                 storeNameView.setText(productDetails.storeDetails.store.info.name);
                 storeLogoView.setTag(productDetails.storeDetails.store.info.logo);
                 like = productDetails.liked;
                 if (like)
