@@ -22,7 +22,6 @@ import android.widget.ProgressBar;
 
 import com.nextshopper.activity.MainActivity;
 import com.nextshopper.activity.R;
-import com.nextshopper.rest.beans.GenericResponse;
 import com.nextshopper.rest.beans.ShippingInfo;
 import com.nextshopper.rest.beans.User;
 
@@ -35,6 +34,7 @@ import java.util.List;
 import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
+import retrofit.mime.TypedByteArray;
 
 /**
  * Created by siyiliu on 7/16/15.
@@ -194,7 +194,9 @@ public class Util {
     }
 
     public static void alertBox(Context ctx, RetrofitError error) {
-        String msg= ((GenericResponse) error.getBody()).errorCode+", "+((GenericResponse) error.getBody()).errorMsg;
+        String msg = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
+        String[] msgs  =msg.split(":");
+        msg = msgs[msgs.length-1].substring(0, msgs[msgs.length-1].length()-1);
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
         builder.setMessage(msg).setTitle(R.string.dialog_title);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
