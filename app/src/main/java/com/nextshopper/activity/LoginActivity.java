@@ -150,6 +150,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                     //
                     Util.saveUserData(LoginActivity.this, user);
                     String cookie = Util.getCookieString(response);
+                    Util.saveCookie(LoginActivity.this, cookie);
                     ApiService.buildService(cookie);
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra(Constant.USER_ID, user.id);

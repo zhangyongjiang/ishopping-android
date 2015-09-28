@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.nextshopper.activity.AboutActivity;
 import com.nextshopper.activity.ContactSellerActivity;
 import com.nextshopper.activity.R;
-import com.nextshopper.common.Constant;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,7 +64,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener{
             intent.putExtra(TITLE,"Privacy Policy");
             startActivity(intent);
         }else if(v.getId()==R.id.about_support){
-            ContactSellerActivity.startActivity(getActivity(), Constant.NEXTSHOPPER);
+            ContactSellerActivity.startActivity(getActivity(), "NextShopper");
         }
     }
 }

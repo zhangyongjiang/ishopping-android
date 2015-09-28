@@ -91,6 +91,7 @@ public class MsgThreadActivity extends BaseActivity {
                 user.info.imgPath = pref.getString(Constant.IMG_PATH, "");
                 messageDetails.userReceiverInfo = user;
                 List<MessageDetails> list = new ArrayList<>();
+                list.add(messageDetails);
                 adapter.updateList(list);
             }
         }

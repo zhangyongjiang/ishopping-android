@@ -1,6 +1,5 @@
 package com.nextshopper.view;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,9 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.nextshopper.activity.R;
-import com.nextshopper.common.NextShopperApplication;
-import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.beans.CartItemDetails;
 import com.nextshopper.rest.beans.CartItemDetailsList;
 import com.nextshopper.rest.beans.CartItemRequest;
 import com.nextshopper.rest.beans.CartItemRequestList;
@@ -19,7 +17,6 @@ import com.nextshopper.rest.beans.Product;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -36,9 +33,10 @@ public class CartListFragment extends Fragment {
     private Item creditView;
     private Item couponView;
     private Item netPayView;
-    List<Product> productList;
-    private float shipping;
+   // List<Product> productList;
     private static final String ARG_PARAM1 = "param";
+    private CartItemDetailsList cartItemDetailsList;
+    private View footerView;
 
     public CartListFragment() {
         // Required empty public constructor
@@ -58,20 +56,37 @@ public class CartListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart_list, container, false);
+        footerView = inflater.inflate(R.layout.fragment_cart_footer, null, false);
         listView = (ListView) view.findViewById(R.id.list_of_order);
-        Map<String, Product> productMap = ((NextShopperApplication) getActivity().getApplicationContext()).getProductMap();
-        productList = new ArrayList<Product>(productMap.values());
-        OrderAdapter orderAdapter = new OrderAdapter(getActivity(), productList, this.getArguments().getBoolean(ARG_PARAM1));
-        listView.setAdapter(orderAdapter);
-        subtotalView = (Item) view.findViewById(R.id.order_subtotal);
-        shippingView = (Item) view.findViewById(R.id.order_shipping);
-        totalView = (Item) view.findViewById(R.id.order_total);
-        creditView = (Item) view.findViewById(R.id.order_credit);
-        couponView = (Item) view.findViewById(R.id.order_coupon);
-        netPayView = (Item) view.findViewById(R.id.order_netpay);
+        listView.addFooterView(footerView);
 
-        CartItemRequestList cartItemRequestList = convert(productList);
-        final ProgressDialog progressDialog= Util.getProgressDialog(getActivity());
+        //Map<String, Product> productMap = ((NextShopperApplication) getActivity().getApplicationContext()).getProductMap();
+        //productList = new ArrayList<Product>(productMap.values());
+        final OrderAdapter orderAdapter = new OrderAdapter(this, this.getArguments().getBoolean(ARG_PARAM1));
+        listView.setAdapter(orderAdapter);
+        subtotalView = (Item) footerView.findViewById(R.id.order_subtotal);
+        shippingView = (Item) footerView.findViewById(R.id.order_shipping);
+        totalView = (Item) footerView.findViewById(R.id.order_total);
+        creditView = (Item) footerView.findViewById(R.id.order_credit);
+        couponView = (Item) footerView.findViewById(R.id.order_coupon);
+        netPayView = (Item) footerView.findViewById(R.id.order_netpay);
+        ApiService.getService().ShoppingAPI_List(null, new Callback<CartItemDetailsList>() {
+            @Override
+            public void success(CartItemDetailsList cartItemDetailsList, Response response) {
+                CartListFragment.this.cartItemDetailsList= cartItemDetailsList;
+                orderAdapter.updateList(cartItemDetailsList.items);
+                updateShipping(cartItemDetailsList);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+
+        //CartItemRequestList cartItemRequestList = convert(productList);
+       // final ProgressDialog progressDialog= Util.getProgressDialog(getActivity());
+        /*
         ApiService.getService().ShoppingAPI_AddCartItems(cartItemRequestList, new Callback<CartItemDetailsList>() {
             @Override
             public void success(CartItemDetailsList cartItemDetailsList, Response response) {
@@ -84,18 +99,8 @@ public class CartListFragment extends Fragment {
                progressDialog.dismiss();
                 Util.alertBox(CartListFragment.this.getActivity(), error);
             }
-        });
-        float subtotal=0;
-        for(Product p: productList){
-            subtotal+=p.quantity*p.salePrice;
-        }
-        float credit=0;
-        float total = subtotal+ shipping;
-        subtotalView.setRight(String.format(getResources().getString(R.string.price),subtotal));
-        shippingView.setRight(String.format(getResources().getString(R.string.price), shipping));
-        totalView.setRight(String.format(getResources().getString(R.string.price),total));
-        creditView.setRight(String.format(getResources().getString(R.string.price),credit));
-        netPayView.setRight(String.format(getResources().getString(R.string.price), total));
+        });*/
+
         return view;
     }
 
@@ -110,5 +115,20 @@ public class CartListFragment extends Fragment {
             requestList.add(request);
         }
         return list;
+    }
+
+    public void updateShipping(CartItemDetailsList list){
+        float subtotal=0;
+        for(CartItemDetails cartItemDetails: list.items){
+            subtotal+=cartItemDetails.item.quantity*cartItemDetails.item.price;
+        }
+        float credit=list.userCredit;
+        float total = subtotal+ list.shipping;
+        subtotalView.setRight(String.format(getResources().getString(R.string.price),subtotal));
+        shippingView.setRight(String.format(getResources().getString(R.string.price), (double)list.shipping));
+        totalView.setRight(String.format(getResources().getString(R.string.price),total));
+        creditView.setRight(String.format(getResources().getString(R.string.price),credit));
+        netPayView.setRight(String.format(getResources().getString(R.string.price), total-credit));
+
     }
 }

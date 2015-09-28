@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nextshopper.common.Constant;
@@ -18,7 +19,7 @@ import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.BitmapWorkerTask;
 import com.nextshopper.rest.beans.GenericResponse;
 import com.nextshopper.rest.beans.StoreDetails;
-import com.nextshopper.view.TrendingFragment;
+import com.nextshopper.view.GridViewAdapter;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -36,20 +37,28 @@ public class StoreDetailsActivity extends BaseActivity implements View.OnClickLi
     private TextView storeContactInfoView;
     private boolean followed;
     private StoreDetails storeDetails;
+    private ListView listView;
+    private View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_details);
-        storeInfo = findViewById(R.id.store_info);
-        storeNameView = (TextView) findViewById(R.id.store_name);
-        storeLogoView = (ImageView) findViewById(R.id.store_logo);
-        storeProductView = (TextView) findViewById(R.id.store_products);
-        storeFollowView = (TextView) findViewById(R.id.store_follow);
+        listView = (ListView) findViewById(R.id.store_listview);
+        headerView = getLayoutInflater().inflate(R.layout.store_details_header, listView, false);
+        storeInfo = headerView.findViewById(R.id.store_info);
+        storeNameView = (TextView) headerView.findViewById(R.id.store_name);
+        storeLogoView = (ImageView) headerView.findViewById(R.id.store_logo);
+        storeProductView = (TextView) headerView.findViewById(R.id.store_products);
+        storeFollowView = (TextView) headerView.findViewById(R.id.store_follow);
         storeFollowView.setOnClickListener(this);
-        storeContactInfoView = (TextView) findViewById(R.id.store_contact_info);
-        storeContactInfoView.setOnClickListener(this);
+       // storeContactInfoView = (TextView) headerView.findViewById(R.id.store_contact_info);
+       // storeContactInfoView.setOnClickListener(this);
         storeId = getIntent().getStringExtra(STORE_ID);
+        GridViewAdapter adapter = new GridViewAdapter(this, storeId);
+        listView.addHeaderView(headerView);
+        listView.setOnScrollListener(adapter);
+        listView.setAdapter(adapter);
         final ProgressDialog progressDialog= Util.getProgressDialog(this);
         ApiService.getService().StoreAPI_GetStoreDetails(storeId, new Callback<StoreDetails>() {
             @Override
@@ -62,7 +71,7 @@ public class StoreDetailsActivity extends BaseActivity implements View.OnClickLi
                 storeNameView.setText(storeDetails.store.info.name);
                 ((NextShopperApplication) getApplication()).loadBitmaps(storeDetails.store.info.logo, storeLogoView, false, 0);
                 storeProductView.setText(String.format(getResources().getString(R.string.product_followers), storeDetails.summary.products, storeDetails.summary.followers));
-                getSupportFragmentManager().beginTransaction().add(R.id.store_fragment, TrendingFragment.newInstance("Store", null, null, storeId)).commit();
+               // getSupportFragmentManager().beginTransaction().add(R.id.store_fragment, TrendingFragment.newInstance("Store", null, null, storeId)).commit();
                 if (storeDetails.followed) {
                     storeFollowView.setText(getString(R.string.following));
                     followed = true;
@@ -96,7 +105,7 @@ public class StoreDetailsActivity extends BaseActivity implements View.OnClickLi
                 ApiService.getService().SocialAPI_FollowStore(storeId, new Callback<GenericResponse>() {
                     @Override
                     public void success(GenericResponse genericResponse, Response response) {
-                        Log.d(Constant.NEXTSHOPPER, genericResponse.msg);
+                        Log.d(Constant.NEXTSHOPPER, genericResponse.errorMsg);
                     }
 
                     @Override
@@ -119,9 +128,10 @@ public class StoreDetailsActivity extends BaseActivity implements View.OnClickLi
                     }
                 });
             }
-        }else if(v.getId() == R.id.store_contact_info){
+        }/*
+        else if(v.getId() == R.id.store_contact_info){
             Intent intent = new Intent(this, ContactSellerActivity.class);
             startActivity(intent);
-        }
+        }*/
     }
 }

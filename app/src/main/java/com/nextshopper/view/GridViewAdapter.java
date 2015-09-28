@@ -1,29 +1,47 @@
 package com.nextshopper.view;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.nextshopper.activity.R;
+import com.nextshopper.common.Constant;
 import com.nextshopper.common.NextShopperApplication;
+import com.nextshopper.common.Util;
+import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.NextShopperService;
+import com.nextshopper.rest.beans.Product;
+import com.nextshopper.rest.beans.ProductList;
 import com.nextshopper.rest.beans.SearchableProduct;
 import com.nextshopper.rest.beans.SearchableProductList;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 /**
  * Created by siyiliu on 9/25/15.
  */
-public class GridViewAdapter extends BaseAdapter {
+public class GridViewAdapter extends BaseAdapter implements AbsListView.OnScrollListener {
     private Context ctx;
+    private int start = 0;
+    private int numOfItem = 20;
+    private boolean call =true;
+    private String storeId;
     private List<ArrayList<SearchableProduct>> searchableProductList = new ArrayList<>();
 
-    public GridViewAdapter(Context ctx) {
+    public GridViewAdapter(Context ctx, String storeId) {
         this.ctx = ctx;
+        this.storeId = storeId;
     }
 
     @Override
@@ -75,7 +93,52 @@ public class GridViewAdapter extends BaseAdapter {
                 result.add(spList);
             }
         }
-        searchableProductList = result;
+        searchableProductList.addAll(result);
+        if(result.size()==numOfItem/2)
+            call =true;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        Log.i(Constant.NEXTSHOPPER, "ONScroll called");
+        int lastVisibleItem = firstVisibleItem + visibleItemCount;
+        if (lastVisibleItem == this.getCount() && call) {
+            final ProgressDialog progressDialog= Util.getProgressDialog(ctx);
+            NextShopperService service = ApiService.getService();
+            call=false;
+                service.ProductAPI_ListStorePublicProducts(storeId, start, numOfItem, new Callback<ProductList>() {
+                    @Override
+                    public void success(ProductList productList, Response response) {
+                        progressDialog.dismiss();
+                        updateList(convert(productList));
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        progressDialog.dismiss();
+                    }
+                });
+            start = start + numOfItem;
+        }
+    }
+
+
+    SearchableProductList convert(ProductList productList) {
+        SearchableProductList spList = new SearchableProductList();
+        for (Product p : productList.items) {
+            SearchableProduct sp = new SearchableProduct();
+            sp.imgUrl = p.imgs;
+            sp.name = p.name;
+            sp.price = p.salePrice;
+            sp.listPrice = p.salePrice;
+            spList.items.add(sp);
+        }
+        return spList;
     }
 }

@@ -535,7 +535,8 @@ public interface NextShopperService {
     void ShoppingAPI_AddCartItems(@Body CartItemRequestList items, Callback<CartItemDetailsList> callback);
     
 	@POST("/ws/shopping-cart/remove/{cartItemId}")
-	void ShoppingAPI_RemoveCartItem(@Path("cartItemId") String cartItemId, Callback<CartItemDetailsList> callback);
+	void
+	ShoppingAPI_RemoveCartItem(@Path("cartItemId") String cartItemId, Callback<CartItemDetailsList> callback);
 
 	@POST("/ws/shopping-cart/update-quantity/{cartItemId}/{quantity}")
 	void ShoppingAPI_UpdateItemQuantity(@Path("cartItemId") String cartItemId, @Path("quantity") int quantity, Callback<CartItemDetailsList> callback);

@@ -1,7 +1,7 @@
 package com.nextshopper.rest.beans;
 
 public class GenericResponse {
-	public String msg = "ok";
+	public String errorMsg = "ok";
 	public Integer ivalue;
 	public String errorCode;
 	
@@ -9,6 +9,6 @@ public class GenericResponse {
 	}
 	
 	public GenericResponse(String msg) {
-		this.msg = msg;
+		this.errorMsg = msg;
 	}
 }

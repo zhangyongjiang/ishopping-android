@@ -149,6 +149,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
             public void success(User user, Response response) {
                 SignupActivity.this.user = user;
                 String cookie = Util.getCookieString(response);
+                Util.saveCookie(SignupActivity.this, cookie);
                 ApiService.buildService(cookie);
                 if (dir != null) {
                     TypedFile typedFile = new TypedFile("image/jpeg", new File(dir, Constant.THUMNAIL));

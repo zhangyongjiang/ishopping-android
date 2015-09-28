@@ -1,7 +1,6 @@
 package com.nextshopper.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -42,25 +41,31 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
     private static String SUBJECT="subject";
     private static String TITLE="title";
     private static String MSG_ID="msg_id";
+    private static String STORE_ID="storeId";
     private EditText messageView;
     private String subject;
     private String msgId;
     private String title;
     private TitleView titleView;
+    private boolean hasAttach;
+    private String storeId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_seller);
-        subjectView = (TextView)findViewById(R.id.contact_subject);
+        subjectView = (EditText)findViewById(R.id.contact_subject);
         messageView =(EditText) findViewById(R.id.create_review_comment);
         titleView =(TitleView) findViewById(R.id.contact_seller_title);
         subject = getIntent().getStringExtra(SUBJECT);
         msgId = getIntent().getStringExtra(MSG_ID);
+        storeId = getIntent().getStringExtra(STORE_ID);
         title = getIntent().getStringExtra(TITLE);
         if(subject!=null && !subject.isEmpty()){
             subjectView.setText(subject);
         }
-        if(title!=null && !title.isEmpty()){
+        if(msgId!=null){
+            titleView.setTextMiddle("Reply");
+        }else if(TITLE!=null){
             titleView.setTextMiddle("Contact "+ title);
         }
         attachView =(TextView) findViewById(R.id.contact_seller_attach);
@@ -74,6 +79,14 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
         intent.putExtra(MSG_ID, msgId);
         ctx.startActivityForResult(intent, requestCode);
     }
+
+    public static void startActivity(Activity ctx, String subject, String storeId){
+        Intent intent = new Intent(ctx, ContactSellerActivity.class);
+        intent.putExtra(SUBJECT, subject);
+        intent.putExtra(STORE_ID, storeId);
+        ctx.startActivity(intent);
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -96,6 +109,8 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
                     //Bitmap thumnailCamera = data.getParcelableExtra("data");
                     Uri imageUri = data.getData();
                     Bitmap bitmap = Util.getThumbnail(this, imageUri, 240);
+                    if(bitmap!=null)
+                        hasAttach = true;
                     imageView.setImageBitmap(bitmap);
                     ContextWrapper cw = new ContextWrapper(getApplicationContext());
                     File dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
@@ -124,43 +139,64 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
         TypedFile typedFile = new TypedFile("image/jpeg", new File(dir, Constant.ATTACHMENT));
-        final ProgressDialog progressDialog= Util.getProgressDialog(this);
-        ApiService.getService().ResourceAPI_UploadForUser(typedFile, "", "", new Callback<Resource>() {
-            @Override
-            public void success(Resource resource, Response response) {
-                progressDialog.dismiss();
-                Message msg = new Message();
-                msg.subject = subject;
-                msg.content = messageView.getText().toString();
-                msg.attachments = new ArrayList<>();
-                msg.attachments.add(resource.path);
-                ApiService.getService().MessageAPI_UserReplyMessage(msgId, msg, new Callback<Message>() {
-                    @Override
-                    public void success(Message message, Response response) {
+        Message msg = new Message();
+        msg.subject = subject;
+        msg.content = messageView.getText().toString();
+        if(msgId!=null) {
+            ApiService.getService().MessageAPI_UserReplyMessage(msgId, msg, new Callback<Message>() {
+                @Override
+                public void success(Message message, Response response) {
 
-                    }
+                }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Util.alertBox(ContactSellerActivity.this, error);
-                    }
-                });
+                @Override
+                public void failure(RetrofitError error) {
+                    Util.alertBox(ContactSellerActivity.this, error);
+                }
+            });
+        }else if(storeId!=null){
+            ApiService.getService().MessageAPI_UserToStoreMessage(storeId, msg, new Callback<Message>() {
+                @Override
+                public void success(Message message, Response response) {
+                }
 
-            }
+                @Override
+                public void failure(RetrofitError error) {
+                    Util.alertBox(ContactSellerActivity.this, error);
+                }
+            });
+        }else{
+            ApiService.getService().MessageAPI_UserToSystemMessage(msg, new Callback<Message>() {
+                @Override
+                public void success(Message message, Response response) {
+                }
 
-            @Override
-            public void failure(RetrofitError error) {
-                progressDialog.dismiss();
-                Util.alertBox(ContactSellerActivity.this, error);
-            }
-        });
+                @Override
+                public void failure(RetrofitError error) {
 
-         Intent intent = new Intent();
-         intent.putExtra("content", messageView.getText().toString());
-         intent.putExtra("subject", subject);
-         intent.putExtra("imgPath", Constant.ATTACHMENT);
-         this.setResult(RESULT_OK, intent);
-         finish();
+                }
+            });
+        }
+
+
+        if(hasAttach) {
+            ApiService.getService().ResourceAPI_UploadForUser(typedFile, "", "", new Callback<Resource>() {
+                @Override
+                public void success(Resource resource, Response response) {
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Util.alertBox(ContactSellerActivity.this, error);
+                }
+            });
+        }
+        Intent intent = new Intent();
+        intent.putExtra("content", messageView.getText().toString());
+        intent.putExtra("subject", subject);
+        intent.putExtra("imgPath", Constant.ATTACHMENT);
+        this.setResult(RESULT_OK, intent);
+        finish();
     }
 
     public static void startActivity(Context ctx, String title){

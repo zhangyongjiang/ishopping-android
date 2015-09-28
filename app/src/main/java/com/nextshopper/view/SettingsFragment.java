@@ -110,6 +110,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             startActivity(intent);
         } else if(v.getId() == R.id.shipping){
             Intent intent = new Intent(getActivity(), ShippingActivity.class);
+            intent.putExtra("source","setting");
             startActivity(intent);
         } else if(v.getId()==R.id.setting_favorite){
             Intent intent = new Intent(getActivity(), FavoriteActivity.class);

@@ -28,6 +28,7 @@
     <string name="male">Male</string>
     <string name="ok">OK</string>
     <string name="dialog_title">Oops</string>
+    <string name="dialog_warining">Warning</string>
     <string name="dialog_infomration">Information</string>
     <string name="recover_pwd_sent">Please check your email for the temp password</string>
     <string name="dialog_message">First name, last name, email and password are required.</string>
@@ -223,4 +224,10 @@
     <string name="no_favorite">You don\'t have favorite</string>
     <string name="no_follow_store">You haven\'t followed any store yet.</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="warning_message">The opration you just requested is for login user only. Please click Ok to sign in or sigun up.</string>
+    <string name="quanity_positve">Quantity should be greater than 0.</string>
+    <string name="size">Size</string>
+    <string name="color">Color</string>
+    <string name="review_product">Review this product</string>
+    <string name="shipping_required">First name, last name, country, state, city, address are all required fild.</string>
 </resources>

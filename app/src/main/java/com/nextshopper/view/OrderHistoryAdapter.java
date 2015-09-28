@@ -34,14 +34,16 @@ import retrofit.client.Response;
 /**
  * Created by siyiliu on 9/6/15.
  */
-public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener, View.OnClickListener{
+public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener, View.OnClickListener {
     private List<OrderItemDetails> orderItemDetailsList = new ArrayList<>();
     private int start = 0;
     private int numOfItem = 20;
     private Activity ctx;
     private ListView listView;
+    private boolean call = true;
+    private ProgressDialog progressDialog = null;
 
-    public OrderHistoryAdapter(Activity ctx, ListView listView){
+    public OrderHistoryAdapter(Activity ctx, ListView listView) {
         this.ctx = ctx;
         this.listView = listView;
         this.listView.setOnItemClickListener(this);
@@ -65,21 +67,21 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final OrderItemDetails orderItemDetails = orderItemDetailsList.get(position);
-        if(convertView==null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(ctx).inflate(R.layout.order_history_item, parent, false);
         }
-        ImageView imageView = (ImageView)convertView.findViewById(R.id.item_img);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.item_img);
         imageView.setTag(orderItemDetails.product.imgs.get(0));
-        ((NextShopperApplication)ctx.getApplicationContext()).loadBitmaps(orderItemDetails.product.imgs.get(0), imageView, false, 0);
-        TextView nameView = (TextView)convertView.findViewById(R.id.order_item_name);
+        ((NextShopperApplication) ctx.getApplicationContext()).loadBitmaps(orderItemDetails.product.imgs.get(0), imageView, false, 0);
+        TextView nameView = (TextView) convertView.findViewById(R.id.order_item_name);
         nameView.setText(orderItemDetails.product.name);
         TextView quView = (TextView) convertView.findViewById(R.id.order_item_quantity);
-        TextView priceView =(TextView) convertView.findViewById(R.id.order_item_price);
+        TextView priceView = (TextView) convertView.findViewById(R.id.order_item_price);
         quView.setText(String.format(ctx.getResources().getString(R.string.quantity_num), orderItemDetails.item.quantity));
         priceView.setText(String.format(ctx.getString(R.string.price_usd), orderItemDetails.product.salePrice));
         TextView timeView = (TextView) convertView.findViewById(R.id.item_time);
         timeView.setText(new Date(orderItemDetails.item.created).toString());
-        TextView statusView =(TextView) convertView.findViewById(R.id.item_status);
+        TextView statusView = (TextView) convertView.findViewById(R.id.item_status);
         statusView.setText(orderItemDetails.order.status.toString());
         TextView raveView = (TextView) convertView.findViewById(R.id.item_rave_it);
         raveView.setTag(orderItemDetails);
@@ -93,15 +95,25 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
-        if (lastVisibleItem == this.getCount()) {
-            final ProgressDialog progressDialog= Util.getProgressDialog(ctx);
+        if (lastVisibleItem == this.getCount() && call) {
+            call = false;
+            if (lastVisibleItem != 0)
+                progressDialog = Util.getProgressDialog(ctx);
             ApiService.getService().OrderAPI_UserOrderItemList(start, numOfItem, new Callback<OrderItemList>() {
                 @Override
                 public void success(OrderItemList list, Response response) {
+                    if (progressDialog != null)
+                        progressDialog.dismiss();
+                    if (list.items.size() > 0) {
                         OrderHistoryAdapter.this.orderItemDetailsList.addAll(list.items);
                         notifyDataSetChanged();
-                        progressDialog.dismiss();
                     }
+                    if(list.items.size()<numOfItem)
+                        call = false;
+                    else
+                        call =true;
+
+                }
 
                 @Override
                 public void failure(RetrofitError error) {
@@ -125,11 +137,11 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.item_rave_it){
+        if (v.getId() == R.id.item_rave_it) {
             Intent intent = new Intent(ctx, ReviewOrderActivity.class);
             ctx.startActivity(intent);
 
-        }else if(v.getId() == R.id.item_contact_seller){
+        } else if (v.getId() == R.id.item_contact_seller) {
             Intent intent = new Intent(ctx, ContactSellerActivity.class);
             ctx.startActivity(intent);
         }

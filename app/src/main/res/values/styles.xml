@@ -31,11 +31,11 @@
     </style>
     <style name="TextFont.Middle">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:layout_centerInParent">true</item>
     </style>
     <style name="TextFont.Title.Right">
-        <item name="android:textSize">18sp</item>la
+        <item name="android:textSize">15sp</item>la
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_centerVertical">true</item>
     </style>

@@ -39,7 +39,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     protected Bitmap doInBackground(String... params) {
         imageUrl = params[0];
         Bitmap bitmap= null;
-        if(view!=null && view.getTag().equals(imageUrl)) {
+        if(view!=null) {
             if (!imageUrl.startsWith("http")) {
                 bitmap =downloadBitmap ("http://api.onsalelocal.com/ws/resource/download?path=" + imageUrl);
             }else {
@@ -59,6 +59,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             if(toRound)
                 bitmap = Util.toRoundCorner(bitmap,height);
             if(view instanceof ImageView) {
+                if(bitmap!=null)
                 ((ImageView)view).setImageBitmap(bitmap);
             } else{
                 view.setBackground(new BitmapDrawable(bitmap));

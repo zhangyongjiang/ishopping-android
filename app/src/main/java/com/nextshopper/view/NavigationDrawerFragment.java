@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.nextshopper.activity.MainActivity;
 import com.nextshopper.activity.R;
 import com.nextshopper.common.Constant;
+import com.nextshopper.rest.ApiService;
 
 import java.io.File;
 
@@ -110,6 +111,8 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
         SharedPreferences pref = getActivity().getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
         String userId=  pref.getString(Constant.USER_ID, "");
         if (!userId.isEmpty()) {
+            String cookie = pref.getString(Constant.COOKIE, "");
+            ApiService.buildService(cookie);
             listview.setAdapter(new MenuAdapter(getString(R.string.login_menu).split(","),getActivity()));
             TextView userTextView = (TextView) layout.findViewById(R.id.menu_user);
             //SharedPreferences pref = getActivity().getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
@@ -133,7 +136,9 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
-        if (getActivity().getIntent().getStringExtra(Constant.USER_ID) != null) {
+        SharedPreferences preferences = this.getActivity().getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
+        String userId= preferences.getString(Constant.USER_ID,"");
+        if (userId != null) {
             mCallbacks.onNavigationDrawerItemSelected(0,"Settings");
         }
         else{

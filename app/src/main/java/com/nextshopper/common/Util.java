@@ -20,7 +20,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.nextshopper.activity.MainActivity;
 import com.nextshopper.activity.R;
+import com.nextshopper.rest.beans.GenericResponse;
 import com.nextshopper.rest.beans.ShippingInfo;
 import com.nextshopper.rest.beans.User;
 
@@ -33,7 +35,6 @@ import java.util.List;
 import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
 
 /**
  * Created by siyiliu on 7/16/15.
@@ -107,9 +108,16 @@ public class Util {
         editor.commit();
     }
 
+
+    public static void saveCookie(Context ctx, String cookie) {
+        SharedPreferences.Editor editor = ctx.getSharedPreferences(Constant.USER, ctx.MODE_PRIVATE).edit();
+        editor.putString(Constant.COOKIE, cookie);
+        editor.commit();
+    }
+
     public static void saveShippingInfo(Context ctx, ShippingInfo shippingInfo){
         SharedPreferences.Editor editor = ctx.getSharedPreferences(Constant.USER, ctx.MODE_PRIVATE).edit();
-        saveShipping(editor, ctx,shippingInfo);
+        saveShipping(editor, ctx, shippingInfo);
         editor.commit();
     }
 
@@ -186,7 +194,7 @@ public class Util {
     }
 
     public static void alertBox(Context ctx, RetrofitError error) {
-        String msg = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
+        String msg= ((GenericResponse) error.getBody()).errorCode+", "+((GenericResponse) error.getBody()).errorMsg;
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
         builder.setMessage(msg).setTitle(R.string.dialog_title);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -197,11 +205,28 @@ public class Util {
         dialog.show();
     }
 
-    public static void alertBox(Context ctx, String error) {
+    public static void alertBox(Context ctx, String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-        builder.setMessage(error).setTitle(R.string.dialog_title);
+        builder.setMessage(msg).setTitle(R.string.dialog_title);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public static void loginBox(final Context ctx) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+        builder.setMessage(R.string.warning_message).setTitle(R.string.dialog_warining);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(ctx, MainActivity.class);
+                ctx.startActivity(intent);
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
             }
         });
         AlertDialog dialog = builder.create();

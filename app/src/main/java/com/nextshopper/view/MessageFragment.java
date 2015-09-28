@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nextshopper.activity.R;
+import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.MessageDetailsList;
 
@@ -60,18 +61,19 @@ public class MessageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_message, container, false);
-        getFragmentManager().beginTransaction().add(R.id.message_container, new MsgListFragment()).commit();
+       // getFragmentManager().beginTransaction().add(R.id.message_container, new MsgListFragment()).commit();
         ApiService.getService().MessageAPI_GetUserMessages(0, 5, new Callback<MessageDetailsList>() {
             @Override
             public void success(MessageDetailsList messageDetailsList, Response response) {
-                if (messageDetailsList.total == 0) {
+                if (messageDetailsList.total == 0)
                     getFragmentManager().beginTransaction().replace(R.id.message_container, new EmptyMsgFragment()).commit();
-                }
+                else
+                    getFragmentManager().beginTransaction().add(R.id.message_container, new MsgListFragment()).commit();
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                Util.alertBox(getActivity(), error);
             }
         });
         return view;

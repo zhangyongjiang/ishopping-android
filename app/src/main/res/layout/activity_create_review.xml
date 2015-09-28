@@ -30,24 +30,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/create_review_line"
-        android:background="@drawable/rectangle_input">
+        android:background="@drawable/rectangle_input"
+        android:id="@+id/relativeLayout">
         <TextView
             android:id="@+id/create_review_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="10dp"
             android:text="@string/rating"/>
-        <ImageView
+        <RatingBar
             android:id="@+id/star_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:src="@drawable/start_0"/>
+            android:layout_toRightOf="@id/create_review_rating"
+            android:numStars="5"
+            android:stepSize="1.0"
+            android:layout_margin="10dp" />
+
         <View
             android:id="@+id/rating_line"
             android:layout_width="match_parent"
-            android:layout_below="@id/create_review_rating"
+            android:layout_below="@id/star_rating"
             android:layout_marginBottom="8dp"
             android:layout_height="1dp"
             android:background="@color/gray"/>
@@ -59,7 +63,7 @@
             android:layout_margin="10dp"
             android:gravity="top"
             android:hint="@string/your_review"
+            android:background="@null"
             android:maxLines="10"/>
     </RelativeLayout>
-
 </RelativeLayout>

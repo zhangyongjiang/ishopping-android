@@ -36,6 +36,7 @@ public class FollowedStoreAdapter extends BaseAdapter implements AbsListView.OnS
     private int start = 0;
     private int numOfItem = 20;
     private ListView listView;
+    private boolean call=true;
 
     public FollowedStoreAdapter(Context ctx){
         this.ctx = ctx;
@@ -74,13 +75,17 @@ public class FollowedStoreAdapter extends BaseAdapter implements AbsListView.OnS
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
-        if (lastVisibleItem == this.getCount()) {
+        if (lastVisibleItem == this.getCount() && call) {
+            call = false;
             final ProgressDialog progressDialog= Util.getProgressDialog(ctx);
             ApiService.getService().SocialAPI_MyFollowingStores(start, numOfItem, new Callback<ListFollowingStore>() {
                 @Override
                 public void success(ListFollowingStore listFollowingStore, Response response) {
                     progressDialog.dismiss();
                     list.addAll(listFollowingStore.items);
+                    if(listFollowingStore.items.size()==numOfItem)
+                        call =true;
+                    if(listFollowingStore.items.size()>0)
                     notifyDataSetChanged();
                 }
 

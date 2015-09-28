@@ -71,16 +71,17 @@ public class OrderHistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragmen
         View view = inflater.inflate(R.layout.fragment_order, container, false);
-        getFragmentManager().beginTransaction().add(R.id.order_history_container, new OrderListFragment()).commit();
         final ProgressDialog progressDialog= Util.getProgressDialog(getActivity());
         ApiService.getService().OrderAPI_UserOrderItemList(0, 5, new Callback<OrderItemList>() {
 
             @Override
             public void success(OrderItemList orderItemList, Response response) {
                 progressDialog.dismiss();
-                if (orderItemList.total == 0) {
+                if (orderItemList.items.size() == 0)
                     getFragmentManager().beginTransaction().replace(R.id.order_history_container, new EmptyOrderFragment()).commit();
-                }
+                else
+                    getFragmentManager().beginTransaction().add(R.id.order_history_container, new OrderListFragment()).commit();
+
             }
 
             @Override

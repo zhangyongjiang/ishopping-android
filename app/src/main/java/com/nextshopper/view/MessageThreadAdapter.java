@@ -54,6 +54,8 @@ public class MessageThreadAdapter extends BaseAdapter {
         if(convertView==null){
             convertView = LayoutInflater.from(ctx).inflate(R.layout.message_item, parent, false);
         }
+        ImageView arrowView =(ImageView) convertView.findViewById(R.id.message_arrow);
+        arrowView.setVisibility(View.GONE);
         ImageView logoView = (ImageView)convertView.findViewById(R.id.message_item_img);
         String imageUrl = null;
         TextView senderView = (TextView) convertView.findViewById(R.id.message_item_sender);

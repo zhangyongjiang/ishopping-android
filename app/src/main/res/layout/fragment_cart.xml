@@ -8,16 +8,22 @@
         android:id="@+id/cart_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
         nextshopper:imageLeft="@drawable/menu_active"
         nextshopper:textMiddle="@string/home_shoppingcart"
         nextshopper:textMiddleColor="@color/black"
         nextshopper:textRight="@string/checkout"
         nextshopper:textRightColor="@color/red">
     </com.nextshopper.view.TitleView>
+    <View
+        android:id="@+id/cart_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_below="@id/cart_title"/>
     <FrameLayout
         android:id="@+id/cart_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cart_title"/>
+        android:layout_below="@id/cart_line"/>
 </RelativeLayout>

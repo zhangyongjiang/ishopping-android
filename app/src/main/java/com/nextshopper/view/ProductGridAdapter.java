@@ -20,11 +20,15 @@ import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.NextShopperService;
+import com.nextshopper.rest.beans.FavoriteDetails;
+import com.nextshopper.rest.beans.ListFavoriteDetails;
 import com.nextshopper.rest.beans.Product;
 import com.nextshopper.rest.beans.ProductList;
 import com.nextshopper.rest.beans.SearchableProduct;
 import com.nextshopper.rest.beans.SearchableProductList;
 import com.nextshopper.rest.beans.TrendProductList;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -52,6 +56,8 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
     public void refresh(){
         start =0;
         searchableProductList.items.clear();
+        call=true;
+        notifyDataSetChanged();
     }
     @Override
     public int getCount() {
@@ -109,7 +115,8 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
     public void setSearchableProductList(SearchableProductList searchableProductList) {
         if (searchableProductList.items == null) return;
         if(searchableProductList.items.size()==0) return;
-        call =true;
+        if(searchableProductList.items.size()==numOfItem)
+             call =true;
         this.searchableProductList.items.addAll(searchableProductList.items);
         notifyDataSetChanged();
     }
@@ -197,6 +204,20 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                        progressDialog.dismiss();
                     }
                 });
+            } else if(trendingFragment.getArguments().get("Tab").equals("favorite")){
+                service.SocialAPI_ListMyFavProducts(start, numOfItem, new Callback<ListFavoriteDetails>() {
+                    @Override
+                    public void success(ListFavoriteDetails listFavoriteDetails, Response response) {
+                        progressDialog.dismiss();
+                        setSearchableProductList(convertToSP(listFavoriteDetails.items));
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        progressDialog.dismiss();Util.alertBox(ctx, error);
+                    }
+                });
+
             } else {
                 Log.i(Constant.NEXTSHOPPER, "Recommendation, " + start + ", " + numOfItem + ", " +lastVisibleItem+", "+ ProductGridAdapter.this.getCount() + ", ");
                 service.ProductAPI_RecommendationsForProduct(start, numOfItem, trendingFragment.getArguments().getString("ProductId"), new Callback<SearchableProductList>() {
@@ -297,6 +318,20 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                     progressDialog.dismiss();
                 }
             });
+        } else if(trendingFragment.getArguments().get("Tab").equals("favorite")){
+            service.SocialAPI_ListMyFavProducts(start, numOfItem, new Callback<ListFavoriteDetails>() {
+                @Override
+                public void success(ListFavoriteDetails listFavoriteDetails, Response response) {
+                    progressDialog.dismiss();
+                    setSearchableProductList(convertToSP(listFavoriteDetails.items));
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    progressDialog.dismiss();Util.alertBox(ctx, error);
+                }
+            });
+
         } else {
             service.ProductAPI_RecommendationsForProduct(start, numOfItem, trendingFragment.getArguments().getString("ProductId"), new Callback<SearchableProductList>() {
                 @Override
@@ -325,6 +360,20 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
     SearchableProductList convert(ProductList productList) {
         SearchableProductList spList = new SearchableProductList();
         for (Product p : productList.items) {
+            SearchableProduct sp = new SearchableProduct();
+            sp.imgUrl = p.imgs;
+            sp.name = p.name;
+            sp.price = p.salePrice;
+            sp.listPrice = p.salePrice;
+            spList.items.add(sp);
+        }
+        return spList;
+    }
+
+    SearchableProductList convertToSP(List<FavoriteDetails> favoriteDetailsList) {
+        SearchableProductList spList = new SearchableProductList();
+        for (FavoriteDetails favoriteDetails : favoriteDetailsList) {
+            Product p = favoriteDetails.product;
             SearchableProduct sp = new SearchableProduct();
             sp.imgUrl = p.imgs;
             sp.name = p.name;

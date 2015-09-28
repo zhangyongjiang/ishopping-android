@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_margin="5dp">
+    <LinearLayout
+        android:id="@+id/buy_sku"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
     <TextView
         android:id="@+id/buy_now_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
+        android:layout_below="@id/buy_sku"
         android:text="@string/quanity"/>
     <EditText
         android:id="@+id/product_quantity"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/buy_sku"
         android:text="@string/one"
         android:layout_toRightOf="@id/buy_now_quantity"/>
 </RelativeLayout>

@@ -1,47 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_of_order"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.nextshopper.view.CartListFragment">
-    <ListView
-        android:id="@+id/list_of_order"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_subtotal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:left_value="@string/subtotal"
-        app:right_value="@string/test"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_shipping"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_value="@string/shipping"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_total"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_value="@string/total"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_credit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_value="@string/credit_your_have"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_coupon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_value="@string/coupon_code"
-        app:right_value="@string/n_and_a"/>
-    <com.nextshopper.view.Item
-        android:id="@+id/order_netpay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_value="@string/net_pay"/>
-
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp" />

@@ -15,7 +15,6 @@ import com.nextshopper.rest.beans.LoginRequest;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
 
 
 public class RecoverPwdActivity extends BaseActivity {
@@ -37,7 +36,7 @@ public class RecoverPwdActivity extends BaseActivity {
 
     public void rightOnClick(View view){
         LoginRequest request = new LoginRequest();
-        request.password= emailEditTExt.getText().toString();
+        request.email= emailEditTExt.getText().toString();
         final ProgressDialog progressDialog= Util.getProgressDialog(this);
         ApiService.getService().UserAPI_ResetPassword(request, new Callback<GenericResponse>(){
 
@@ -45,7 +44,6 @@ public class RecoverPwdActivity extends BaseActivity {
             public void success(GenericResponse genericResponse, Response response) {
                 progressDialog.dismiss();
                 AlertDialog.Builder builder = new AlertDialog.Builder(RecoverPwdActivity.this);
-                new String(((TypedByteArray) response.getBody()).getBytes());
                 builder.setMessage(R.string.recover_pwd_sent).setTitle(R.string.dialog_infomration);
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -60,7 +58,7 @@ public class RecoverPwdActivity extends BaseActivity {
             public void failure(RetrofitError error) {
                 progressDialog.dismiss();
                 AlertDialog.Builder builder = new AlertDialog.Builder(RecoverPwdActivity.this);
-                builder.setMessage(new String(((TypedByteArray) error.getResponse().getBody()).getBytes())).setTitle(R.string.dialog_title);
+                builder.setMessage(((GenericResponse) error.getBody()).errorCode+", "+((GenericResponse) error.getBody()).errorMsg).setTitle(R.string.dialog_title);
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }

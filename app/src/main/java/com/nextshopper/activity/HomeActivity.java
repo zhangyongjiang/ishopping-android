@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.location.places.Place;
 import com.nextshopper.view.AboutFragment;
 import com.nextshopper.view.CartFragment;
 import com.nextshopper.view.ConfirmFragment;
@@ -87,6 +88,17 @@ public class HomeActivity extends FragmentActivity
         TextView textView = (TextView) view;
         intent.putExtra("cat",textView.getText().toString());
         startActivity(intent);
+    }
+
+    public void rightOnClick(View view){
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        if(fragment instanceof CartFragment) {
+            Intent intent = new Intent(this, ShippingActivity.class);
+            intent.putExtra("source", "checkout");
+            startActivity(intent);
+        } else if(fragment instanceof HomeFragment){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance("Search")).commit();
+        }
     }
 
 }

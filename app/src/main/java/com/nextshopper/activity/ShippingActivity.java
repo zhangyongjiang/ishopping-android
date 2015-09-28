@@ -17,6 +17,7 @@ import com.nextshopper.rest.beans.PaymentToken;
 import com.nextshopper.rest.beans.ShippingInfo;
 import com.nextshopper.rest.beans.User;
 import com.nextshopper.view.InputItem;
+import com.nextshopper.view.TitleView;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -39,11 +40,13 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
     private NumberPicker countryPicker;
     private NumberPicker statePicker;
     private View shippingView;
+    private TitleView titleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shipping);
+        titleView =(TitleView) findViewById(R.id.shipping_title_view);
         firstNameView = (InputItem) findViewById(R.id.shipping_firstname);
         lastNameView = (InputItem) findViewById(R.id.shipping_lastname);
         phoneView = (InputItem) findViewById(R.id.shipping_phone);
@@ -69,6 +72,8 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
         cityView.setEditText(pref.getString(Constant.CITY, ""));
         zipView.setEditText(pref.getString(Constant.ZIP, ""));
         source = getIntent().getStringExtra("source");
+        if(source!=null && source.equals("setting"))
+            titleView.getTextRight().setText("Save");
         countryView.setOnClickListener(this);
         shippingView.setOnClickListener(this);
         stateView.setOnClickListener(this);
@@ -84,23 +89,29 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
         shippingInfo.state = stateView.getText().toString();
         shippingInfo.city = cityView.getEditText().getText().toString();
         shippingInfo.zipcode = zipView.getEditText().getText().toString();
-        final ProgressDialog progressDialog= Util.getProgressDialog(ShippingActivity.this);
+        if(source.equals("checkout")) {
+            if (shippingInfo.firstName.isEmpty() || shippingInfo.lastName.isEmpty() || shippingInfo.country.isEmpty() || shippingInfo.state.isEmpty() || shippingInfo.city.isEmpty()|| shippingInfo.address.isEmpty()) {
+                Util.alertBox(this, getString(R.string.shipping_required));
+                return;
+            }
+        }
         if (source.equals("setting")) {
             Util.saveShippingInfo(this, shippingInfo);
             ApiService.getService().UserAPI_AddShipping(shippingInfo, new Callback<User>() {
                 @Override
                 public void success(User user, Response response) {
-                  progressDialog.dismiss();
+                  //progressDialog.dismiss();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
                     Util.alertBox(ShippingActivity.this, error);
                 }
             });
             finish();
         } else if (source.equals("checkout")) {
+            final ProgressDialog progressDialog= Util.getProgressDialog(ShippingActivity.this);
             ApiService.getService().ShoppingAPI_GetPaymentToken(null, new Callback<PaymentToken>() {
                 @Override
                 public void success(PaymentToken paymentToken, Response response) {

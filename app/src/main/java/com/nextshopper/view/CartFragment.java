@@ -1,5 +1,6 @@
 package com.nextshopper.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,52 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nextshopper.activity.R;
-import com.nextshopper.common.NextShopperApplication;
-import com.nextshopper.rest.beans.Product;
+import com.nextshopper.activity.ShippingActivity;
+import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.beans.CartItemDetailsList;
 
-import java.util.Map;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class CartFragment extends Fragment{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private TitleView titleView;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CartFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CartFragment newInstance(String param1, String param2) {
-        CartFragment fragment = new CartFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public CartFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -62,18 +34,25 @@ public class CartFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_cart, container, false);
-        Map<String, Product> productMap = ((NextShopperApplication)getActivity().getApplication()).getProductMap();
+       // Map<String, Product> productMap = ((NextShopperApplication)getActivity().getApplication()).getProductMap();
+        titleView = (TitleView)view.findViewById(R.id.cart_title);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        if(productMap.size()==0){
-            Fragment emptyCartFragment = new EmptyCartFragment();
-            ft.replace(R.id.cart_container, emptyCartFragment);
-            ft.commit();
-        }else{
-           Fragment cartListFragment = CartListFragment.newInstance(true);
-            ft.replace(R.id.cart_container, cartListFragment);
-            ft.commit();
-        }
+        ApiService.getService().ShoppingAPI_List(null, new Callback<CartItemDetailsList>() {
+            @Override
+            public void success(CartItemDetailsList cartItemDetailsList, Response response) {
+                if (cartItemDetailsList.items.size() > 0) {
+                    getFragmentManager().beginTransaction().add(R.id.cart_container, CartListFragment.newInstance(true)).commit();
+                } else{
+                    getFragmentManager().beginTransaction().add(R.id.cart_container, new EmptyCartFragment()).commit();
+                    titleView.getTextRight().setText("");
+                }
+            }
 
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
         return view;
     }
 
@@ -104,6 +83,12 @@ public class CartFragment extends Fragment{
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    public void rightOnClick(View view){
+        Intent intent = new Intent(getActivity(), ShippingActivity.class);
+        intent.putExtra("source", "checkout");
+        startActivity(intent);
     }
 
 }

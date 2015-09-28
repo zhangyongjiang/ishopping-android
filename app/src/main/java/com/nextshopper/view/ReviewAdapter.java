@@ -1,11 +1,13 @@
 package com.nextshopper.view;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,23 +15,36 @@ import android.widget.TextView;
 import com.nextshopper.activity.R;
 import com.nextshopper.common.Constant;
 import com.nextshopper.common.NextShopperApplication;
+import com.nextshopper.common.Util;
+import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.ProductReviewDetails;
+import com.nextshopper.rest.beans.ProductReviewDetailsList;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by siyiliu on 8/18/15.
  */
-public class ReviewAdapter extends BaseAdapter {
-    private List<ProductReviewDetails> list;
+public class ReviewAdapter extends BaseAdapter implements AbsListView.OnScrollListener {
+    private List<ProductReviewDetails> list = new ArrayList<>();
     private Context ctx;
     private int userHeight;
+    private boolean call =true;
+    private int start = 0;
+    private int numOfItem = 20;
+    private ProgressDialog progressDialog;
+    private String productId;
 
 
-    public ReviewAdapter(List<ProductReviewDetails> list, Context ctx){
-        this.list = list;
+    public ReviewAdapter(Context ctx, String prodcutId){
         this.ctx = ctx;
+        this.productId = prodcutId;
         this.userHeight = (int)(60 * ctx.getResources().getDisplayMetrics().density);
     }
 
@@ -63,7 +78,8 @@ public class ReviewAdapter extends BaseAdapter {
         }else{
             File imageFile = new File(ctx.getDir("imageDir", Context.MODE_PRIVATE), Constant.THUMNAIL);
             Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-            imageView.setImageBitmap(bitmap);
+            if(bitmap!=null)
+                 imageView.setImageBitmap(bitmap);
         }
         TextView name = (TextView) convertView.findViewById(R.id.review_user_name);
         name.setText(review.user.firstName + " " + review.user.lastName);
@@ -91,5 +107,49 @@ public class ReviewAdapter extends BaseAdapter {
     public void update(List<ProductReviewDetails> list){
         this.list = list;
         notifyDataSetChanged();
+    }
+
+    public void refresh(){
+        start =0;
+        list.clear();
+        call = true;
+        notifyDataSetChanged();
+    }
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        int lastVisibleItem = firstVisibleItem + visibleItemCount;
+        if (lastVisibleItem == this.getCount() && call) {
+            call = false;
+            if (lastVisibleItem != 0)
+                progressDialog = Util.getProgressDialog(ctx);
+            ApiService.getService().SocialAPI_GetProductReviews(productId, start, numOfItem, new Callback<ProductReviewDetailsList>() {
+                @Override
+                public void success(ProductReviewDetailsList list, Response response) {
+                    if (progressDialog != null)
+                        progressDialog.dismiss();
+                    if (list.items.size() > 0) {
+                        ReviewAdapter.this.list.addAll(list.items);
+                        notifyDataSetChanged();
+                    }
+                    if(list.items.size()<numOfItem)
+                        call = false;
+                    else
+                        call =true;
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
+                    Util.alertBox(ctx, error);
+                }
+            });
+
+            start = start + numOfItem;
+        }
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
     }
 }

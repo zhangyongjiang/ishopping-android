@@ -1,9 +1,9 @@
 package com.nextshopper.view;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +29,11 @@ public class EmptyCartFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        FragmentManager fragmentManager =  getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container, HomeActivity.PlaceholderFragment.newInstance("Shop")).commit();
-        fragmentManager.executePendingTransactions();
+        //FragmentManager fragmentManager =  getFragmentManager();
+        //fragmentManager.beginTransaction().replace(R.id.container, HomeActivity.PlaceholderFragment.newInstance("Shop")).commit();
+        //fragmentManager.executePendingTransactions();
+        Intent intent = new Intent(getActivity(), HomeActivity.class);
+        startActivity(intent);
     }
 
 }

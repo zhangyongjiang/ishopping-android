@@ -10,87 +10,15 @@
         android:id="@+id/store_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:padding="10dp"
         app:imageLeft="@drawable/back"
         app:textMiddle="@string/store"
         app:textMiddleColor="@color/black"
         app:imageRight="@drawable/share"/>
-    <RelativeLayout
-        android:id="@+id/store_info"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/store_title"
-        android:padding="10dp">
-        <ImageView
-            android:id="@+id/store_logo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"/>
-        <TextView
-            android:id="@+id/store_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/store_logo"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:text="@string/test" />
-        <TextView
-            android:id="@+id/store_follow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:text="@string/follow"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textColor="@color/white"
-            android:background="@drawable/rectangle"/>
-        <TextView
-            android:id="@+id/store_products"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@id/store_follow"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:text="@string/product_followers"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/store_contact"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/store_info"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/products"
-            android:drawableTop="@drawable/store_product"/>
-        <TextView
-            android:id="@+id/store_contact_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/contact"
-            android:drawableTop="@drawable/store_contact"
-            android:layout_centerHorizontal="true"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/about"
-            android:layout_alignParentRight="true"
-            android:drawableTop="@drawable/store_about"/>
-    </RelativeLayout>
-    <FrameLayout
-        android:id="@+id/store_fragment"
+
+    <ListView
+        android:id="@+id/store_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/store_contact"/>
+        android:layout_below="@id/store_title"/>
 </RelativeLayout>

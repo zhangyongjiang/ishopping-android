@@ -1,75 +1,82 @@
 package com.nextshopper.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.RatingBar;
+
+import com.nextshopper.common.Constant;
+import com.nextshopper.common.Util;
+import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.beans.ProductReview;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
-public class CreateReviewActivity extends BaseActivity implements View.OnClickListener{
+public class CreateReviewActivity extends BaseActivity{
 
-    private ImageView startView;
+    private RatingBar startView;
     private Rect rectf;
     private int oneStart;
     private EditText comments;
-    private int rating;
+    private float rating;
     private Rect localRect;
     private Rect gr;
+    private String productId;
+    private static String PRODUCT_ID="product_id";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_review);
-        startView = (ImageView) findViewById(R.id.star_rating);
-        startView.setOnClickListener(this);
+        startView = (RatingBar) findViewById(R.id.star_rating);
         comments = (EditText) findViewById(R.id.create_review_comment);
+        productId = getIntent().getStringExtra(PRODUCT_ID);
+        startView.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                CreateReviewActivity.this.rating= rating;
+            }
+        });
 
     }
 
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int x = (int)event.getX();
-        int y = (int)event.getY();
-        if(event.getAction()==MotionEvent.ACTION_DOWN){
-          if(gr!=null && x>=gr.left && x<=gr.right&& y>=gr.top && y<=gr.bottom+100)
-              if(y>=gr.top && y<gr.top+ (gr.bottom+100-gr.top)/5) {
-                  startView.setImageResource(R.drawable.stars_1);
-                  rating=1;
-              }
-              else if(y>=gr.top +(gr.bottom+100-gr.top)/5 && y<gr.top+ (gr.bottom+100-gr.top)/5*2){
-                  startView.setImageResource(R.drawable.stars_2);
-                  rating=2;
-              }else if(y>=gr.top +(gr.bottom+100-gr.top)/5*2 && y<gr.top+ (gr.bottom+100-gr.top)/5*3){
-                  startView.setImageResource(R.drawable.stars_3);
-                  rating=3;
-              }else if(y>=gr.top +(gr.bottom+100-gr.top)/5*3 && y<gr.top+ (gr.bottom+100-gr.top)/5*4){
-                  startView.setImageResource(R.drawable.stars_4);
-                  rating=4;
-              }else if(y>=gr.top +(gr.bottom+100-gr.top)/5*4 && y<gr.top+ (gr.bottom+100-gr.top)/5*5){
-                  startView.setImageResource(R.drawable.stars_5);
-                  rating=5;
-              }
-        }
-
-        return false;
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        localRect = new Rect();
-        startView.getLocalVisibleRect(localRect);
-        gr = new Rect();
-        startView.getGlobalVisibleRect(gr);
+    public static void startActivityForResult(Activity acitivity, String productId, int requestCode){
+        Intent intent = new Intent(acitivity, CreateReviewActivity.class);
+        intent.putExtra(PRODUCT_ID, productId);
+        acitivity.startActivityForResult(intent, requestCode);
     }
 
     public void rightOnClick(View view){
+        if((int)rating==0){
+            Util.alertBox(this, "Rating must between 1 and 5");
+            return;
+        }
+
         Intent intent = new Intent();
         intent.putExtra("comment", comments.getText().toString());
-        intent.putExtra("rating", rating);
+        intent.putExtra("rating", (int)rating);
+        intent.putExtra("num_of_review",1);
+        ProductReview productView = new ProductReview();
+        productView.rating = (int)rating;
+        productView.comment = comments.getText().toString();
+        productView.productId = productId;
+        ApiService.getService().SocialAPI_ReviewProduct(productView, new Callback<ProductReview>() {
+            @Override
+            public void success(ProductReview productReview, Response response) {
+                Log.d(Constant.NEXTSHOPPER, productReview.id);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(Constant.NEXTSHOPPER, error.getMessage());
+            }
+        });
         setResult(RESULT_OK, intent);
         finish();
     }

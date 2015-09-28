@@ -6,16 +6,20 @@
     android:orientation="vertical"
     tools:context="com.nextshopper.activity.OrderActivity">
     <com.nextshopper.view.TitleView
+        android:id="@+id/cart_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="5dp"
-        android:layout_marginBottom="5dp"
+        android:padding="10dp"
         app:imageLeft="@drawable/back"
         app:textMiddle="@string/shopper_cart"
         app:textMiddleColor="@color/black"
         app:textRight="@string/checkout"
         app:textRightColor="@color/red"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
     <FrameLayout
         android:id="@+id/order_container"
         android:layout_width="match_parent"
