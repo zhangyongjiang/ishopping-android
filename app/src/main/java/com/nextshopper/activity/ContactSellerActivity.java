@@ -154,6 +154,7 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
 
                 @Override
                 public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
                     Util.alertBox(ContactSellerActivity.this, error);
                 }
             });
@@ -167,6 +168,7 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
 
                 @Override
                 public void failure(RetrofitError error) {
+                    progressDialog.dismiss();
                     Util.alertBox(ContactSellerActivity.this, error);
                 }
             });
