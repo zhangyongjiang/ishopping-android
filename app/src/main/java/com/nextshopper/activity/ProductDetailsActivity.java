@@ -89,7 +89,6 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_details);
         listView = (ListView) findViewById(R.id.suggestion_listview);
         header = getLayoutInflater().inflate(R.layout.product_details_heaser, listView, false);
         listView.addHeaderView(header, null, false);
@@ -128,6 +127,10 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
         cookie = pref.getString(Constant.COOKIE, "");
        // ApiService.buildService(cookie);
         refresh();
+    }
+
+    protected int getLayoutId(){
+        return R.layout.activity_product_details;
     }
 
     protected void refresh() {
@@ -193,7 +196,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
             @Override
             public void failure(RetrofitError error) {
                 progressDialog.dismiss();
-                Log.e(Constant.NEXTSHOPPER, error.toString());
+                Log.e(Constant.NEXTSHOPPER, error.getMessage());
                 Util.alertBox(ProductDetailsActivity.this, error);
             }
         });

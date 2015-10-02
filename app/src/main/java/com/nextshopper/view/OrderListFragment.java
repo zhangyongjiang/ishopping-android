@@ -30,6 +30,7 @@ public class OrderListFragment extends Fragment {
          OrderHistoryAdapter adapter  =new OrderHistoryAdapter(getActivity(), listView);
         listView.setAdapter(adapter);
         listView.setOnScrollListener(adapter);
+        //((HomeActivity)getActivity()).refresh(view, adapter);
         return view;
     }
 }

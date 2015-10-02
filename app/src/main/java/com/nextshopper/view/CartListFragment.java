@@ -59,7 +59,6 @@ public class CartListFragment extends Fragment {
         footerView = inflater.inflate(R.layout.fragment_cart_footer, null, false);
         listView = (ListView) view.findViewById(R.id.list_of_order);
         listView.addFooterView(footerView);
-
         //Map<String, Product> productMap = ((NextShopperApplication) getActivity().getApplicationContext()).getProductMap();
         //productList = new ArrayList<Product>(productMap.values());
         final OrderAdapter orderAdapter = new OrderAdapter(this, this.getArguments().getBoolean(ARG_PARAM1));
@@ -70,19 +69,7 @@ public class CartListFragment extends Fragment {
         creditView = (Item) footerView.findViewById(R.id.order_credit);
         couponView = (Item) footerView.findViewById(R.id.order_coupon);
         netPayView = (Item) footerView.findViewById(R.id.order_netpay);
-        ApiService.getService().ShoppingAPI_List(null, new Callback<CartItemDetailsList>() {
-            @Override
-            public void success(CartItemDetailsList cartItemDetailsList, Response response) {
-                CartListFragment.this.cartItemDetailsList= cartItemDetailsList;
-                orderAdapter.updateList(cartItemDetailsList.items);
-                updateShipping(cartItemDetailsList);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
+        serviceCall(orderAdapter);
 
         //CartItemRequestList cartItemRequestList = convert(productList);
        // final ProgressDialog progressDialog= Util.getProgressDialog(getActivity());
@@ -102,6 +89,23 @@ public class CartListFragment extends Fragment {
         });*/
 
         return view;
+    }
+
+    void serviceCall(final OrderAdapter orderAdapter){
+        ApiService.getService().ShoppingAPI_List(null, new Callback<CartItemDetailsList>() {
+            @Override
+            public void success(CartItemDetailsList cartItemDetailsList, Response response) {
+                CartListFragment.this.cartItemDetailsList= cartItemDetailsList;
+                orderAdapter.updateList(cartItemDetailsList.items);
+                updateShipping(cartItemDetailsList);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+
     }
 
     CartItemRequestList convert(List<Product> productList){

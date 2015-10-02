@@ -1,6 +1,7 @@
 package com.nextshopper.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -65,7 +66,7 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
         }
         if(msgId!=null){
             titleView.setTextMiddle("Reply");
-        }else if(TITLE!=null){
+        }else if(title!=null){
             titleView.setTextMiddle("Contact "+ title);
         }
         attachView =(TextView) findViewById(R.id.contact_seller_attach);
@@ -142,11 +143,13 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
         Message msg = new Message();
         msg.subject = subject;
         msg.content = messageView.getText().toString();
+        final ProgressDialog progressDialog= Util.getProgressDialog(this);
         if(msgId!=null) {
             ApiService.getService().MessageAPI_UserReplyMessage(msgId, msg, new Callback<Message>() {
                 @Override
                 public void success(Message message, Response response) {
-
+                   progressDialog.dismiss();
+                    setResultAndFinish();
                 }
 
                 @Override
@@ -158,6 +161,8 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
             ApiService.getService().MessageAPI_UserToStoreMessage(storeId, msg, new Callback<Message>() {
                 @Override
                 public void success(Message message, Response response) {
+                    progressDialog.dismiss();
+                    setResultAndFinish();
                 }
 
                 @Override
@@ -169,11 +174,13 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
             ApiService.getService().MessageAPI_UserToSystemMessage(msg, new Callback<Message>() {
                 @Override
                 public void success(Message message, Response response) {
+                    progressDialog.dismiss();
+
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-
+                 Util.alertBox(ContactSellerActivity.this, error);
                 }
             });
         }
@@ -191,6 +198,10 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
                 }
             });
         }
+
+    }
+
+    private void setResultAndFinish(){
         Intent intent = new Intent();
         intent.putExtra("content", messageView.getText().toString());
         intent.putExtra("subject", subject);

@@ -15,15 +15,12 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class OrderActivity extends BaseActivity {
+public class OrderActivity extends SwipeRefreshActivity {
 
     private TitleView titleView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order);
-        titleView = (TitleView) findViewById(R.id.cart_title);
+    protected void refresh() {
         ApiService.getService().ShoppingAPI_List(null, new Callback<CartItemDetailsList>() {
             @Override
             public void success(CartItemDetailsList cartItemDetailsList, Response response) {
@@ -40,8 +37,18 @@ public class OrderActivity extends BaseActivity {
 
             }
         });
+    }
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_order;
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        titleView = (TitleView) findViewById(R.id.cart_title);
+        refresh();
     }
 
     public void rightOnClick(View view){

@@ -1,5 +1,6 @@
 package com.nextshopper.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
@@ -29,26 +30,27 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class ProfileActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, TextWatcher{
+public class ProfileActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
 
     private InputItem firstName;
     private InputItem lastName;
     private ImageView imageView;
     private boolean changed;
     private Spinner genderSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        genderSpinner =(Spinner)findViewById(R.id.profile_gender);
+        genderSpinner = (Spinner) findViewById(R.id.profile_gender);
         genderSpinner.setOnItemSelectedListener(this);
         firstName = (InputItem) findViewById(R.id.profile_firstname);
-        lastName =(InputItem) findViewById(R.id.profile_lastname);
+        lastName = (InputItem) findViewById(R.id.profile_lastname);
         imageView = (ImageView) findViewById(R.id.profile_img);
         SharedPreferences pref = getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
         firstName.setEditText(pref.getString(Constant.FIRST_NAME, ""));
         lastName.setEditText(pref.getString(Constant.LAST_NAME, ""));
-        ArrayAdapter genderAdapter = (ArrayAdapter)genderSpinner.getAdapter();
+        ArrayAdapter genderAdapter = (ArrayAdapter) genderSpinner.getAdapter();
         int pos = genderAdapter.getPosition(pref.getString(Constant.GENDER, ""));
         genderSpinner.setSelection(pos);
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
@@ -70,22 +72,29 @@ public class ProfileActivity extends BaseActivity implements AdapterView.OnItemS
     }
 
     public void rightOnClick(View view) {
-            UserBasicInfo userBasicInfo = new UserBasicInfo();
-            userBasicInfo.firstName = firstName.getEditText().getText().toString();
-            userBasicInfo.lastName = lastName.getEditText().getText().toString();
-            userBasicInfo.gender = Gender.valueOf(genderSpinner.getSelectedItem().toString());
-            ApiService.getService().UserAPI_Update(userBasicInfo, new Callback<User>() {
-                @Override
-                public void success(User user, Response response) {
-                    Util.saveUserData(ProfileActivity.this, user);
-                }
+        final UserBasicInfo userBasicInfo = new UserBasicInfo();
+        userBasicInfo.firstName = firstName.getEditText().getText().toString();
+        userBasicInfo.lastName = lastName.getEditText().getText().toString();
+        userBasicInfo.gender = Gender.valueOf(genderSpinner.getSelectedItem().toString());
+        final ProgressDialog progressDialog = Util.getProgressDialog(this);
+        ApiService.getService().UserAPI_Update(userBasicInfo, new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                progressDialog.dismiss();
+                SharedPreferences.Editor editor = getSharedPreferences(Constant.USER, MODE_PRIVATE).edit();
+                editor.putString(Constant.FIRST_NAME, userBasicInfo.firstName);
+                editor.putString(Constant.LAST_NAME, userBasicInfo.lastName);
+                editor.putString(Constant.GENDER, userBasicInfo.gender.toString());
+                editor.commit();
+                finish();
+            }
 
-                @Override
-                public void failure(RetrofitError error) {
-                  Util.alertBox(ProfileActivity.this, error);
-                }
-            });
-            finish();
+            @Override
+            public void failure(RetrofitError error) {
+                Util.alertBox(ProfileActivity.this, error);
+            }
+        });
+
 
     }
 
@@ -101,6 +110,6 @@ public class ProfileActivity extends BaseActivity implements AdapterView.OnItemS
 
     @Override
     public void afterTextChanged(Editable s) {
-       changed = true;
+        changed = true;
     }
 }

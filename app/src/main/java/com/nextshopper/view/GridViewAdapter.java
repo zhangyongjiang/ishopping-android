@@ -68,9 +68,10 @@ public class GridViewAdapter extends BaseAdapter implements AbsListView.OnScroll
         ItemView left = (ItemView) convertView.findViewById(R.id.item_left_view);
         ItemView right = (ItemView) convertView.findViewById(R.id.item_right_view);
         left.setValue(spList.get(0));
-        if(spList.size()==2){
+        if(spList.size()==2)
             right.setValue(spList.get(1));
-        }
+        else
+            right.setVisibility(View.INVISIBLE);
         return convertView;
     }
 
@@ -132,11 +133,7 @@ public class GridViewAdapter extends BaseAdapter implements AbsListView.OnScroll
     SearchableProductList convert(ProductList productList) {
         SearchableProductList spList = new SearchableProductList();
         for (Product p : productList.items) {
-            SearchableProduct sp = new SearchableProduct();
-            sp.imgUrl = p.imgs;
-            sp.name = p.name;
-            sp.price = p.salePrice;
-            sp.listPrice = p.salePrice;
+            SearchableProduct sp = new SearchableProduct(p);
             spList.items.add(sp);
         }
         return spList;

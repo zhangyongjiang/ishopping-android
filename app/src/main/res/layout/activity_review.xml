@@ -1,33 +1,43 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.nextshopper.activity.ReviewActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.nextshopper.view.TitleView
-        android:id="@+id/review_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        nextshopper:imageLeft="@drawable/back"
-        nextshopper:textMiddle="@string/reviews"
-        nextshopper:textMiddleColor="@color/black"
-        nextshopper:textRightColor="@color/red"
-        nextshopper:textRight="@string/newreview"/>
-    <View
-        android:id="@+id/review_line"
-        android:layout_width="match_parent"
-        android:layout_below="@id/review_title"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_height="1dp"
-        android:background="@color/gray"/>
-    <ListView
-        android:id="@+id/review_list"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/review_line"/>
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.nextshopper.activity.ReviewActivity">
 
-</RelativeLayout>
+        <com.nextshopper.view.TitleView
+            android:id="@+id/review_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            nextshopper:imageLeft="@drawable/back"
+            nextshopper:textMiddle="@string/reviews"
+            nextshopper:textMiddleColor="@color/black"
+            nextshopper:textRight="@string/newreview"
+            nextshopper:textRightColor="@color/red" />
+
+        <View
+            android:id="@+id/review_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/review_title"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/gray" />
+
+        <ListView
+            android:id="@+id/review_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/review_line" />
+
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

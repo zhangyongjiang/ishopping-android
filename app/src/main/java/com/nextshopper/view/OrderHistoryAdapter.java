@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,15 +16,14 @@ import com.nextshopper.activity.ContactSellerActivity;
 import com.nextshopper.activity.OrderDetailsActivity;
 import com.nextshopper.activity.R;
 import com.nextshopper.activity.ReviewOrderActivity;
+import com.nextshopper.common.Constant;
 import com.nextshopper.common.NextShopperApplication;
 import com.nextshopper.common.Util;
 import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.OrderItemDetails;
 import com.nextshopper.rest.beans.OrderItemList;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -34,13 +32,9 @@ import retrofit.client.Response;
 /**
  * Created by siyiliu on 9/6/15.
  */
-public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener, View.OnClickListener {
-    private List<OrderItemDetails> orderItemDetailsList = new ArrayList<>();
-    private int start = 0;
-    private int numOfItem = 20;
+public class OrderHistoryAdapter extends NextShopperAdapter<OrderItemDetails> implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener, View.OnClickListener {
     private Activity ctx;
     private ListView listView;
-    private boolean call = true;
     private ProgressDialog progressDialog = null;
 
     public OrderHistoryAdapter(Activity ctx, ListView listView) {
@@ -50,23 +44,8 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
     }
 
     @Override
-    public int getCount() {
-        return orderItemDetailsList.size();
-    }
-
-    @Override
-    public OrderItemDetails getItem(int position) {
-        return orderItemDetailsList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final OrderItemDetails orderItemDetails = orderItemDetailsList.get(position);
+        final OrderItemDetails orderItemDetails = list.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(ctx).inflate(R.layout.order_history_item, parent, false);
         }
@@ -85,6 +64,7 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
         statusView.setText(orderItemDetails.order.status.toString());
         TextView raveView = (TextView) convertView.findViewById(R.id.item_rave_it);
         raveView.setTag(orderItemDetails);
+        raveView.setTag(orderItemDetails.product.id);
         raveView.setOnClickListener(this);
         TextView contactSellerView = (TextView) convertView.findViewById(R.id.item_contact_seller);
         contactSellerView.setTag(orderItemDetails);
@@ -105,7 +85,7 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
                     if (progressDialog != null)
                         progressDialog.dismiss();
                     if (list.items.size() > 0) {
-                        OrderHistoryAdapter.this.orderItemDetailsList.addAll(list.items);
+                        OrderHistoryAdapter.this.list.addAll(list.items);
                         notifyDataSetChanged();
                     }
                     if(list.items.size()<numOfItem)
@@ -139,11 +119,11 @@ public class OrderHistoryAdapter extends BaseAdapter implements AbsListView.OnSc
     public void onClick(View v) {
         if (v.getId() == R.id.item_rave_it) {
             Intent intent = new Intent(ctx, ReviewOrderActivity.class);
+            intent.putExtra(Constant.PRODUCT_ID,(String)v.getTag());
             ctx.startActivity(intent);
 
         } else if (v.getId() == R.id.item_contact_seller) {
-            Intent intent = new Intent(ctx, ContactSellerActivity.class);
-            ctx.startActivity(intent);
+            ContactSellerActivity.startActivity(this.ctx, "Seller");
         }
     }
 }

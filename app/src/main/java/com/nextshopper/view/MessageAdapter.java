@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,9 +22,7 @@ import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.MessageDetails;
 import com.nextshopper.rest.beans.MessageDetailsList;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -34,14 +31,10 @@ import retrofit.client.Response;
 /**
  * Created by siyiliu on 9/8/15.
  */
-public class MessageAdapter extends BaseAdapter implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
+public class MessageAdapter extends NextShopperAdapter<MessageDetails> implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
     private Activity ctx;
-    private List<MessageDetails> messageItemDetailsList = new ArrayList<>();
-    private int start = 0;
-    private int numOfItem = 20;
     private ListView listView;
     private String userId;
-    private boolean call = true;
 
     public MessageAdapter(Activity ctx, ListView listView) {
         this.ctx = ctx;
@@ -52,23 +45,8 @@ public class MessageAdapter extends BaseAdapter implements AbsListView.OnScrollL
     }
 
     @Override
-    public int getCount() {
-        return messageItemDetailsList.size();
-    }
-
-    @Override
-    public MessageDetails getItem(int position) {
-        return messageItemDetailsList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final MessageDetails messageDetails = messageItemDetailsList.get(position);
+        final MessageDetails messageDetails = list.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(ctx).inflate(R.layout.message_item, parent, false);
         }
@@ -121,7 +99,7 @@ public class MessageAdapter extends BaseAdapter implements AbsListView.OnScrollL
                 public void success(MessageDetailsList messageDetailsList, Response response) {
                     progressDialog.dismiss();
                     if (messageDetailsList.items.size() > 0) {
-                        MessageAdapter.this.messageItemDetailsList.addAll(messageDetailsList.items);
+                        MessageAdapter.this.list.addAll(messageDetailsList.items);
                         notifyDataSetChanged();
                     }
                     if (messageDetailsList.items.size() == numOfItem)

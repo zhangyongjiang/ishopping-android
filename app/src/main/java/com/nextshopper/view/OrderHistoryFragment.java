@@ -23,7 +23,7 @@ import retrofit.client.Response;
  * Use the {@link OrderHistoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OrderHistoryFragment extends Fragment {
+public class OrderHistoryFragment extends SwipeFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -67,10 +67,12 @@ public class OrderHistoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragmen
-        View view = inflater.inflate(R.layout.fragment_order, container, false);
+    protected int getLayoutId() {
+        return R.layout.fragment_order;
+    }
+
+    @Override
+    protected void refresh() {
         final ProgressDialog progressDialog= Util.getProgressDialog(getActivity());
         ApiService.getService().OrderAPI_UserOrderItemList(0, 5, new Callback<OrderItemList>() {
 
@@ -86,11 +88,19 @@ public class OrderHistoryFragment extends Fragment {
 
             @Override
             public void failure(RetrofitError error) {
-               progressDialog.dismiss();
+                progressDialog.dismiss();
                 Util.alertBox(getActivity(), error);
             }
         });
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragmen
+        super.onCreateView(inflater, container, savedInstanceState);
+        refresh();
         return view;
     }
 

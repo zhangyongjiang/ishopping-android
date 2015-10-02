@@ -1,16 +1,16 @@
 package com.nextshopper.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.location.places.Place;
 import com.nextshopper.view.AboutFragment;
 import com.nextshopper.view.CartFragment;
 import com.nextshopper.view.ConfirmFragment;
@@ -22,9 +22,10 @@ import com.nextshopper.view.SearchFragment;
 import com.nextshopper.view.SettingsFragment;
 
 
-public class HomeActivity extends FragmentActivity
+public class HomeActivity extends BaseActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private String menuText;
 
 
     @Override
@@ -47,6 +48,7 @@ public class HomeActivity extends FragmentActivity
     public void onNavigationDrawerItemSelected(int position, String menuText) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
+        this.menuText = menuText;
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(menuText))
                 .addToBackStack(null)

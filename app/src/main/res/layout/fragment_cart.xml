@@ -1,29 +1,37 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.nextshopper.view.CartFragment">
-    <com.nextshopper.view.TitleView
-        android:id="@+id/cart_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        nextshopper:imageLeft="@drawable/menu_active"
-        nextshopper:textMiddle="@string/home_shoppingcart"
-        nextshopper:textMiddleColor="@color/black"
-        nextshopper:textRight="@string/checkout"
-        nextshopper:textRightColor="@color/red">
-    </com.nextshopper.view.TitleView>
-    <View
-        android:id="@+id/cart_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray"
-        android:layout_below="@id/cart_title"/>
-    <FrameLayout
-        android:id="@+id/cart_container"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cart_line"/>
-</RelativeLayout>
+        tools:context="com.nextshopper.view.CartFragment">
+
+        <com.nextshopper.view.TitleView
+            android:id="@+id/cart_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            nextshopper:imageLeft="@drawable/menu_active"
+            nextshopper:textMiddle="@string/home_shoppingcart"
+            nextshopper:textMiddleColor="@color/black"
+            nextshopper:textRight="@string/checkout"
+            nextshopper:textRightColor="@color/red"></com.nextshopper.view.TitleView>
+
+        <View
+            android:id="@+id/cart_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/cart_title"
+            android:background="@color/gray" />
+
+        <FrameLayout
+            android:id="@+id/cart_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/cart_line" />
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

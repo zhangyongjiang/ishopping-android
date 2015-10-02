@@ -177,6 +177,8 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
+                Util.alertBox(SignupActivity.this, error);
                 Log.e(ACTIVITY_NAME, error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
             }
         });

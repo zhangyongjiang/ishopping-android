@@ -16,21 +16,13 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class FavoriteActivity extends BaseActivity {
+public class FavoriteActivity extends SwipeRefreshActivity {
     private ImageView imageView;
     private TextView textView;
     private View containerView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite);
-        containerView = findViewById(R.id.favorite_container);
-        imageView =(ImageView) findViewById(R.id.empty_img);
-        textView =(TextView) findViewById(R.id.empty_text);
-        //final FavoriteAdapter adapter = new FavoriteAdapter(this);
-       // gridView.setAdapter(adapter);
-        //gridView.setOnScrollListener(adapter);
+    protected void refresh() {
         final ProgressDialog progressDialog= Util.getProgressDialog(this);
         ApiService.getService().SocialAPI_ListMyFavProducts(0, 5, new Callback<ListFavoriteDetails>() {
             @Override
@@ -52,6 +44,24 @@ public class FavoriteActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_favorite;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_favorite);
+        containerView = findViewById(R.id.favorite_container);
+        imageView =(ImageView) findViewById(R.id.empty_img);
+        textView =(TextView) findViewById(R.id.empty_text);
+        refresh();
+        //final FavoriteAdapter adapter = new FavoriteAdapter(this);
+       // gridView.setAdapter(adapter);
+        //gridView.setOnScrollListener(adapter);
     }
 
 }

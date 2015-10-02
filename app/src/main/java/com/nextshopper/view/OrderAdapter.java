@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import com.nextshopper.rest.ApiService;
 import com.nextshopper.rest.beans.CartItemDetails;
 import com.nextshopper.rest.beans.CartItemDetailsList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
@@ -27,31 +25,15 @@ import retrofit.client.Response;
 /**
  * Created by siyiliu on 8/23/15.
  */
-public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
+public class OrderAdapter extends NextShopperAdapter<CartItemDetails> implements View.OnClickListener {
     private Context context;
     private CartListFragment fragment;
-    private List<CartItemDetails> cartItemDetailsList = new ArrayList<>();
     private boolean changable;
 
     public OrderAdapter(CartListFragment fragment, boolean changable) {
         this.fragment = fragment;
         this.context = fragment.getActivity();
         this.changable = changable;
-    }
-
-    @Override
-    public int getCount() {
-        return cartItemDetailsList.size();
-    }
-
-    @Override
-    public CartItemDetails getItem(int position) {
-        return cartItemDetailsList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
     }
 
     @Override
@@ -62,7 +44,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
             else
                 convertView = LayoutInflater.from(context).inflate(R.layout.order_item_preview, parent, false);
         }
-        CartItemDetails cartItemDetails = cartItemDetailsList.get(position);
+        CartItemDetails cartItemDetails = list.get(position);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.order_img);
         TextView productNameView = (TextView) convertView.findViewById(R.id.order_product_name);
         TextView productStoreView = (TextView) convertView.findViewById(R.id.order_store_name);
@@ -103,7 +85,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
                     @Override
                     public void success(CartItemDetailsList cartItemDetailsList, Response response) {
                         progressDialog.dismiss();
-                        OrderAdapter.this.cartItemDetailsList = cartItemDetailsList.items;
+                        OrderAdapter.this.list = cartItemDetailsList.items;
                         fragment.updateShipping(cartItemDetailsList);
                         notifyDataSetChanged();
                     }
@@ -124,7 +106,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
                     @Override
                     public void success(CartItemDetailsList cartItemDetailsList, Response response) {
                         progressDialog.dismiss();
-                        OrderAdapter.this.cartItemDetailsList = cartItemDetailsList.items;
+                        OrderAdapter.this.list = cartItemDetailsList.items;
                         fragment.updateShipping(cartItemDetailsList);
                         notifyDataSetChanged();
                     }
@@ -147,7 +129,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
                 @Override
                 public void success(CartItemDetailsList cartItemDetailsList, Response response) {
                     progressDialog.dismiss();
-                    OrderAdapter.this.cartItemDetailsList = cartItemDetailsList.items;
+                    OrderAdapter.this.list = cartItemDetailsList.items;
                     fragment.updateShipping(cartItemDetailsList);
                     notifyDataSetChanged();
                 }
@@ -162,7 +144,8 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
     }
 
     public void updateList(List<CartItemDetails> cartItemDetailsList) {
-        this.cartItemDetailsList = cartItemDetailsList;
+        this.list.clear();
+        this.list.addAll(cartItemDetailsList);
         notifyDataSetChanged();
     }
 }

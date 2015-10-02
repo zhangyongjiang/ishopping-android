@@ -11,7 +11,7 @@ import com.nextshopper.view.ReviewAdapter;
 import java.util.List;
 
 
-public class ReviewActivity extends BaseActivity {
+public class ReviewActivity extends SwipeRefreshActivity {
 
     private static String KEY="review_list";
     private ListView listView;
@@ -22,16 +22,27 @@ public class ReviewActivity extends BaseActivity {
     private int rating;
     private static String PRODUCT_ID="productId";
     private String productId;
+
+    @Override
+    protected void refresh() {
+        reviewAdapter.refresh();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_review;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review);
         listView= (ListView)findViewById(R.id.review_list);
         productId = getIntent().getStringExtra(PRODUCT_ID);
         //reviewList= getIntent().getParcelableArrayListExtra(KEY);
         reviewAdapter = new ReviewAdapter(this, productId);
         listView.setAdapter(reviewAdapter);
         listView.setOnScrollListener(reviewAdapter);
+
     }
 
 

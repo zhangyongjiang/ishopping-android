@@ -360,11 +360,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
     SearchableProductList convert(ProductList productList) {
         SearchableProductList spList = new SearchableProductList();
         for (Product p : productList.items) {
-            SearchableProduct sp = new SearchableProduct();
-            sp.imgUrl = p.imgs;
-            sp.name = p.name;
-            sp.price = p.salePrice;
-            sp.listPrice = p.salePrice;
+            SearchableProduct sp = new SearchableProduct(p);
             spList.items.add(sp);
         }
         return spList;

@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +20,6 @@ import com.nextshopper.rest.beans.ProductReviewDetails;
 import com.nextshopper.rest.beans.ProductReviewDetailsList;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
@@ -31,13 +29,10 @@ import retrofit.client.Response;
 /**
  * Created by siyiliu on 8/18/15.
  */
-public class ReviewAdapter extends BaseAdapter implements AbsListView.OnScrollListener {
-    private List<ProductReviewDetails> list = new ArrayList<>();
+public class ReviewAdapter extends NextShopperAdapter<ProductReviewDetails> implements AbsListView.OnScrollListener{
     private Context ctx;
     private int userHeight;
-    private boolean call =true;
-    private int start = 0;
-    private int numOfItem = 20;
+
     private ProgressDialog progressDialog;
     private String productId;
 
@@ -46,21 +41,6 @@ public class ReviewAdapter extends BaseAdapter implements AbsListView.OnScrollLi
         this.ctx = ctx;
         this.productId = prodcutId;
         this.userHeight = (int)(60 * ctx.getResources().getDisplayMetrics().density);
-    }
-
-    @Override
-    public int getCount() {
-        return list.size();
-    }
-
-    @Override
-    public ProductReviewDetails getItem(int position) {
-        return list.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
     }
 
     @Override
@@ -109,12 +89,7 @@ public class ReviewAdapter extends BaseAdapter implements AbsListView.OnScrollLi
         notifyDataSetChanged();
     }
 
-    public void refresh(){
-        start =0;
-        list.clear();
-        call = true;
-        notifyDataSetChanged();
-    }
+
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastVisibleItem = firstVisibleItem + visibleItemCount;

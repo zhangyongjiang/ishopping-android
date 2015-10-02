@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:layout_margin="20dp"
     android:padding="1dp"
-    android:onClick="productOnClick"
     android:background="@drawable/rectangle_input">
     <ImageView
         android:id="@+id/item_image"
@@ -38,6 +37,7 @@
             android:layout_marginRight="10dp"
             android:text="price"
             android:textSize="20sp"
+            android:singleLine="true"
             android:textColor="@color/red" />
         <TextView
             android:id="@+id/item_ori_price"
@@ -47,6 +47,7 @@
             android:background="@drawable/line_price"
             android:textColor="@color/grey"
             android:text="test"
+            android:singleLine="true"
             android:textSize="20sp" />
     </RelativeLayout>
 </RelativeLayout>

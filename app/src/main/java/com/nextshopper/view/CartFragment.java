@@ -3,7 +3,6 @@ package com.nextshopper.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class CartFragment extends Fragment{
+public class CartFragment extends SwipeFragment{
 
     private OnFragmentInteractionListener mListener;
     private TitleView titleView;
@@ -30,12 +29,12 @@ public class CartFragment extends Fragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_cart, container, false);
-       // Map<String, Product> productMap = ((NextShopperApplication)getActivity().getApplication()).getProductMap();
-        titleView = (TitleView)view.findViewById(R.id.cart_title);
+    protected int getLayoutId() {
+        return R.layout.fragment_cart;
+    }
+
+    @Override
+    protected void refresh() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ApiService.getService().ShoppingAPI_List(null, new Callback<CartItemDetailsList>() {
             @Override
@@ -53,6 +52,16 @@ public class CartFragment extends Fragment{
 
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+       super.onCreateView(inflater, container, savedInstanceState);
+       // Map<String, Product> productMap = ((NextShopperApplication)getActivity().getApplication()).getProductMap();
+        titleView = (TitleView)view.findViewById(R.id.cart_title);
+        refresh();
         return view;
     }
 
