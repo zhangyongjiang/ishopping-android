@@ -49,20 +49,9 @@
         android:layout_marginTop="5dp"
         android:layout_below="@id/home_search_input"
         android:background="@color/gray"/>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/search_viewpager"
+    <fragment android:name="com.nextshopper.view.WomanFragment"
+        android:id="@+id/search_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_line2"
-        android:background="@color/lightgreen">
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/search_tab_strip"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/home_title"
-            android:layout_gravity="top"
-            android:textAppearance="@style/TextFont.PagerTabStripText"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp" />
-    </android.support.v4.view.ViewPager>
+        android:layout_below="@id/search_line2"/>
 </RelativeLayout>

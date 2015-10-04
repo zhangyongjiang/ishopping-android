@@ -230,4 +230,11 @@
     <string name="color">Color</string>
     <string name="review_product">Review this product</string>
     <string name="shipping_required">First name, last name, country, state, city, address are all required fild.</string>
+    <string name="section_header"><![CDATA[Women\'s Clothing & Accessories;Men\'s Clothing & Accessories;Health & Beauty;Shoes;Sports & Entertainment;Consumer Electronics]]></string>
+    <string name="women_cloth"><![CDATA[Accessories,Blouses & Shirts,Bottoms;Dresses,Hoodies & Sweatshirts,Intimates;Jackets & Coats, Jumpsuits & Rompers, Sleep & Lounge; Socks & Hosiery,Suits & Sets, Sweaters;Swimwear,Tops & Tees]]></string>
+    <string name="men_cloth"><![CDATA[Accessories,Bottoms,Hoodies & Sweatshirts;Jackets & Coats, Shirts, Sleoop & Lounge; Socks,Suits & Blazers,Sweaters;Swimmwear, Top & Tees, Underwear]]></string>
+    <string name="health"><![CDATA[Bath & Shower, Beauty Essentials, Fragrances Deodorants; Hair Care & Styling, Hair Extentsion & Wigs, Health Care; Makeup, Nails & Tools, Oral Hygiene; Sanitary Paper, Sex Products, Shaving & Hair Removal; Skin Care, Tattoo & Boy Art, Tools & Accessories]]></string>
+    <string name="shoes">Men\'s Shoes, Shoe Accessories, Women\'s Shoes</string>
+    <string name="sports"><![CDATA[Camping & Hiking, Cycling, Entertainment; Fishing, Fitness & Body Building, Golf; Horse Racing, Hunting, Musical Instruments; Racquet Sports, Skate borad& Scooters; Running, Shooting, Skiing & Snaowboarding;Sneakers,Sports Clothing,Sports Safety; Team Sports, Water Sports, Other Sports & Products]]></string>
+    <string name="comsumer"><![CDATA[Accessories & Parts, Camera & Photo, Electronic Cigarettes; Home Audio & Video, Partable Audio & Video, Smart Eletronics; Video Games, Other Consumer Electronics]]></string>
 </resources>

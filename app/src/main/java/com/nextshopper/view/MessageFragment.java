@@ -68,7 +68,7 @@ public class MessageFragment extends SwipeFragment {
                 if (messageDetailsList.total == 0)
                     getFragmentManager().beginTransaction().replace(R.id.message_container, new EmptyMsgFragment()).commit();
                 else
-                    getFragmentManager().beginTransaction().add(R.id.message_container, new MsgListFragment()).commit();
+                    getFragmentManager().beginTransaction().replace(R.id.message_container, new MsgListFragment()).commit();
             }
 
             @Override

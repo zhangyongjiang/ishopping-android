@@ -158,7 +158,7 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
                     Util.alertBox(ContactSellerActivity.this, error);
                 }
             });
-        }else if(storeId!=null){
+        }/*else if(storeId!=null){
             ApiService.getService().MessageAPI_UserToStoreMessage(storeId, msg, new Callback<Message>() {
                 @Override
                 public void success(Message message, Response response) {
@@ -172,17 +172,17 @@ public class ContactSellerActivity extends BaseActivity implements View.OnClickL
                     Util.alertBox(ContactSellerActivity.this, error);
                 }
             });
-        }else{
+        }*/else{
             ApiService.getService().MessageAPI_UserToSystemMessage(msg, new Callback<Message>() {
                 @Override
                 public void success(Message message, Response response) {
                     progressDialog.dismiss();
-
+                    finish();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-                 Util.alertBox(ContactSellerActivity.this, error);
+                    Util.alertBox(ContactSellerActivity.this, error);
                 }
             });
         }

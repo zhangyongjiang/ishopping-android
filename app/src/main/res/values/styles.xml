@@ -63,11 +63,11 @@
     </style>
     <style name="TextFont.search">
         <item name="android:background">@drawable/rectangle_search</item>
-        <item name="android:paddingRight">14dp</item>
-        <item name="android:paddingLeft">14dp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_margin">2dp</item>
         <item name="android:onClick">catOnClick</item>

@@ -1,29 +1,19 @@
 package com.nextshopper.view;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.nextshopper.activity.R;
 
+import java.util.Arrays;
+
 
 public class WomanFragment extends Fragment {
-
-    private OnFragmentInteractionListener mListener;
-
-    // TODO: Rename and change types and number of parameters
-    public static WomanFragment newInstance() {
-        WomanFragment fragment = new WomanFragment();
-        return fragment;
-    }
-
-    public WomanFragment() {
-        // Required empty public constructor
-    }
-
+    private ListView listview;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,35 +23,30 @@ public class WomanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_woman, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_search_listview, container, false);
+        listview =(ListView)view.findViewById(R.id.search_listview);
+        SearchAdapter searchAdapter = new SearchAdapter(getActivity());
+        String headers[] = getString(R.string.section_header).split(";");
+        String women_cloth[] = getString(R.string.women_cloth).split(";");
+        String men_cloth[] = getString(R.string.men_cloth).split(";");
+        String health[]=getString(R.string.health).split(";");
+        String shoes[]=getString(R.string.shoes).split(";");
+        String sports[] =getString(R.string.sports).split(";");
+        String comsumers[] = getString(R.string.comsumer).split(";");
+        for(int i =0; i<headers.length; i++){
+            searchAdapter.addSectionHeader(headers[i]);
+            switch (i) {
+                case 0: searchAdapter.list.addAll(Arrays.asList(women_cloth)); break;
+                case 1: searchAdapter.list.addAll(Arrays.asList(men_cloth));break;
+                case 2: searchAdapter.list.addAll(Arrays.asList(health));break;
+                case 3:searchAdapter.list.addAll(Arrays.asList(shoes));break;
+                case 4:searchAdapter.list.addAll(Arrays.asList(sports)); break;
+                case 5: searchAdapter.list.addAll(Arrays.asList(comsumers));break;
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            }
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        listview.setAdapter(searchAdapter);
+        return view;
     }
 
 }
