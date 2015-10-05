@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.nextshopper.gcm;
+package com.nextshopper.activity;
 
 import android.content.Intent;
 

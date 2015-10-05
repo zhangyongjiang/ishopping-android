@@ -20,6 +20,7 @@ public class SettingItem extends FrameLayout {
         item = (TextView) findViewById(R.id.setting_item);
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SettingItem);
         item.setText(ta.getString(R.styleable.SettingItem_item));
+        ta.recycle();
     }
 
     public void setItem(String text){

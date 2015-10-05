@@ -23,6 +23,7 @@ public class InputItem extends FrameLayout {
         editText = (EditText) findViewById(R.id.input_edit);
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.InputItem);
         field.setText(ta.getString(R.styleable.InputItem_field));
+        ta.recycle();
     }
 
     public EditText getEditText() {

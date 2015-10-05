@@ -170,6 +170,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
                     });
                 }
                 Util.saveUserData(SignupActivity.this, user);
+                Util.sendRegistrationToServer(SignupActivity.this);
                 Intent intent = new Intent(SignupActivity.this, HomeActivity.class);
                 intent.putExtra(Constant.USER_ID, user.id);
                 SignupActivity.this.startActivity(intent);

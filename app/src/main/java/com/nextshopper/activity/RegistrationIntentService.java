@@ -14,29 +14,21 @@
  * limitations under the License.
  */
 
-package com.nextshopper.gcm;
+package com.nextshopper.activity;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
-import com.nextshopper.activity.R;
 import com.nextshopper.common.Constant;
-import com.nextshopper.rest.ApiService;
-import com.nextshopper.rest.beans.GenericResponse;
-import com.nextshopper.rest.beans.PushNotificationToken;
+import com.nextshopper.common.Util;
 
 import java.io.IOException;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class RegistrationIntentService extends IntentService {
 
@@ -57,13 +49,13 @@ public class RegistrationIntentService extends IntentService {
             // are local.
             // [START get_token]
             InstanceID instanceID = InstanceID.getInstance(this);
-            String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
+            String token = instanceID.getToken(getString(R.string.gcm_id_server),
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             // [END get_token]
             Log.i(TAG, "GCM Registration Token: " + token);
 
             // TODO: Implement this method to send any registration to your app's servers.
-            sendRegistrationToServer(token);
+            sendOrSaveToken(token);
 
             // Subscribe to topic channels
             subscribeTopics(token);
@@ -80,8 +72,8 @@ public class RegistrationIntentService extends IntentService {
             sharedPreferences.edit().putBoolean(Constant.SENT_TOKEN_TO_SERVER, false).apply();
         }
         // Notify UI that registration has completed, so the progress indicator can be hidden.
-        Intent registrationComplete = new Intent(Constant.REGISTRATION_COMPLETE);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
+        //Intent registrationComplete = new Intent(Constant.REGISTRATION_COMPLETE);
+        //LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
     }
 
     /**
@@ -92,19 +84,15 @@ public class RegistrationIntentService extends IntentService {
      *
      * @param token The new token.
      */
-    private void sendRegistrationToServer(String token) {
-        PushNotificationToken pushNotificationToken = new PushNotificationToken();
-        pushNotificationToken.token = token;
-        ApiService.getService().PushNotificationAPI_RegisterGoogleDeviceToken(pushNotificationToken, new Callback<GenericResponse>() {
-            @Override
-            public void success(GenericResponse genericResponse, Response response) {
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-            }
-        });
-
+    private void sendOrSaveToken(String token) {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constant.USER, MODE_PRIVATE);
+        String cookie = sharedPreferences.getString(Constant.COOKIE,"");
+        if(cookie.isEmpty()){
+            Util.saveGCMToken(this, token);
+            return;
+        }
+        Log.d(Constant.TOKEN, "sendOrSaveToken called");
+        Util.sendRegistrationToServer(token);
     }
 
     /**

@@ -39,6 +39,7 @@ public class TitleView extends FrameLayout implements View.OnClickListener{
         textRight.setText(ta.getString(R.styleable.TitleView_textRight));
         textRight.setTextColor(ta.getColor(R.styleable.TitleView_textRightColor, Color.WHITE));
         imageRight.setImageDrawable(ta.getDrawable(R.styleable.TitleView_imageRight));
+        ta.recycle();
     }
 
     @Override

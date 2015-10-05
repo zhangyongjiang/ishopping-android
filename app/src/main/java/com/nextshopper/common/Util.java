@@ -16,12 +16,17 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.nextshopper.activity.MainActivity;
 import com.nextshopper.activity.R;
+import com.nextshopper.activity.RegistrationIntentService;
+import com.nextshopper.rest.ApiService;
+import com.nextshopper.rest.beans.GenericResponse;
+import com.nextshopper.rest.beans.PushNotificationToken;
 import com.nextshopper.rest.beans.ShippingInfo;
 import com.nextshopper.rest.beans.User;
 
@@ -31,6 +36,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
@@ -118,6 +124,12 @@ public class Util {
     public static void saveShippingInfo(Context ctx, ShippingInfo shippingInfo){
         SharedPreferences.Editor editor = ctx.getSharedPreferences(Constant.USER, ctx.MODE_PRIVATE).edit();
         saveShipping(editor, ctx, shippingInfo);
+        editor.commit();
+    }
+
+    public static void saveGCMToken(Context ctx, String token){
+        SharedPreferences.Editor editor = ctx.getSharedPreferences(Constant.USER, ctx.MODE_PRIVATE).edit();
+        editor.putString(Constant.TOKEN,token);
         editor.commit();
     }
 
@@ -254,6 +266,35 @@ public class Util {
         ProgressBar progressBar = (ProgressBar)LayoutInflater.from(ctx).inflate(R.layout.progressbar, null);
         progressBar.setVisibility(View.VISIBLE);
         return progressBar;
+    }
+
+    public static void sendRegistrationToServer(Context ctx){
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(Constant.USER, Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString(Constant.TOKEN,"");
+        if(!token.isEmpty())
+            sendRegistrationToServer(token);
+        else {
+            Intent intent = new Intent(ctx, RegistrationIntentService.class);
+            ctx.startService(intent);
+        }
+    }
+
+
+    public static void sendRegistrationToServer(String token) {
+        PushNotificationToken pushNotificationToken = new PushNotificationToken();
+        pushNotificationToken.token = token;
+        ApiService.getService().PushNotificationAPI_RegisterGoogleDeviceToken(pushNotificationToken, new Callback<GenericResponse>() {
+            @Override
+            public void success(GenericResponse genericResponse, Response response) {
+                Log.d(Constant.NEXTSHOPPER, "token sent to server");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(Constant.NEXTSHOPPER, "error when token sent to server"+new String(((TypedByteArray) error.getResponse().getBody()).getBytes()));
+            }
+        });
+
     }
 
 }

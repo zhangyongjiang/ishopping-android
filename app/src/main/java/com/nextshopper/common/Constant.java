@@ -30,4 +30,5 @@ public class Constant {
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
     public static final String COOKIE="cookie";
     public static final String PRODUCT_ID="productId";
+    public static final String TOKEN="token";
 }

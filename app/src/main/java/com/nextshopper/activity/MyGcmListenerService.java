@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.nextshopper.gcm;
+package com.nextshopper.activity;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -27,9 +27,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
-import com.nextshopper.activity.MainActivity;
-import com.nextshopper.activity.R;
-import com.nextshopper.common.Util;
 
 public class MyGcmListenerService extends GcmListenerService {
 
@@ -50,11 +47,7 @@ public class MyGcmListenerService extends GcmListenerService {
         Log.d(TAG, "Message: " + message);
 
         if (from.startsWith("/topics/")) {
-            Util.alertBox(this, from + " "+ message);
-            // message received from some topic.
         } else {
-            Util.alertBox(this, from+" "+message);
-            // normal downstream message.
         }
 
         // [START_EXCLUDE]
@@ -87,7 +80,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.cast_ic_notification_0)
+                .setSmallIcon(R.drawable.notification_template_icon_bg)
                 .setContentTitle("GCM Message")
                 .setContentText(message)
                 .setAutoCancel(true)
