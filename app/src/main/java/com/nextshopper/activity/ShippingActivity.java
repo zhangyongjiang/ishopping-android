@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
@@ -26,7 +27,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class ShippingActivity extends BaseActivity implements View.OnClickListener {
+public class ShippingActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener {
 
     private ShippingInfo shippingInfo;
     private InputItem firstNameView;
@@ -79,18 +80,12 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
         countryView.setOnClickListener(this);
         shippingView.setOnClickListener(this);
         stateView.setOnClickListener(this);
-        firstNameView.getEditText().setOnClickListener(this);
-        firstNameView.setClickable(true);
-        lastNameView.getEditText().setOnClickListener(this);
-        lastNameView.setClickable(true);
-        phoneView.getEditText().setOnClickListener(this);
-        phoneView.setClickable(true);
-        addressView.getEditText().setOnClickListener(this);
-        addressView.setClickable(true);
-        cityView.getEditText().setOnClickListener(this);
-        cityView.setClickable(true);
-        zipView.getEditText().setOnClickListener(this);
-        zipView.setClickable(true);
+        firstNameView.getEditText().setOnTouchListener(this);
+        lastNameView.getEditText().setOnTouchListener(this);
+        phoneView.getEditText().setOnTouchListener(this);
+        addressView.getEditText().setOnTouchListener(this);
+        cityView.getEditText().setOnTouchListener(this);
+        zipView.getEditText().setOnTouchListener(this);
     }
 
     public void rightOnClick(View view) {
@@ -159,6 +154,8 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        countryPicker.clearAnimation();
+        statePicker.clearAnimation();
         countryPicker.setVisibility(View.GONE);
         statePicker.setVisibility(View.GONE);
         if (v.getId() == R.id.country_wheel) {
@@ -184,9 +181,12 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
             countryPicker.setVisibility(View.GONE);
             statePicker.setVisibility(View.GONE);
         } else if (v.getId() == R.id.state_wheel) {
-
+            TranslateAnimation slide = new TranslateAnimation(0, 0, 100,0 );
+            slide.setDuration(1000);
+            slide.setFillAfter(true);
             InputMethodManager mgr = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             mgr.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            statePicker.startAnimation(slide);
             statePicker.setVisibility(View.VISIBLE);
             int state=0;
             if(countryView.getTag()!=null)
@@ -205,4 +205,12 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        countryPicker.clearAnimation();
+        statePicker.clearAnimation();
+        countryPicker.setVisibility(View.GONE);
+        statePicker.setVisibility(View.GONE);
+        return false;
+    }
 }

@@ -22,6 +22,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.nextshopper.common.Constant;
@@ -40,6 +42,7 @@ import com.nextshopper.rest.beans.SearchableProductList;
 import com.nextshopper.view.GridViewAdapter;
 import com.nextshopper.view.ImageFragment;
 import com.nextshopper.view.TitleView;
+import com.nextshopper.view.ToggleButtonGroupTableLayout;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -299,16 +302,31 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
                     TextView textView = new TextView(this);
                     textView.setText(option.title);
                     linearLayoutSku.addView(textView);
-                    RadioGroup radioGroup = new RadioGroup(this);
-                    radioGroup.setOrientation(LinearLayout.HORIZONTAL);
+                    //RadioGroup radioGroup = new RadioGroup(this);
+                    //radioGroup.setOrientation(LinearLayout.HORIZONTAL);
+                    ToggleButtonGroupTableLayout buttonGroup = new ToggleButtonGroupTableLayout(this);
+                    int i =0;
+                    TableRow tr=null;
                     for (OptionValue ov : option.allowedValues.values()) {
+                        if(i%3==0){
+                            if(tr!=null)
+                                buttonGroup.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                            tr = new TableRow(this);
+                            tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                        }
+
                         RadioButton radioButton = new RadioButton(this);
                         radioButton.setId(Integer.valueOf(ov.id));
                         radioButton.setTag(option.id);
                         radioButton.setText(ov.title);
-                        radioGroup.addView(radioButton);
+                        radioButton.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                        tr.addView(radioButton);
+                        i++;
+                       // radioGroup.addView(radioButton);
                     }
-                    linearLayoutSku.addView(radioGroup);
+                    buttonGroup.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                    //linearLayoutSku.addView(radioGroup);
+                    linearLayoutSku.addView(buttonGroup);
                 }
 
             }

@@ -141,7 +141,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                     @Override
                     public void failure(RetrofitError error) {
                         progressDialog.dismiss();
-                        Log.e("NextShopper", error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
+                      //  Log.e("NextShopper", error.getMessage() + ": " + new String(((TypedByteArray) error.getResponse().getBody()).getBytes()), error);
 
                     }
                 });
