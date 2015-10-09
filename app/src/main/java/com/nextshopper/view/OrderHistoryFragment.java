@@ -82,7 +82,7 @@ public class OrderHistoryFragment extends SwipeFragment {
                 if (orderItemList.items.size() == 0)
                     getFragmentManager().beginTransaction().replace(R.id.order_history_container, new EmptyOrderFragment()).commit();
                 else
-                    getFragmentManager().beginTransaction().add(R.id.order_history_container, new OrderListFragment()).commit();
+                    getFragmentManager().beginTransaction().replace(R.id.order_history_container, new OrderListFragment()).commit();
 
             }
 

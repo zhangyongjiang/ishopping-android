@@ -343,8 +343,10 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
                     if (linearLayoutSku != null && linearLayoutSku.getChildCount() > 0) {
                         Map<String, String> checkedMap = new HashMap<>();
                         for (int i = 0; i < linearLayoutSku.getChildCount(); i++) {
-                            if (linearLayoutSku.getChildAt(i) instanceof RadioGroup) {
-                                RadioGroup radioGroup = (RadioGroup) linearLayoutSku.getChildAt(i);
+                            View view = linearLayoutSku.getChildAt(i);
+                            if (linearLayoutSku.getChildAt(i) instanceof ToggleButtonGroupTableLayout) {
+                               // RadioGroup radioGroup = (RadioGroup) linearLayoutSku.getChildAt(i);
+                                ToggleButtonGroupTableLayout radioGroup = (ToggleButtonGroupTableLayout) linearLayoutSku.getChildAt(i);
                                 int checkId = radioGroup.getCheckedRadioButtonId();
                                 if (checkId == -1) {
                                     Util.alertBox(ProductDetailsActivity.this, "Please check required field");
