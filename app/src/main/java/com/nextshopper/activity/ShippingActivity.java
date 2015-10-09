@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -77,6 +79,18 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
         countryView.setOnClickListener(this);
         shippingView.setOnClickListener(this);
         stateView.setOnClickListener(this);
+        firstNameView.getEditText().setOnClickListener(this);
+        firstNameView.setClickable(true);
+        lastNameView.getEditText().setOnClickListener(this);
+        lastNameView.setClickable(true);
+        phoneView.getEditText().setOnClickListener(this);
+        phoneView.setClickable(true);
+        addressView.getEditText().setOnClickListener(this);
+        addressView.setClickable(true);
+        cityView.getEditText().setOnClickListener(this);
+        cityView.setClickable(true);
+        zipView.getEditText().setOnClickListener(this);
+        zipView.setClickable(true);
     }
 
     public void rightOnClick(View view) {
@@ -145,7 +159,16 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        countryPicker.setVisibility(View.GONE);
+        statePicker.setVisibility(View.GONE);
         if (v.getId() == R.id.country_wheel) {
+            InputMethodManager mgr = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            mgr.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+            TranslateAnimation slide = new TranslateAnimation(0, 0, 100,0 );
+            slide.setDuration(1000);
+            slide.setFillAfter(true);
+            countryPicker.startAnimation(slide);
             countryPicker.setVisibility(View.VISIBLE);
             countryPicker.setMaxValue(Util.countries.size() - 1);
             countryPicker.setMinValue(0);
@@ -161,9 +184,14 @@ public class ShippingActivity extends BaseActivity implements View.OnClickListen
             countryPicker.setVisibility(View.GONE);
             statePicker.setVisibility(View.GONE);
         } else if (v.getId() == R.id.state_wheel) {
+
+            InputMethodManager mgr = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            mgr.hideSoftInputFromWindow(v.getWindowToken(), 0);
             statePicker.setVisibility(View.VISIBLE);
-            countryPicker.setVisibility(View.GONE);
-            final String[] states = Util.states[((int) countryView.getTag())];
+            int state=0;
+            if(countryView.getTag()!=null)
+                state = (int)countryView.getTag();
+            final String[] states = Util.states[state];
             statePicker.setMaxValue(states.length - 1);
             statePicker.setMinValue(0);
             statePicker.setDisplayedValues(states);
