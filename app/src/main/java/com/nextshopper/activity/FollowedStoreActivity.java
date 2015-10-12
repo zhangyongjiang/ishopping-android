@@ -20,6 +20,7 @@ public class FollowedStoreActivity extends SwipeRefreshActivity {
     private ListView listView;
     private ImageView imageView;
     private TextView textView;
+    private  FollowedStoreAdapter adapter;
 
     @Override
     protected void refresh() {
@@ -28,7 +29,11 @@ public class FollowedStoreActivity extends SwipeRefreshActivity {
             public void success(ListFollowingStore listFollowingStore, Response response) {
                 if(listFollowingStore.total==0){
                     listView.setVisibility(View.GONE);
+                    imageView.setVisibility(View.VISIBLE);
+                    textView.setVisibility(View.VISIBLE);
                 }else{
+                    adapter.refresh();
+                    listView.setVisibility(View.VISIBLE);
                     imageView.setVisibility(View.GONE);
                     textView.setVisibility(View.GONE);
                 }
@@ -53,7 +58,7 @@ public class FollowedStoreActivity extends SwipeRefreshActivity {
         listView = (ListView) findViewById(R.id.following_listview);
         imageView =(ImageView) findViewById(R.id.following_empty_img);
         textView =(TextView) findViewById(R.id.following_empty_text);
-        FollowedStoreAdapter adapter = new FollowedStoreAdapter(this);
+        adapter = new FollowedStoreAdapter(this);
         listView.setAdapter(adapter);
         listView.setOnScrollListener(adapter);
         listView.setOnItemClickListener(adapter);

@@ -1,35 +1,29 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipeContainer"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.nextshopper.view.MessageFragment">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <com.nextshopper.view.TitleView
+        android:id="@+id/settings_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.nextshopper.view.MessageFragment">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        nextshopper:imageLeft="@drawable/menu_active"
+        nextshopper:textMiddle="@string/home_message"
+        nextshopper:textMiddleColor="@color/black" />
 
-        <com.nextshopper.view.TitleView
-            android:id="@+id/settings_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            nextshopper:imageLeft="@drawable/menu_active"
-            nextshopper:textMiddle="@string/home_message"
-            nextshopper:textMiddleColor="@color/black" />
-
-        <View
-            android:id="@+id/message_line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/settings_title"
-            android:background="@color/gray" />
+    <View
+        android:id="@+id/message_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/settings_title"
+        android:background="@color/gray" />
 
         <FrameLayout
             android:id="@+id/message_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/message_line" />
-    </RelativeLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

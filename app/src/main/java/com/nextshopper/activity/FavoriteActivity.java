@@ -16,12 +16,12 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class FavoriteActivity extends SwipeRefreshActivity {
+public class FavoriteActivity extends BaseActivity {
     private ImageView imageView;
     private TextView textView;
     private View containerView;
 
-    @Override
+   // @Override
     protected void refresh() {
         final ProgressDialog progressDialog= Util.getProgressDialog(this);
         ApiService.getService().SocialAPI_ListMyFavProducts(0, 5, new Callback<ListFavoriteDetails>() {
@@ -46,15 +46,15 @@ public class FavoriteActivity extends SwipeRefreshActivity {
 
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_favorite;
-    }
+   // @Override
+   // protected int getLayoutId() {
+   //     return R.layout.activity_favorite;
+   // }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_favorite);
+        setContentView(R.layout.activity_favorite);
         containerView = findViewById(R.id.favorite_container);
         imageView =(ImageView) findViewById(R.id.empty_img);
         textView =(TextView) findViewById(R.id.empty_text);

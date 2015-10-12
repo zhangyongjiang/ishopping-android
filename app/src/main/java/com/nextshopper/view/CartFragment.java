@@ -3,6 +3,7 @@ package com.nextshopper.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class CartFragment extends SwipeFragment{
+public class CartFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private TitleView titleView;
@@ -28,12 +29,12 @@ public class CartFragment extends SwipeFragment{
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_cart;
-    }
+   // @Override
+   // protected int getLayoutId() {
+    //    return R.layout.fragment_cart;
+   // }
 
-    @Override
+    //@Override
     protected void refresh() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ApiService.getService().ShoppingAPI_List(null, new Callback<CartItemDetailsList>() {
@@ -58,8 +59,9 @@ public class CartFragment extends SwipeFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       super.onCreateView(inflater, container, savedInstanceState);
+       //super.onCreateView(inflater, container, savedInstanceState);
        // Map<String, Product> productMap = ((NextShopperApplication)getActivity().getApplication()).getProductMap();
+        View view = inflater.inflate(R.layout.fragment_cart,container, false);
         titleView = (TitleView)view.findViewById(R.id.cart_title);
         refresh();
         return view;

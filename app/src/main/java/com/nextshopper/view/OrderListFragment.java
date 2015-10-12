@@ -13,8 +13,9 @@ import com.nextshopper.activity.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OrderListFragment extends Fragment {
+public class OrderListFragment extends SwipeFragment {
     private ListView listView;
+    private OrderHistoryAdapter adapter;
 
 
     public OrderListFragment() {
@@ -25,12 +26,22 @@ public class OrderListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.order_history_list, container, false);
-        listView = (ListView) view.findViewById(R.id.order_history_listview);
-         OrderHistoryAdapter adapter  =new OrderHistoryAdapter(getActivity(), listView);
+        super.onCreateView(inflater, container, savedInstanceState);
+        listView = (ListView) view.findViewById(R.id.listview);
+        adapter  =new OrderHistoryAdapter(getActivity(), listView);
         listView.setAdapter(adapter);
         listView.setOnScrollListener(adapter);
         //((HomeActivity)getActivity()).refresh(view, adapter);
         return view;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.list_view;
+    }
+
+    @Override
+    protected void refresh() {
+      adapter.refresh();
     }
 }

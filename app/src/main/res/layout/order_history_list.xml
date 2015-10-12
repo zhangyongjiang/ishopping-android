@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ListView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:nextshopper="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/order_history_listview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@id/order_history_line"/>
-

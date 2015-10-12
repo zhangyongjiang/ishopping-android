@@ -1,6 +1,7 @@
 package com.nextshopper.view;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MessageFragment extends SwipeFragment {
+public class MessageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,12 +56,12 @@ public class MessageFragment extends SwipeFragment {
         }
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_message;
-    }
+    //@Override
+    //protected int getLayoutId() {
+    //    return R.layout.fragment_message;
+    //}
 
-    @Override
+    //@Override
     protected void refresh() {
         ApiService.getService().MessageAPI_GetUserMessages(0, 5, new Callback<MessageDetailsList>() {
             @Override
@@ -82,9 +83,9 @@ public class MessageFragment extends SwipeFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //View view =  inflater.inflate(R.layout.fragment_message, container, false);
+        View view =  inflater.inflate(R.layout.fragment_message, container, false);
        // getFragmentManager().beginTransaction().add(R.id.message_container, new MsgListFragment()).commit();
-        super.onCreateView(inflater, container, savedInstanceState);
+        //super.onCreateView(inflater, container, savedInstanceState);
         refresh();
         return view;
     }

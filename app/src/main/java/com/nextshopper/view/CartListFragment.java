@@ -25,7 +25,7 @@ import retrofit.client.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CartListFragment extends Fragment {
+public class CartListFragment extends SwipeFragment {
     private ListView listView;
     private Item subtotalView;
     private Item shippingView;
@@ -37,6 +37,7 @@ public class CartListFragment extends Fragment {
     private static final String ARG_PARAM1 = "param";
     private CartItemDetailsList cartItemDetailsList;
     private View footerView;
+    private OrderAdapter adapter;
 
     public CartListFragment() {
         // Required empty public constructor
@@ -55,21 +56,22 @@ public class CartListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_cart_list, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
+        //View view = inflater.inflate(R.layout.fragment_cart_list, container, false);
         footerView = inflater.inflate(R.layout.fragment_cart_footer, null, false);
-        listView = (ListView) view.findViewById(R.id.list_of_order);
+        listView = (ListView) view.findViewById(R.id.listview);
         listView.addFooterView(footerView);
         //Map<String, Product> productMap = ((NextShopperApplication) getActivity().getApplicationContext()).getProductMap();
         //productList = new ArrayList<Product>(productMap.values());
-        final OrderAdapter orderAdapter = new OrderAdapter(this, this.getArguments().getBoolean(ARG_PARAM1));
-        listView.setAdapter(orderAdapter);
+        adapter = new OrderAdapter(this, this.getArguments().getBoolean(ARG_PARAM1));
+        listView.setAdapter(adapter);
         subtotalView = (Item) footerView.findViewById(R.id.order_subtotal);
         shippingView = (Item) footerView.findViewById(R.id.order_shipping);
         totalView = (Item) footerView.findViewById(R.id.order_total);
         creditView = (Item) footerView.findViewById(R.id.order_credit);
         couponView = (Item) footerView.findViewById(R.id.order_coupon);
         netPayView = (Item) footerView.findViewById(R.id.order_netpay);
-        serviceCall(orderAdapter);
+        serviceCall(adapter);
 
         //CartItemRequestList cartItemRequestList = convert(productList);
        // final ProgressDialog progressDialog= Util.getProgressDialog(getActivity());
@@ -134,5 +136,15 @@ public class CartListFragment extends Fragment {
         creditView.setRight(String.format(getResources().getString(R.string.price),credit));
         netPayView.setRight(String.format(getResources().getString(R.string.price), total-credit));
 
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.list_view;
+    }
+
+    @Override
+    protected void refresh() {
+        serviceCall(adapter);
     }
 }
