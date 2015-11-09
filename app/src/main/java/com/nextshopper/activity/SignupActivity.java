@@ -174,6 +174,7 @@ public class SignupActivity extends BaseActivity implements AdapterView.OnItemSe
                 Intent intent = new Intent(SignupActivity.this, HomeActivity.class);
                 intent.putExtra(Constant.USER_ID, user.id);
                 SignupActivity.this.startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
 
             @Override

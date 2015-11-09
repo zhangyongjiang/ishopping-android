@@ -106,7 +106,9 @@ public class Util {
         editor.putString(Constant.IMG_PATH, user.info.imgPath);
         // editor.putString(Constant.EMAIL, user.);
         // editor.putString(Constant.PASSWORD, user.info.pwd);
-        editor.putString(Constant.GENDER, user.info.gender.toString());
+        if(user.info.gender!=null) {
+            editor.putString(Constant.GENDER, user.info.gender.toString());
+        }
         if (user.shippingInfo != null && user.shippingInfo.size() > 0) {
             saveShipping(editor, ctx, user.shippingInfo.get(0));
         }

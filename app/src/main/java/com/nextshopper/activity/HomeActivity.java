@@ -3,6 +3,7 @@ package com.nextshopper.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -22,16 +23,20 @@ import com.nextshopper.view.SearchFragment;
 import com.nextshopper.view.SettingsFragment;
 
 
-public class HomeActivity extends BaseActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class HomeActivity extends BaseActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private String menuText;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_home);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
@@ -42,6 +47,31 @@ public class HomeActivity extends BaseActivity
        String str =  getIntent().getStringExtra("fragment");
         if(str!=null)
             this.onNavigationDrawerItemSelected(0, str);
+        mTitle = mDrawerTitle = getTitle();
+
+
+       // getActionBar().setDisplayHomeAsUpEnabled(true);
+       // getActionBar().setHomeButtonEnabled(true);
+       // mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+       // mDrawerToggle = new ActionBarDrawerToggle(
+       //         this,                  /* host Activity */
+       //        mDrawerLayout,         /* DrawerLayout object */
+       //         R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
+       //         R.string.drawer_open,  /* "open drawer" description for accessibility */
+       //        R.string.drawer_close  /* "close drawer" description for accessibility */
+       //) {
+        /*    @Override
+            public void onDrawerClosed(View view) {
+       //         getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+            @Override
+            public void onDrawerOpened(View drawerView) {
+         //       getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);*/
     }
 
     @Override
@@ -50,6 +80,7 @@ public class HomeActivity extends BaseActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         this.menuText = menuText;
         fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.leave_blank)
                 .replace(R.id.container, PlaceholderFragment.newInstance(menuText))
                 .addToBackStack(null)
                 .commit();

@@ -20,39 +20,40 @@
         android:layout_height="1dp"
         android:background="@color/grey" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeContainer"
+    <LinearLayout
+        android:id="@+id/followed_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/followed_content"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <ListView
                 android:id="@+id/following_listview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-            <ImageView
-                android:id="@+id/following_empty_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
-                android:src="@drawable/empty_store"
-                android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/following_empty_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/empty_store"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/following_empty_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/no_follow_store"
-                android:visibility="gone"/>
-        </LinearLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <TextView
+            android:id="@+id/following_empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/no_follow_store"
+            android:visibility="gone" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -1,7 +1,7 @@
 package com.nextshopper.view;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,7 +39,7 @@ import retrofit.mime.TypedByteArray;
  * Created by Zhang_Kevin on 7/4/15.
  */
 public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScrollListener{
-    private Context ctx;
+    private Activity ctx;
     private GridView gridView;
     private SearchableProductList searchableProductList = new SearchableProductList();
     private int start = 0;
@@ -47,7 +47,7 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
     private TrendingFragment trendingFragment;
     private boolean call =true;
 
-    public ProductGridAdapter(Context ctx, GridView gridView, TrendingFragment trendingFragment) {
+    public ProductGridAdapter(Activity ctx, GridView gridView, TrendingFragment trendingFragment) {
         this.ctx = ctx;
         this.gridView = gridView;
         this.trendingFragment = trendingFragment;
@@ -98,6 +98,8 @@ public class ProductGridAdapter extends BaseAdapter implements AbsListView.OnScr
                 intent.putExtra("productId", sp.id);
                 Log.d("NextShopper", sp.imgUrl.get(0));
                 ctx.startActivity(intent);
+
+
             }
         };
         //imageView.setTag(sp.imgUrl.get(0));

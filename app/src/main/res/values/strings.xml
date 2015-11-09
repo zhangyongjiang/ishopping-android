@@ -239,4 +239,6 @@
     <string name="comsumer"><![CDATA[Accessories & Parts, Camera & Photo, Electronic Cigarettes; Home Audio & Video, Partable Audio & Video, Smart Eletronics; Video Games, Other Consumer Electronics]]></string>
     <string name="gcm_id">640920628768</string>
     <string name="gcm_id_server">285552181366</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>

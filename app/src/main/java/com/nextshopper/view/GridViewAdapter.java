@@ -1,7 +1,7 @@
 package com.nextshopper.view;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,14 +32,14 @@ import retrofit.client.Response;
  * Created by siyiliu on 9/25/15.
  */
 public class GridViewAdapter extends BaseAdapter implements AbsListView.OnScrollListener {
-    private Context ctx;
+    private Activity ctx;
     private int start = 0;
     private int numOfItem = 20;
     private boolean call =true;
     private String storeId;
     private List<ArrayList<SearchableProduct>> searchableProductList = new ArrayList<>();
 
-    public GridViewAdapter(Context ctx, String storeId) {
+    public GridViewAdapter(Activity ctx, String storeId) {
         this.ctx = ctx;
         this.storeId = storeId;
     }

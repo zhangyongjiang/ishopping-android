@@ -49,6 +49,7 @@ public class ItemView extends RelativeLayout {
                 intent.putExtra("productId", sp.id);
                 Log.d("NextShopper", sp.imgUrl.get(0));
                 context.startActivity(intent);
+
             }
         };
         this.setOnClickListener(listener);

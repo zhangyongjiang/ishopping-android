@@ -23,6 +23,7 @@ public class MainActivity extends ActionBarActivity {
     public void skipClick(View view){
         Intent intent = new Intent(this, HomeActivity.class);
         this.startActivity(intent);
+       // overridePendingTransition(R.anim.enter, R.anim.leave);
     }
 
     public void signinClick(View view){

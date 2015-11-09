@@ -47,6 +47,7 @@ public class TitleView extends FrameLayout implements View.OnClickListener{
         Activity activity = ((Activity) v.getContext());
         if(! (activity instanceof HomeActivity) && !(activity instanceof ReviewActivity)){
             activity.finish();
+            activity.overridePendingTransition(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
         }else if((activity instanceof ReviewActivity)){
             ((ReviewActivity)activity).update();
         }

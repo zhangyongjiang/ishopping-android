@@ -156,6 +156,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra(Constant.USER_ID, user.id);
                     LoginActivity.this.startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
 
                 @Override
