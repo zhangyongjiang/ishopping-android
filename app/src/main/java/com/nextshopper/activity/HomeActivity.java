@@ -72,6 +72,7 @@ public class HomeActivity extends BaseActivity implements NavigationDrawerFragme
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);*/
+        mNavigationDrawerFragment.getmDrawerLayout().closeDrawer(Gravity.START);
     }
 
     @Override
@@ -130,7 +131,8 @@ public class HomeActivity extends BaseActivity implements NavigationDrawerFragme
             intent.putExtra("source", "checkout");
             startActivity(intent);
         } else if(fragment instanceof HomeFragment){
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance("Search")).commit();
+            //getSupportFragmentManager().beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance("Search")).commit();
+            SearchActivity.startActivity(this);
         }
     }
 

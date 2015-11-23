@@ -34,6 +34,7 @@ public class FollowedStoreActivity extends SwipeRefreshActivity {
                 }else{
                     adapter.refresh();
                     listView.setVisibility(View.VISIBLE);
+                    listView.setOnScrollListener(adapter);
                     imageView.setVisibility(View.GONE);
                     textView.setVisibility(View.GONE);
                 }
@@ -60,7 +61,6 @@ public class FollowedStoreActivity extends SwipeRefreshActivity {
         textView =(TextView) findViewById(R.id.following_empty_text);
         adapter = new FollowedStoreAdapter(this);
         listView.setAdapter(adapter);
-        listView.setOnScrollListener(adapter);
         listView.setOnItemClickListener(adapter);
         refresh();
 

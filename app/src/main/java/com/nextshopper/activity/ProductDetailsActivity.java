@@ -265,7 +265,7 @@ public class ProductDetailsActivity extends SwipeRefreshActivity implements View
                 likesView.setText(Integer.toString(details.product.likes));
                 likesView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_color, 0, 0, 0);
                 like = false;
-                ApiService.getService().FavoriteAPI_RemoveFavorite(productId, new Callback<GenericResponse>() {
+                ApiService.getService().SocialAPI_UnlikeProduct(productId, new Callback<GenericResponse>() {
                     @Override
                     public void success(GenericResponse genericResponse, Response response) {
 
